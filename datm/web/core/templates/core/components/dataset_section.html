@@ -1,0 +1,14 @@
+<div class="row dataset-section">
+            <div class="col-md-3">
+                <h6>{{ dataset_type_label }}</h6>
+                <h3 class="dataset-name">{{ dataset.project_asset.name }}</h3>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-12 well">
+                        <iframe src="{% url 'core:view_dataset' project_id=project.id dataset_id=dataset.project_asset.id %}"
+                                class="dataset-iframe" id="{{ iframe_id }}"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>

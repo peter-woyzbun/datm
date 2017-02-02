@@ -1,0 +1,203 @@
+{% extends 'core/__base.html' %}
+
+{% block page_head_includes %}
+    {% load staticfiles %}
+    <script type="text/javascript" src="{% static "core/js/d3.v3.js" %}"></script>
+    <script type="text/javascript" src="{% static "core/js/dagre-d3.min.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "core/graph.css" %}"/>
+{% endblock %}
+
+{% block global_nav_buttons %}
+    <li>
+        <a href="http://datm.readthedocs.io">
+            <button class="btn btn-default new-project-btn">
+                <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Documentation
+            </button>
+        </a>
+    </li>
+    <li>
+        <a href="{% url 'core:home' %}">
+            <button class="btn btn-default new-project-btn" data-toggle="modal" data-target=".new-project-modal">
+                <span class="glyphicon glyphicon-list green-glyphicon" aria-hidden="true"></span> Projects
+            </button>
+        </a>
+    </li>
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="container-fluid project-title-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ project.name }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid page-sub-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h3>Project Graph</h3>
+                </div>
+                <div class="col-md-8">
+                    <ul class="list-inline page-sub-header-btns pull-right">
+                        <li>
+                            <button class="btn btn-default new-dataset-btn" data-toggle="modal"
+                                    data-target=".new-dataset-modal">
+                                <span class="glyphicon glyphicon-filter" aria-hidden="true"></span> Filters
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-default new-dataset-btn" data-toggle="modal"
+                                    data-target=".new-dataset-modal">
+                                <span class="glyphicon glyphicon-open" aria-hidden="true"></span> Add Dataset
+                            </button>
+                        </li>
+                        <li>
+                            <button class="btn btn-default new-dataset-btn" data-toggle="modal"
+                                    data-target=".create-dataset-modal">
+                                Quick Create Dataset
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid project-graph-container">
+        <div class="graph-meta-container">
+            <div class="row">
+                <div class="col-md-12 hover-hint">
+                    <img src='{% static 'core/images/graph_legend/rollover_hint.png' %}'/>
+                    <p>Hover over nodes to see options.</p>
+                </div>
+            </div>
+            <div class="row legend-item">
+                <div class="col-md-2">
+                    <img src='{% static 'core/images/graph_legend/dataset.png' %}'/>
+                </div>
+                <div class="col-md-10">
+                    Dataset
+                </div>
+            </div>
+            <div class="row legend-item">
+                <div class="col-md-2">
+                    <img src='{% static 'core/images/graph_legend/transformation.png' %}'/>
+                </div>
+                <div class="col-md-10">
+                    Manipulation Set
+                </div>
+            </div>
+            <div class="row legend-item">
+                <div class="col-md-2">
+                    <img src='{% static 'core/images/graph_legend/sql_query.png' %}'/>
+                </div>
+                <div class="col-md-10">
+                    SQL Query
+                </div>
+            </div>
+            <div class="row legend-item">
+                <div class="col-md-2">
+                    <img src='{% static 'core/images/graph_legend/visualization.png' %}'/>
+                </div>
+                <div class="col-md-10">
+                    Visualization
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 graph-wrapper" style="text-align: center;">
+                <svg id="svg-canvas" class="graph-container" height=1000 style="display: block; margin: auto;"></svg>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Graph here -->
+    {{ project.graph.dagre_js }}
+
+{% endblock %}
+
+{% block page_modals %}
+
+    <!-- New dataset modal -->
+    {% include "core/modals/new_dataset.html" %}
+
+    <!-- New transformation modal -->
+    {% include "core/modals/new_transformation.html" %}
+
+    <!-- New visualization modal -->
+    {% include "core/modals/new_visualization.html" %}
+
+    <!-- Delete node modal -->
+    {% include "core/modals/delete_graph_node.html" %}
+
+    <!-- View dataset modal -->
+    {% include "core/modals/view_dataset.html" %}
+
+    <!-- Create dataset modal -->
+    {% include "core/modals/create_dataset.html" %}
+
+    <!-- Bake dataset modal -->
+    {% include "core/modals/bake_dataset.html" %}
+
+    <script>
+        $('.new-transformation-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var dataset_id = button.data('dataset-id');
+            var dataset_name = button.data('datasetname');
+
+            var modal = $(this);
+            modal.find('.modal-dataset-name').text(dataset_name);
+            modal.find('#dataset-id-field').val(dataset_id);
+        });
+
+        $('.new-visualization-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var dataset_id = button.data('dataset-id');
+            var dataset_name = button.data('datasetname');
+
+            var modal = $(this);
+            modal.find('.modal-dataset-name').text(dataset_name);
+            modal.find('#dataset-id-field').val(dataset_id);
+        });
+
+        $('.delete-node-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var asset_id = button.data('asset-id');
+            var asset_name = button.data('asset-name');
+
+            var modal = $(this);
+            modal.find('#delete-asset-name').text(asset_name);
+            modal.find('#delete-asset-id').val(asset_id);
+        });
+
+    $('.bake-dataset-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var source_dataset_id = button.data('source-dataset-id');
+
+            var modal = $(this);
+            modal.find('#source-dataset-id').val(source_dataset_id);
+        })
+    </script>
+
+
+    <script>
+
+        $(".node-container").hover(
+                function () {
+                    $(this).find('.node-actions').show();
+                }, function () {
+                    $(this).find('.node-actions').hide();
+                }
+        );
+
+
+    </script>
+
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'core/manipulation_types/_base.html' %}
+
+{% block manipulation_type_name %}filter{% endblock %}
+
+{% block manipulation_type_title %}Filter{% endblock %}
+
+{% block manipulation_inputs %}
+    <div class="col-md-12">
+        <p class="input-label">Conditions</p>
+        <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="filter">
+        <input type="text" name="m[x].conditions" class="form-control manipulation-field" value="{{ manipulation.conditions }}">
+    </div>
+{% endblock %}

@@ -1,0 +1,342 @@
+
+/*
+ * Container size
+ */
+
+@media (min-width: 1200px) {
+  .container {
+      width: 1400px;
+  }
+}
+
+/*
+ * Headings
+ */
+
+
+
+h1, h2, h3, h4{
+    font-weight: bold;
+    margin-bottom: 0;
+    margin-top: 24px;
+}
+
+h6{
+    font-size: .8em;
+    color: #5e5e5e;
+    margin-bottom: 12px;
+}
+
+/*
+ * Buttons
+ */
+
+.green-btn{
+    background-color: #27AE60;
+    border: none;
+    color: #fff;
+}
+
+.clear-btn{
+    background-color: transparent;
+    border: none;
+}
+
+/*
+ * Glyphicons
+ */
+
+.green-glyphicon{
+    color: #2ECC71;
+}
+
+/*
+ * Global Header
+ */
+
+.global-header{
+    background-color: #222;
+    height: 50px;
+}
+
+.global-header .logo{
+    padding-top: 14px;
+}
+
+.global-nav-list{
+    margin-top: 10px;
+}
+
+.global-header .btn{
+    font-size: .8em;
+    border: none;
+    color: #fff;
+    background-color: #404040;
+}
+
+.new-project-btn{
+    background-color: #27AE60;
+}
+
+/*
+ * Project Title
+ */
+
+.project-title-container{
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: #7a7a7a;
+    font-size: .85em;
+    font-family: monospace;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+
+/*
+ * Page Sub Header
+ */
+
+.page-sub-header{
+    background-color: #f8f8f8;
+    height: 50px;
+    border-bottom: 1px solid #ccc;
+}
+
+.page-sub-header h3{
+    margin-top: 12px;
+    font-weight: normal;
+}
+
+.page-sub-header-btns{
+    margin-top: 10px;
+}
+
+.page-sub-header .btn{
+    font-size: .8em;
+    border: none;
+}
+
+.new-dataset-btn{
+    background-color: #2ECC71;
+}
+
+.page-sub-header-btns .btn-default{
+    background-color: #f8f8f8;
+    border: 1px solid #bebebe;
+    color: #3c3c3c;
+}
+
+
+/*
+ * Dashboard
+ */
+
+.projects-header{
+    padding-bottom: 24px;
+    border-bottom: 1px solid #ccc;
+}
+
+/*
+ * Modals
+ */
+
+.modal-panel{
+    background-color: #eeeeee;
+}
+
+.modal-heading{
+    border-bottom: 1px solid #ccc;
+}
+
+.modal.full-screen{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    top: 0;
+    left: 0;
+}
+
+.full-screen .modal-dialog {
+  width: 98%;
+  height: 92vh;
+  padding: 0;
+}
+
+.full-screen .panel-body {
+    height: 92vh;
+}
+
+.modal h3{
+    padding-top: 0;
+    margin-top: 0;
+    padding-bottom: 12px;
+}
+
+.modal-form-row{
+    padding-top: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ccc;
+}
+
+.modal-warning-row{
+    color: #fff;
+    padding: 24px;
+    font-size: 1.2em;
+}
+
+.modal-warning-box{
+    background-color: #E74C3C;
+    color: #fff;
+    border-radius: 10px;
+    padding: 24px;
+}
+
+.modal-input-header{
+    font-size: .9em;
+    color: #6b6b6b;
+}
+
+.modal-btns{
+    padding-top: 12px;
+}
+
+.close-modal-btn{
+    background-color: #E74C3C;
+    color: #fff;
+    border: none;
+    font-size: .9em;
+}
+
+/*
+ * "Working..." Modal
+ */
+
+.working-modal .modal-dialog{
+    margin-top: 300px;
+    width: 300px;
+    height: 175px;
+    border-radius: 8px;
+    background-color: #1a1a1a;
+    color: #fff;
+    text-align: center;
+    font-family: monospace;
+    padding-top: 60px;
+}
+
+
+/*
+ * File Upload
+ */
+
+.btn-file {
+    position: relative;
+    background-color: #0f0f0f;
+    border-color: #0f0f0f;
+    overflow: hidden;
+}
+
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background-color: #0f0f0f;
+    cursor: inherit;
+    display: block;
+}
+
+.form-control .filename-field{
+    background-color: #fff;
+}
+
+/*
+ * View Dataset Modal
+ */
+
+.view-dataset-modal .panel{
+    border: none;
+}
+
+.view-dataset-modal .panel-body{
+    padding-top: 0;
+}
+
+.view-dataset-modal .modal-heading{
+    background-color: #292929;
+    color: #fff;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+.view-dataset-modal #dataset-viewer-iframe{
+    height: 95%;
+    width: 100%;
+    border: none;
+}
+
+.view-dataset-modal #dataset-name{
+    font-family: monospace;
+    font-size: 1.4em;
+}
+
+
+
+/*
+ * Dataset Viewer
+ */
+
+.dataset-viewer .viewer-header{
+    padding-top: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #ccc;
+    background-color: #eaeaea;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+.dataset-viewer .viewer-header p{
+    padding-top: 6px;
+    font-family: monospace;
+}
+
+.dataset-viewer .datatype-header th{
+    text-transform: uppercase;
+    color: #919191;
+    font-weight: normal;
+    font-style: italic;
+}
+
+.dataset-viewer .viewer-header input{
+    font-size: .9em;
+    font-family: monospace;
+}
+
+.dataset-viewer .viewer-header .btn{
+    font-size: .9em;
+    font-family: monospace;
+}
+
+.dataset-viewer .shown-rows{
+    padding-left: 0;
+}
+
+.dataset-viewer .viewer-header #shown-rows-label{
+    background-color: #E67E22;
+    color: #fff;
+    font-family: monospace;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.dataset-viewer .table-container{
+    margin-top: 64px;
+}
+

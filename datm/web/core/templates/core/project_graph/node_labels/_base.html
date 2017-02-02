@@ -1,0 +1,11 @@
+{% load staticfiles %}
+<div class='node-container'>
+    <div class='{% block node_type %}{% endblock %}-node-container'>
+        <img src='{% block node_icon_src %}{% endblock %}' class='node-icon'/>
+        <div class='node-label'>{% block node_label %}{% endblock %}</div>
+        <div class='node-btns'>
+            {% block node_buttons %}{% endblock %}
+        </div>
+    </div>
+
+</div>

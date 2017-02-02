@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <title>Dataset Viewer</title>
+    <script type="text/javascript" src="{% static "core/js/jquery-1.12.0.min.js" %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static "core/css/bootstrap.min.css" %}"/>
+    <script type="text/javascript" src="{% static "core/js/bootstrap.min.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "core/base.css" %}"/>
+</head>
+<body style="background-color: #f5f5f5">
+
+<div class="container-fluid dataset-viewer">
+    <div class="row viewer-header">
+        <div class="col-md-4 shown-rows" hidden>
+            <span id="shown-rows-label">SHOWING ROWS {{ start_row }} &#8212; {{ end_row }} OF {{ dataset_asset.dataset.n_rows }} ROWS</span>
+        </div>
+        <div class="col-md-2">
+            <p>{{ dataset_asset.dataset.n_rows }} ROWS |</p>
+        </div>
+        <div class="col-md-5">
+            <div class="row">
+                <div class="col-md-2">
+                    <p>SHOWING</p>
+                </div>
+                <div class="col-md-3">
+                    <input type="number" class="form-control input-sm" name="start_row" value="{{ start_row|safe }}" max="{{ dataset_asset.dataset.n_rows|add:"-20" }}" min="0" id="start-row">
+                </div>
+                <div class="col-md-1">
+                    &#8594;
+                </div>
+                <div class="col-md-3">
+                    <input type="number" class="form-control input-sm" name="end_row" value="{{ end_row|safe }}" min="20" max="{{ dataset_asset.dataset.n_rows }}" id="end-row">
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-default" id="update-rows">Update</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1">
+            <a href="{% url 'core:dataset_csv' project_id=dataset_asset.project.id dataset_id=dataset_asset.id %}">
+                <button class="btn btn-default">Download</button>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 table-container">
+            <table class="table" style="font-size: .9em; font-family: monospace;">
+                <thead>
+                <tr>
+                    {% for column in dataset_asset.dataset.columns %}
+                        <th>{{ column }}</th>
+                    {% endfor %}
+                </tr>
+                <tr class="datatype-header">
+                    {% for dtype in dataset_asset.dataset.ordered_col_dtypes %}
+                        <th>{{ dtype }}</th>
+                    {% endfor %}
+                </tr>
+                </thead>
+                <tbody>
+                {% for row in rows %}
+                    <tr>
+                        {% for column in row %}
+                            <td>{{ column }}</td>
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+
+$(document).ready(function() {
+    $("#update-rows").click(function() {
+       var new_url = window.location.pathname + "?start_row=" + $('#start-row').val();
+        window.location.href = new_url;
+    });
+});
+
+    $('#end-row').keyup(function() {
+        var end_row = $('#end-row').val();
+        var start_row = Math.max(0, end_row - 20);
+    $('#start-row').val(start_row);
+});
+
+        $('#start-row').keyup(function() {
+        var start_row = $('#start-row').val();
+        var end_row = Math.min($('#end-row').prop('max'), Number(start_row) + 20);
+    $('#end-row').val(end_row);
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,31 @@
+{% extends 'core/project_graph/node_labels/_descriptive_node.html' %}
+
+{% block node_container_class %}dataset{% endblock %}
+
+{% block node_buttons %}
+    <p>
+        <button class='btn btn-default node-btn' data-toggle='modal' data-target='.new-transformation-modal'
+                data-dataset-id='{{ dataset.id }}'>Transform
+        </button>
+        <button class='btn btn-default node-btn' data-toggle='modal' data-dataset-id='{{ dataset.id }}'
+                data-target='.view-dataset-modal' data-dataset-name='{{ dataset.name }}'
+                data-iframe-url='{% url 'core:view_dataset' project_id=dataset.project_asset.project.id dataset_id=dataset.id %}'>
+            View
+        </button>
+    </p>
+    <p>
+        <button class='btn btn-default node-btn' data-toggle='modal'
+                data-dataset-id='{{ dataset.id }}' data-target='.new-visualization-modal'>Viz
+        </button>
+        <button class='btn btn-default node-btn del-node-btn' data-toggle='modal'
+                data-asset-id='{{ dataset.id }}' data-asset-name='{{ dataset.name }}' data-target='.delete-node-modal'>&#9747;
+        </button>
+        <button class='btn btn-default node-btn' data-toggle='modal'
+                data-source-dataset-id='{{ dataset.id }}' data-target='.bake-dataset-modal'>Bake
+        </button>
+    </p>
+{% endblock %}
+
+{% block node_description %}{{ dataset.description_html|safe }}{% endblock %}
+{% block node_label_class %}dataset{% endblock %}
+{% block node_name %}<span>{{ dataset.name }} [{{ dataset.id }}]</span>{% endblock %}

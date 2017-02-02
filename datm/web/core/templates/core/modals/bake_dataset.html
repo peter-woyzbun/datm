@@ -1,0 +1,36 @@
+<div class="modal fade bake-dataset-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="panel panel-default modal-panel">
+            <div class="panel-body modal-panel-body">
+                <!-- Start form -->
+                <form action="{% url 'core:bake_dataset' project_id=project.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12 modal-heading">
+                            <h3>Bake Dataset</h3>
+                        </div>
+                    </div>
+                    <div class="row modal-form-row">
+                        <div class="col-md-12">
+                            <p class="modal-input-header">BAKED DATASET NAME</p>
+                            <input type="hidden" name="source_dataset_id" id="source-dataset-id">
+                            <input type="text" name="dataset_name" class="form-control"  onkeyup="this.value=this.value.replace(/\W|^(?=\d)/,'_')">
+                        </div>
+                    </div>
+                    <div class="row modal-form-row">
+                        <div class="col-md-12">
+                            <p class="modal-input-header">DESCRIPTION</p>
+                            <textarea class="form-control" name="description" rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="row modal-btns">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-default btn-block green-btn"><span class="glyphicon glyphicon-ok"
+                                                               aria-hidden="true"></span> Bake Dataset</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

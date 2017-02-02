@@ -1,0 +1,30 @@
+<div class="row">
+    <div class="col-md-12 viz-input-row">
+        <p class="input-header">Plot Title</p>
+        <input type="text" name="parameters.title" class="form-control" value="{{ visualization_asset.visualization.parameter_dict.title }}">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 viz-input-row">
+        <p class="input-header">x Label</p>
+        <input type="text" name="parameters.x_lab" class="form-control" value="{{ visualization_asset.visualization.parameter_dict.x_lab }}">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 viz-input-row">
+        <p class="input-header">y Label</p>
+        <input type="text" name="parameters.y_lab" class="form-control" value="{{ visualization_asset.visualization.parameter_dict.y_lab }}">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 viz-input-row">
+        <p class="input-header">Dataset Column</p>
+        <input type="text" name="parameters.df_column" class="form-control" value="{{ visualization_asset.visualization.parameter_dict.df_column }}">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12 viz-input-row">
+        <p class="input-header">Category Column</p>
+        <input type="text" name="parameters.categorical_var" class="form-control" value="{{ visualization_asset.visualization.parameter_dict.categorical_var }}">
+    </div>
+</div>

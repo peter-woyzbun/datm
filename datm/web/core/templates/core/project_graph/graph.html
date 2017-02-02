@@ -1,0 +1,33 @@
+<script id="js">
+// Create the input graph
+var g = new dagreD3.graphlib.Graph()
+  .setGraph({})
+  .setDefaultEdgeLabel(function() { return {}; });
+
+// Set up the nodes.
+
+{% for node in nodes %}
+    g.setNode("{{ node.id }}",  { label: "{{ node.label|safe }}", labelType: "html", class: "{{ node.class }}" });
+{% endfor %}
+
+// Set up the edges
+
+{% for edge in edges %}
+    g.setEdge("{{ edge.parent_node_id }}", "{{ edge.child_node_id }}", { class: "{{ edge.class }}", {% if edge.class == 'join-edge' %}style: "stroke: #666; stroke-dasharray: 3, 2; fill:none;", label:" JOIN", labelStyle: "font-family: monospace; margin-left: 6px;"{% endif %} });
+{% endfor %}
+
+
+// Create the renderer
+var render = new dagreD3.render();
+
+// Set up an SVG group so that we can translate the final graph.
+var svg = d3.select("svg.graph-container"),
+    svgGroup = svg.append("g");
+
+// Run the renderer. This is what draws the final graph.
+render(d3.select("svg g"), g);
+
+svg.attr("width", g.graph().width + 200);
+
+</script>
+

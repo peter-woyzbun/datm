@@ -1,0 +1,82 @@
+{% extends 'core/manipulation_types/_base.html' %}
+
+{% block manipulation_type_name %}group_by{% endblock %}
+
+{% block manipulation_type_title %}Group By{% endblock %}
+
+{% block manipulation_inputs %}
+
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="input-label">Columns</p>
+                <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field"
+                       value="group_by">
+                <input type="text" name="m[x].columns" class="form-control manipulation-field"
+                       value="{{ manipulation.columns }}">
+            </div>
+            <div class="nested-manipulation-template" hidden>
+                <div class="col-md-12 nested-manipulation">
+                    <div class="row">
+                        <div class="col-md-1 arrow-col">&#8627;</div>
+                        <div class="col-md-3">
+                            <p class="input-label">Column Name</p>
+                            <input type="text" name="m[x].aggregations[y].column_name" class="nested form-control"
+                                   value="">
+                        </div>
+                        <div class="col-md-1 equals-col">=</div>
+                        <div class="col-md-3">
+                            <p class="input-label">Summary Type</p>
+                            <input type="text" name="m[x].aggregations[y].summary_type" class="nested form-control"
+                                   value="">
+                        </div>
+                        <div class="col-md-1 equals-col">(</div>
+                        <div class="col-md-2">
+                            <p class="input-label">Target Column</p>
+                            <input type="text" name="m[x].aggregations[y].target_column" class="nested form-control"
+                                   value="">
+                        </div>
+                        <div class="col-md-1 equals-col">)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row nested-manipulation-container">
+            <div class="col-md-12 nested-manipulations-header">
+                <button class="btn btn-default add-summary-btn add-nested-manipulation pull-right" type="button">
+                    <span class="glyphicon glyphicon-plus-sign green-glyphicon" aria-hidden="true"></span>
+                </button>
+                SUMMARIES
+            </div>
+            {% for aggregation in manipulation.aggregations %}
+                <div class="col-md-12 nested-manipulation">
+                    <div class="row">
+                        <div class="col-md-1 arrow-col">&#8627;</div>
+                        <div class="col-md-3">
+                            <p class="input-label">Column Name</p>
+                            <input type="text" name="m[x].aggregations[y].column_name" class="nested form-control"
+                                   value="{{ aggregation.column_name }}">
+                        </div>
+                        <div class="col-md-1 equals-col">=</div>
+                        <div class="col-md-3">
+                            <p class="input-label">Summary Type</p>
+                            <input type="text" name="m[x].aggregations[y].summary_type" class="nested form-control"
+                                   value="{{ aggregation.summary_type }}">
+                        </div>
+                        <div class="col-md-1 equals-col">(</div>
+                        <div class="col-md-2">
+                            <p class="input-label">Target Column</p>
+                            <input type="text" name="m[x].aggregations[y].target_column" class="nested form-control"
+                                   value="{{ aggregation.target_column }}">
+                        </div>
+                        <div class="col-md-1 equals-col">)</div>
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+
+
+
+{% endblock %}

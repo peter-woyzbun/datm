@@ -1,0 +1,34 @@
+<div class="modal fade delete-project-modal warning-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="panel panel-default modal-panel">
+            <div class="panel-body modal-panel-body">
+                <!-- Start form -->
+                <form action="{% url 'core:delete_project' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-12 modal-heading">
+                            <h3>Delete Project</h3>
+                        </div>
+                    </div>
+                    <div class="row modal-warning-row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md- modal-warning-box">
+                                    <p>Are you sure you want to delete <span id="delete-project-name"></span> ?</p>
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="project_id" class="form-control" id="delete-project-id">
+                        </div>
+                    </div>
+                    <div class="row modal-btns">
+                        <div class="col-md-12">
+                            <button type="submit" class="btn btn-default btn-block green-btn"><span class="glyphicon glyphicon-ok"
+                                                               aria-hidden="true"></span> Delete Project</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

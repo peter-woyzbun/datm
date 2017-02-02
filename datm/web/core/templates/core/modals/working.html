@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<div class="modal fade working-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <span id="working-text">Working</span>
+    </div>
+</div>
+
+<script>
+    var originalText = $("#working-text").text(),
+    i  = 0;
+setInterval(function() {
+
+    $("#working-text").append(".");
+    i++;
+
+    if(i == 4)
+    {
+        $("#working-text").html(originalText);
+        i = 0;
+    }
+
+}, 300);
+</script>

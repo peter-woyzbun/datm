@@ -1,0 +1,18 @@
+{% extends 'core/manipulation_types/_base.html' %}
+
+{% block manipulation_type_name %}create{% endblock %}
+
+{% block manipulation_type_title %}Create{% endblock %}
+
+{% block manipulation_inputs %}
+    <div class="col-md-2">
+        <p class="input-label">Column Name</p>
+        <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="create">
+        <input type="text" name="m[x].new_column_name" class="form-control manipulation-field" value="{{ manipulation.new_column_name }}" onkeyup="this.value=this.value.replace(/\W|^(?=\d)/,'_')">
+    </div>
+    <div class="col-md-1 equals-col">=</div>
+    <div class="col-md-9">
+        <p class="input-label">Column Definition</p>
+        <input type="text" name="m[x].new_column_definition" class="form-control manipulation-field" value="{{ manipulation.new_column_definition }}">
+    </div>
+{% endblock %}

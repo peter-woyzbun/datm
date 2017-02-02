@@ -1,0 +1,29 @@
+<div class="row manipulation-container {% block manipulation_type_name %}{% endblock %}-manipulation ui-state-default">
+    <div class="col-md-12 ">
+        <div class="row manipulation-header">
+            <div class="col-md-9">
+                {% block manipulation_type_title %}{% endblock %}
+            </div>
+            <div class="col-md-3">
+                <span class="glyphicon glyphicon-move sort-handle pull-right" aria-hidden="true"></span>
+                <button class="btn btn-default pull-right del-manipulation-btn" type="button">
+                    <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+    <div class="row error-msg">
+        <div class="col-md-12 error-title">
+            ERROR
+        </div>
+        <div class="col-md-12 error-body">
+            {% block error_message %}{% endblock %}
+        </div>
+    </div>
+        <div class="row">
+            {% block manipulation_inputs %}{% endblock %}
+        </div>
+    </div>
+    <div class="col-md-12 manipulation-footer">
+        <div class="down-arrow">&#8595;</div>
+    </div>
+</div>

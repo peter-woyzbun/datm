@@ -1,0 +1,233 @@
+{% extends 'core/__base.html' %}
+
+{% block page_head_includes %}
+    {% load staticfiles %}
+    <link rel="stylesheet" type="text/css" href="{% static "core/transformation.css" %}"/>
+    <script type="text/javascript" src="{% static "core/js/json2.js" %}"></script>
+    <script type="text/javascript" src="{% static "core/js/form2object.js" %}"></script>
+
+    <script type="text/javascript" src="{% static "core/codemirror/lib/codemirror.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "core/codemirror/lib/codemirror.css" %}"/>
+    <script type="text/javascript" src="{% static "core/codemirror/mode/sql/sql.js" %}"></script>
+    <script type="text/javascript" src="{% static "core/codemirror/addon/hint/show-hint.js" %}"></script>
+    <script type="text/javascript" src="{% static "core/codemirror/addon/hint/sql-hint.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "core/codemirror/addon/hint/show-hint.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "core/codemirror/theme/base16-dark.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "core/codemirror/theme/bespin.css" %}"/>
+{% endblock %}
+
+{% block global_nav_buttons %}
+    <li>
+        <button class="btn btn-default new-project-btn" data-toggle="modal" data-target=".new-project-modal">
+            <span class="glyphicon glyphicon-plus-sign green-glyphicon" aria-hidden="true"></span> New Project
+        </button>
+    </li>
+    <li>
+        <a href="{% url 'core:home' %}">
+            <button class="btn btn-default" data-toggle="modal" data-target=".new-project-modal">
+                <span class="glyphicon glyphicon-list" aria-hidden="true"></span> Projects
+            </button>
+        </a>
+    </li>
+
+{% endblock %}
+
+{% block page_content %}
+
+    <div class="container-fluid project-title-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    {{ project.name }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="affixed-header">
+
+
+        <div class="container-fluid page-sub-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>SQL Query</h3>
+                    </div>
+                    <div class="col-md-8">
+                        <ul class="list-inline page-sub-header-btns pull-right">
+                            <li>
+                                <a href="{% url 'core:project' project_id=project.id %}">
+                                    <button class="btn btn-default" type="button">
+                                        <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span> Return
+                                        to Project Graph
+                                    </button>
+                                </a>
+                            </li>
+                            <li>
+                                <button class="execute-btn btn" type="submit" form="transformationForm">
+                                    <span class="glyphicon glyphicon-flash" aria-hidden="true"></span> Execute/Save
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 transformation-header">
+                <h2>{{ transformation.parent_dataset.project_asset.name }}
+                    &#8594; {{ transformation.child_dataset.project_asset.name }}</h2>
+            </div>
+        </div>
+
+        <div class="outcome-dialogue" hidden>
+            <div class="message">
+
+            </div>
+        </div>
+
+    {% include 'core/components/dataset_section.html'  with dataset=transformation.parent_dataset dataset_type_label="PARENT DATASET"%}
+
+        <div class="row">
+            <div class="col-md-10 col-md-offset-2 dataset-arrow">&#8595;</div>
+        </div>
+
+
+        <div class="row query-container">
+
+            <div class="col-md-10 col-md-offset-2">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3>Query</h3>
+                    </div>
+                    <div class="col-md-3 joinable-datasets">
+                        <h6>JOINABLE DATASETS</h6>
+                        <p>{% for dataset in transformation.joinable_datasets %}<span class="ds-label">{{ dataset.name }}</span>{% endfor %}</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="transformationForm" action="javascript:getJson()">
+                <textarea class="form-control sqltextarea" rows="50" name="query">{{ transformation.sql_query }}</textarea>
+                    </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-9 col-md-offset-3 dataset-arrow">&#8595;</div>
+        </div>
+
+        {% include 'core/components/dataset_section.html'  with dataset=transformation.child_dataset dataset_type_label="CHILD DATASET" iframe_id="child-dataset-iframe" %}
+
+    </div>
+
+
+
+
+    <!-- ====== JSON FORM ====== -->
+    <form id="jsonForm"
+          action="{% url 'core:edit_transformation' project_id=project.id transformation_id=transformation.project_asset.id %}"
+          method="post" enctype="multipart/form-data"
+          style="display: none;">
+        {% csrf_token %}
+        <input id="json-string" class="form-control" type="text" name="transformation_json"/>
+    </form>
+
+    <script type="text/javascript">
+        function getJson() {
+
+            $('.working-modal').modal('show');
+
+            var formData = form2object('transformationForm', '.', true,
+                    function (node) {
+                        if (node.id && node.id.match(/callbackTest/)) {
+                            return {name: node.id, value: node.innerHTML};
+                        }
+                    });
+
+            var jsonString = JSON.stringify(formData, null, '\t');
+
+
+            document.getElementById('json-string').innerHTML = JSON.stringify(formData, null, '\t');
+
+            document.getElementById("json-string").value = JSON.stringify(formData, null, '\t');
+
+            $.ajax({
+                url: '{% url 'core:edit_transformation' project_id=project.id transformation_id=transformation.project_asset.id %}',
+                type: 'post',
+                data: $('#jsonForm').serialize(),
+                success: function (data) {
+                    var has_errors = data['error'];
+
+
+                    document.getElementById('child-dataset-iframe').contentWindow.location.reload(true);
+                    $('.working-modal').modal('hide');
+                    if (has_errors) {
+                        $('.outcome-dialogue').addClass('error');
+                        $('.outcome-dialogue .message').text('An error occured when attempting to execute provided SQL query. Please check the validity of your query.');
+
+                    } else {
+                        $('.outcome-dialogue').addClass('success');
+                        $('.outcome-dialogue .message').text('Transformation successful.');
+                    }
+                    $(".outcome-dialogue").show("slide", {direction: "down"}, 300).delay(1500).slideUp('slow');
+                }
+            });
+
+
+        }
+    </script>
+
+    <script>
+        $('.affixed-header').affix({
+            offset: {
+                top: 74
+            }
+        })
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var sqltextarea = document.getElementsByClassName('sqltextarea');
+            config = {
+                lineNumbers: true,
+                mode: "text/x-sql",
+                theme: "bespin",
+                extraKeys: {"Ctrl-Space": "autocomplete"}, // To invoke the auto complete
+                hint: CodeMirror.hint.sql,
+                hintOptions: {
+                    defaultTable: "{{ transformation.parent_dataset.name }}",
+                    tables: {
+                        "{{ transformation.parent_dataset.name }}": [{% for column in transformation.parent_dataset.columns %}"{{ column }}"{%  if not forloop.last %}, {% endif %}{% endfor %}],
+                        {% for dataset in transformation.joinable_datasets %}
+                            "{{ dataset.name }}": [{% for column in dataset.columns %}"{{ column }}"{%  if not forloop.last %}, {% endif %}{% endfor %}],
+                        {% endfor %}
+                    }
+                }
+            };
+            var myCodeMirror = CodeMirror.fromTextArea(sqltextarea[0], config);
+
+        });
+    </script>
+
+
+
+
+
+{% block page_modals %}
+
+    <!-- "Working..." modal -->
+    {% include "core/modals/working.html" %}
+
+{% endblock %}
+
+
+
+{% endblock %}

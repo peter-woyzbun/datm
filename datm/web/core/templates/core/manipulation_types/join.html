@@ -1,0 +1,31 @@
+{% extends 'core/manipulation_types/_base.html' %}
+
+{% block manipulation_type_name %}join{% endblock %}
+
+{% block manipulation_type_title %}Join{% endblock %}
+
+{% block manipulation_inputs %}
+    <div class="col-md-3">
+        <p class="input-label">Dataset</p>
+        <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="join">
+        <select class="form-control" name="m[x].target_dataset_id">
+            {% for dataset in transformation.joinable_datasets %}
+                <option value="{{ dataset.id }}" {% if manipulation.target_dataset_id == dataset.id %}selected{% endif %}>{{ dataset.name }}</option>
+            {% endfor %}
+        </select>
+
+    </div>
+    <div class="col-md-2">
+        <p class="input-label">Join Type</p>
+        <select class="form-control" name="m[x].join_type">
+            <option value="inner" {% if manipulation.join_type == 'inner' %}selected{% endif %}>Inner</option>
+            <option value="outer" {% if manipulation.join_type == 'outer' %}selected{% endif %}>Outer</option>
+            <option value="left" {% if manipulation.join_type == 'left' %}selected{% endif %}>Left</option>
+            <option value="right" {% if manipulation.join_type == 'right' %}selected{% endif %}>Right</option>
+        </select>
+    </div>
+    <div class="col-md-7">
+    <p class="input-label">On Columns</p>
+        <input type="text" name="m[x].on_columns" class="form-control manipulation-field"  value="{{ manipulation.on_columns }}">
+    </div>
+{% endblock %}

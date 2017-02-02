@@ -1,0 +1,1 @@
+{{ dataset_name }}_df = pd.read_csv("data/{{ dataset_filename }}")

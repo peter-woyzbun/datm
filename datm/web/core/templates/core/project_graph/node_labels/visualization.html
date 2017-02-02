@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<div class='node-container'>
+    <div class='visualization-node-container'>
+        <div class='icon-container {{ visualization.type }}'>
+            <div class='node-actions' hidden>
+                <p>
+                    <a href='{% url 'core:edit_visualization' project_id=project.id visualization_id=visualization.id %}'>
+                <button class='btn btn-default node-btn'>Edit</button>
+            </a>
+                    <button class='btn btn-default node-btn'>View</button>
+                </p>
+                <p>
+                    <button class='btn btn-default node-btn' data-toggle='modal'
+                        data-dataset-id='{{ visualization.id }}' data-asset-name='{{ visualization.name }}'  data-target='.delete-node-modal'>Delete
+                </button>
+                </p>
+            </div>
+        </div>
+        <div class='node-label'>
+            {{ visualization.name }}
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+{% extends 'core/__base.html' %}
+
+{% block global_nav_buttons %}
+    <li>
+    <button class="btn btn-default new-project-btn" data-toggle="modal" data-target=".new-project-modal">
+        <span class="glyphicon glyphicon-plus-sign green-glyphicon" aria-hidden="true"></span> New Project
+    </button>
+    </li>
+{% endblock %}
+
+{% block page_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 projects-header">
+                <h1>Projects</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Project Name</th>
+                        <th>ID</th>
+                        <th>Created On</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for project in projects %}
+                        <tr>
+                        <td><a href="{% url 'core:project' project_id=project.id %}">{{ project.name }}</a></td>
+                        <td>{{ project.id }}</td>
+                        <td>{{ project.created_on }}</td>
+                        <td>{{ project.description }}</td>
+                        <td>
+                            <button class="btn btn-default del-project-btn pull-right" data-toggle="modal"
+                                    data-target=".delete-project-modal" data-project-id="{{ project.id }}"
+                            data-project-name="{{ project.name }}">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_modals %}
+
+    <!-- New project modal -->
+    {% include "core/modals/new_project.html" %}
+
+    <!-- Delete project modal -->
+    {% include "core/modals/delete_project.html" %}
+
+    <script>
+
+        $('.delete-project-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget); // Button that triggered the modal
+            var project_id = button.data('project-id');
+            var project_name = button.data('project-name');
+
+            var modal = $(this);
+            modal.find('#delete-project-name').text(project_name);
+            modal.find('#delete-project-id').val(project_id);
+        })
+    </script>
+
+{% endblock %}

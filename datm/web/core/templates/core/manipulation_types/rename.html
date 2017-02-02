@@ -1,0 +1,18 @@
+{% extends 'core/manipulation_types/_base.html' %}
+
+{% block manipulation_type_name %}rename{% endblock %}
+
+{% block manipulation_type_title %}Rename{% endblock %}
+
+{% block manipulation_inputs %}
+    <div class="col-md-5">
+        <p class="input-label">Old Column Name</p>
+        <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="rename">
+        <input type="text" name="m[x].old_column_name" class="form-control manipulation-field" value="{{ manipulation.old_column_name }}">
+    </div>
+    <div class="col-md-1 equals-col">=</div>
+    <div class="col-md-6">
+        <p class="input-label">New Column Name</p>
+        <input type="text" name="m[x].new_column_name" class="form-control manipulation-field" value="{{ manipulation.new_column_name }}">
+    </div>
+{% endblock %}

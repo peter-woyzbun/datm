@@ -1,0 +1,17 @@
+{% extends 'core/manipulation_types/_base.html' %}
+
+{% block manipulation_type_name %}select{% endblock %}
+
+{% block manipulation_type_title %}Select{% endblock %}
+
+{% block error_message %}
+    Invalid columns selected. Please ensure the format is of the form '[col_a], [col_b],...'
+{% endblock %}
+
+{% block manipulation_inputs %}
+    <div class="col-md-12">
+        <p class="input-label">Columns</p>
+        <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="select">
+        <input type="text" name="m[x].columns" class="form-control manipulation-field"  value="{{ manipulation.columns }}">
+    </div>
+{% endblock %}

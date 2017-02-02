@@ -1,0 +1,32 @@
+<div class="modal fade view-dataset-modal full-screen" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="panel panel-default modal-panel">
+            <div class="panel-body modal-panel-body">
+                <div class="row">
+                    <div class="col-md-12 modal-heading">
+                        <button class="btn btn-default close-modal-btn pull-right" data-dismiss="modal">Close</button>
+                        <span id="dataset-name"></span>
+                    </div>
+                </div>
+
+                <iframe id="dataset-viewer-iframe"></iframe>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $('.view-dataset-modal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var iframe_url = button.data('iframe-url');
+        var dataset_name = button.data('dataset-name');
+
+        var modal = $(this);
+        modal.find('#dataset-viewer-iframe').attr('src', iframe_url);
+        modal.find('#dataset-name').text(dataset_name);
+    })
+</script>

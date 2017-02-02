@@ -1,0 +1,15 @@
+{% extends 'core/project_graph/node_labels/_descriptive_node.html' %}
+
+{% block node_container_class %}sql{% endblock %}
+
+{% block node_buttons %}
+    <a href='{% url 'core:edit_transformation' project_id=project.id transformation_id=transformation.id %}'>
+                    <button class='btn btn-default node-btn'>Edit</button>
+                </a>
+                <button class='btn btn-default node-btn' data-toggle='modal'
+                        data-dataset-id='{{ transformation.id }}' data-asset-name='{{ transformation.name }}'  data-target='.delete-node-modal'>Delete
+                </button>
+{% endblock %}
+
+{% block node_description %}{{ transformation.description_html|safe }}{% endblock %}
+{% block node_label_class %}sql{% endblock %}

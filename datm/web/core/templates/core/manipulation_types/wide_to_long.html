@@ -1,0 +1,17 @@
+{% extends 'core/manipulation_types/_base.html' %}
+
+{% block manipulation_type_name %}wide_to_long{% endblock %}
+
+{% block manipulation_type_title %}Wide to Long{% endblock %}
+
+{% block manipulation_inputs %}
+    <div class="col-md-6">
+        <p class="input-label">ID Columns</p>
+        <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="wide_to_long">
+        <input type="text" name="m[x].id_columns" class="form-control manipulation-field" value="{{ manipulation.id_columns }}">
+    </div>
+    <div class="col-md-6">
+        <p class="input-label">Value Columns</p>
+        <input type="text" name="m[x].value_columns" class="form-control manipulation-field" value="{{ manipulation.value_columns }}">
+    </div>
+{% endblock %}

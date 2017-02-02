@@ -1,0 +1,342 @@
+
+.project-graph-container{
+    overflow: scroll;
+    height: -webkit-calc(100vh - 124px);
+    height: -moz-calc(100vh - 124px);
+    height: calc(100vh - 124px);
+}
+
+
+/*
+ * Graph Meta
+ */
+
+.graph-meta-container{
+    position: absolute;
+    width: 150px;
+    bottom: 0;
+    right: 24px;
+    margin-bottom: 36px;
+}
+
+.graph-meta-container h4{
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 24px;
+}
+
+/*
+ * Graph Legend
+ */
+
+.hover-hint{
+    text-align: center;
+}
+
+.hover-hint p{
+    padding-bottom: 24px;
+    border-bottom: 1px solid #ccc;
+    text-align: left;
+    margin-bottom: 24px;
+    font-size: .9em;
+}
+
+.legend-item{
+    padding-bottom: 8px;
+    color: #3c3c3c;
+}
+
+
+/*
+ * Graph Container
+ */
+
+.graph-wrapper{
+    padding-top: 36px;
+}
+
+.graph-container{
+    margin-top: 48px;
+    z-index: 1000;
+}
+
+/*
+ * Graph Filters
+ */
+
+.filter-title{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 12px;
+}
+
+.filter-item{
+    padding-top: 6px;
+    padding-bottom: 6px;
+    border-bottom: 1px dotted #ccc;
+    font-family: monospace;
+}
+
+
+
+
+
+/*
+ * Edges
+ */
+
+.edgePath .path {
+  stroke: #222222;
+  stroke-width: 1px;
+}
+
+.edgePath .join-edge path{
+    stroke-dasharray: 2, 2;
+}
+
+/*
+ * Nodes
+ */
+
+g.label{
+    color: #000;
+    font-weight: normal;
+}
+
+.node-container{
+}
+
+.node-btns{
+    padding-top: 6px;
+}
+
+.del-node-btn{
+    background-color: #E74C3C;
+    color: #fff;
+}
+
+.node-btn{
+    font-size: .95em;
+    border: none;
+    padding: 4px;
+    color: #fff;
+    background-color: #111;
+}
+
+.node-btn:hover{
+    background-color: #333;
+    border: none;
+    color: #fff;
+}
+
+.node-icon{
+}
+
+.node-actions{
+    padding-top: 12px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+.node-actions p{
+    margin-bottom: 4px;
+}
+
+
+
+/*
+ * Dataset Node
+ */
+
+g.dataset-node > rect {
+    fill: none;
+    stroke: none;
+    height: 100px;
+}
+
+.dataset-node-container{
+    height: 80px;
+    width: 176px;
+    padding-left: 48px;
+}
+
+.dataset-node-container .icon-container{
+    height: 80px;
+    width: 80px;
+    background-image: url(images/graph_icons/dataset.png);
+    background-repeat:no-repeat;
+    background-position: center center;
+    float: left;
+}
+
+.dataset-node-container .bracket-container{
+    height: 80px;
+    width: 16px;
+    text-align: center;
+    float: left;
+    margin-right: 8px;
+    padding-top: 4px;
+}
+
+.dataset-node-container .description-container{
+    height: 80px;
+    width: 70px;
+    text-align: left;
+    font-family: monospace;
+    line-height: 1.4em;
+    padding-left: 8px;
+    padding-top: 4px;
+    color: #303030;
+    font-weight: bold;
+}
+
+.dataset-node-label{
+    margin-top: 4px;
+    font-family: monospace;
+    width: 100%;
+    height: 16px;
+    margin-bottom: 6px;
+    text-align: center;
+}
+
+.dataset-node-label span{
+    padding: 3px;
+    border-radius: 2px;
+    color: #1a1a1a;
+    border: 1px solid #8c8c8c;
+    background-color: #f1f1f1;
+}
+
+
+/*
+ * Transformation Node
+ */
+
+g.transformation-node > rect {
+    fill: none;
+    stroke: none;
+    height: 100px;
+}
+
+.transformation-node-container{
+    height: 80px;
+    width: 176px;
+    padding-left: 48px;
+}
+
+.transformation-node-container .icon-container{
+    height: 80px;
+    width: 80px;
+    background-image: url(images/graph_icons/transformation.png);
+    background-repeat:no-repeat;
+    background-position: center center;
+    float: left;
+}
+
+.transformation-node-container .bracket-container{
+    height: 80px;
+    width: 16px;
+    text-align: center;
+    float: left;
+    margin-right: 8px;
+    padding-top: 4px;
+}
+
+.transformation-node-container .description-container{
+    height: 80px;
+    width: 70px;
+    text-align: left;
+    font-family: monospace;
+    line-height: 1.4em;
+    padding-left: 8px;
+    padding-top: 4px;
+    color: #4e4e4e;
+    font-style: italic;
+}
+
+.transformation-node-label{
+    display: none;
+}
+
+
+/*
+ * SQL Node
+ */
+
+g.sql-node > rect {
+    fill: none;
+    stroke: none;
+    height: 100px;
+}
+
+.sql-node-container{
+    height: 80px;
+    width: 176px;
+    padding-left: 48px;
+}
+
+.sql-node-container .icon-container{
+    height: 80px;
+    width: 80px;
+    background-image: url(images/graph_icons/sql.png);
+    background-repeat:no-repeat;
+    background-position: center center;
+    float: left;
+}
+
+.sql-node-container .bracket-container{
+    height: 80px;
+    width: 16px;
+    text-align: center;
+    float: left;
+    margin-right: 8px;
+    padding-top: 4px;
+}
+
+.sql-node-container .description-container{
+    height: 80px;
+    width: 70px;
+    text-align: left;
+    font-family: monospace;
+    line-height: 1.4em;
+    padding-left: 8px;
+    padding-top: 4px;
+    color: #4e4e4e;
+    font-style: italic;
+}
+
+.sql-node-label{
+    display: none;
+}
+
+
+
+/*
+ * Visualization Node
+ */
+
+g.visualization-node > rect {
+    fill: none;
+    stroke: none;
+    height: 120px;
+}
+
+.visualization-node-container{
+    background-color: #fff;
+}
+
+.visualization-node-container .icon-container.histogram{
+    height: 80px;
+    width: 112px;
+    background-image: url(images/graph_icons/histogram.png);
+    background-repeat:no-repeat;
+    background-position: center center;
+}
+
+.visualization-node-container .icon-container.boxplot{
+    height: 80px;
+    width: 112px;
+    background-image: url(images/graph_icons/boxplot.png);
+    background-repeat:no-repeat;
+    background-position: center center;
+}

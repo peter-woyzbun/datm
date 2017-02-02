@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load staticfiles %}
+    <meta charset="UTF-8">
+    <title>{% block page_title %}{% endblock %}</title>
+    <script type="text/javascript" src="{% static "core/js/jquery-1.12.0.min.js" %}"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static "core/css/bootstrap.min.css" %}"/>
+    <script type="text/javascript" src="{% static "core/js/bootstrap.min.js" %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "core/base.css" %}"/>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    {% block page_head_includes %}{% endblock %}
+</head>
+<body>
+
+<div class="container-fluid global-header">
+    <div class="container">
+        <div class="row">
+        <div class="col-md-3 logo">
+            <img src="{% static "core/images/logo-light.png" %}"/>
+        </div>
+        <div class="col-md-9">
+            <ul class="list-inline global-nav-list pull-right">
+                    {% block global_nav_buttons %}
+                    {% endblock %}
+            </ul>
+        </div>
+    </div>
+    </div>
+
+
+
+</div>
+
+{% block page_content %}{% endblock %}
+
+{% block page_modals %}
+{% endblock %}
+
+</body>
+</html>

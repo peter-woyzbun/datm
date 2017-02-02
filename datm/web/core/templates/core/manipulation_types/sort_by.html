@@ -1,0 +1,13 @@
+{% extends 'core/manipulation_types/_base.html' %}
+
+{% block manipulation_type_name %}sort_by{% endblock %}
+
+{% block manipulation_type_title %}Sort By{% endblock %}
+
+{% block manipulation_inputs %}
+    <div class="col-md-12">
+        <p class="input-label">Columns</p>
+        <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="sort_by">
+        <input type="text" name="m[x].columns" class="form-control manipulation-field"  value="{{ manipulation.columns }}">
+    </div>
+{% endblock %}

@@ -1,0 +1,50 @@
+
+
+/*
+ * Title
+ */
+
+.visualization-title{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+}
+
+
+/*
+ * Parameter Form
+ */
+
+
+.parameters-title{
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 24px;
+    margin-bottom: 36px;
+}
+
+.viz-input-row{
+    padding-bottom: 12px;
+}
+
+.viz-input-row .input-header{
+    font-family: monospace;
+    text-transform: uppercase;
+}
+
+.viz-input-row input{
+    font-family: monospace;
+}
+
+/*
+ * Visualization Plot
+ */
+
+.plot-title{
+    padding-bottom: 24px;
+    border-bottom: 1px solid #ccc;
+}
+
+.img-container{
+    text-align: center;
+    padding-top: 24px;
+}
