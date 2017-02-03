@@ -77,6 +77,22 @@ Example:
 
 .. image:: images/manipulation_types/sort_ex_1.png
 
+Rename
+~~~~~~
+
+The `rename` manipulation renames the given column.
+
+.. image:: images/manipulation_types/rename.png
+
+.. function:: rename(old_column_name, new_column_name)
+
+   :param old_column_name: The name of the existing column.
+   :param new_column_name: New name of existing column.
+
+Example:
+
+.. image:: images/manipulation_types/rename_ex_1.png
+
 SQL Queries
 ===========
 

@@ -23,4 +23,4 @@ Contents:
    tutorial
    project-graphs
    transformations
-   manipulation-functions
+   manipulation-expressions
