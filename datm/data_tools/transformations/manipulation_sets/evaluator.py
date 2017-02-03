@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 
+# =============================================
+# Eval Object
+# ---------------------------------------------
+
 
 # =============================================
 # Eval Functions
@@ -188,6 +192,30 @@ class Round(EvalFunction):
         return "np.round(%s)" % col
 
 
+class Max(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(Max, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col):
+        return max(col)
+
+    def _source_code_execute(self, col):
+        return "max(%s)" % col
+
+
+class Min(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(Min, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col):
+        return min(col)
+
+    def _source_code_execute(self, col):
+        return "min(%s)" % col
+
+
 class Floor(EvalFunction):
 
     def __init__(self, evaluator):
@@ -347,6 +375,8 @@ class Evaluator(object):
                       'expm1': ExpM1(evaluator=self),
                       'mean': Mean(evaluator=self),
                       'std': Std(evaluator=self),
+                      'max': Max(evaluator=self),
+                      'min': Min(evaluator=self),
                       'round': Round(evaluator=self),
                       'floor': Floor(evaluator=self),
                       'ceiling': Ceiling(evaluator=self),

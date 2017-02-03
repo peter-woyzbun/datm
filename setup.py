@@ -9,7 +9,7 @@ setup(name='datm',
       author_email='peter.woyzbun@gmail.com',
       license='MIT',
       packages=['datm'],
-      install_requires=['click', 'pandas', 'django', 'numpy', 'pandasql', 'pyparsing', 'matplotlib'],
+      install_requires=['click', 'pandas', 'django', 'numpy', 'pandasql', 'pyparsing', 'matplotlib', 'autopep8'],
       entry_points={
         'console_scripts': ['datm=datm.management.cmd_line:cmd_group'],
       },

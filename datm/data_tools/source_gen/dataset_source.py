@@ -1,11 +1,18 @@
 import os
 import autopep8
 import pandas as pd
+import datetime
+
+from django.template import Context, Template
+
+from datm.data_tools.source_gen.templates import script_docstring
 
 
 class DatasetSource(object):
 
-    def __init__(self, dataset_name, immutable_dataframes, source_str, dir_path):
+    def __init__(self, project_id, dataset_id, dataset_name, immutable_dataframes, source_str, dir_path):
+        self.project_id = project_id
+        self.dataset_id = dataset_id
         self.dataset_name = dataset_name
         self.immutable_dataframes = immutable_dataframes
         self.source_str = source_str
@@ -14,11 +21,19 @@ class DatasetSource(object):
     def generate(self):
         self._create_data_folder()
         self._write_immutable_dataframes()
+        self._add_script_docstring()
         self._add_imports()
         self._format_source_str()
         source_file = open("%s.py" % self.dataset_name, "w")
         source_file.write(self.source_str)
         source_file.close()
+
+    def _add_script_docstring(self):
+        template = Template(script_docstring)
+        context = Context({'datetime': datetime.datetime.now(),
+                           'project_id': self.project_id,
+                           'dataset_id': self.dataset_id})
+        self.source_str += template.render(context)
 
     def _add_imports(self):
         new_string = "import pandas as pd \n"

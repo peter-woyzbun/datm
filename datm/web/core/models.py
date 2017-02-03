@@ -10,10 +10,8 @@ import threading
 import networkx as nx
 import pandas as pd
 
-from datm.data_tools.manipulation.df_sql import DfSqlQuery
 from datm.data_tools.transformations.manipulation_sets.manipulation_set import ManipulationSet
 from datm.data_tools.transformations.sql.sql_query import SqlQuery
-from datm.data_tools.manipulation.df_col_typing import ColumnDTypeSet
 import datm.data_tools.source_gen.templates as source_templates
 from datm.data_tools.visualization import Histogram, Boxplot
 from datm.utils.func_timer import timeit
@@ -497,7 +495,8 @@ def delete_dataset_files(sender, **kwargs):
 # ---------------------------------------------
 
 class Transformation(models.Model):
-    project_asset = models.OneToOneField(ProjectAsset, on_delete=models.CASCADE, primary_key=True, related_name='transformation')
+    project_asset = models.OneToOneField(ProjectAsset, on_delete=models.CASCADE, primary_key=True,
+                                         related_name='transformation')
     parent_dataset = models.ForeignKey(Dataset, related_name='child_transformation')
     child_dataset = models.ForeignKey(Dataset, related_name='parent_transformation')
     created_at = models.DateTimeField(auto_now_add=True)

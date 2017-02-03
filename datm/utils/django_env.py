@@ -20,30 +20,3 @@ def make_django_env():
     django.setup()
 
 
-def in_django_env(func):
-    """
-    Decorator for functions that need to be run with django's environment
-    set up.
-
-    """
-    def wrapper():
-        make_django_env()
-        return func
-    return wrapper
-
-
-def django_dataset_model():
-    make_django_env()
-    import importlib
-    models = importlib.import_module("core.models")
-    return models.Dataset
-
-
-def dataset_path():
-    """
-    Return the path to the directory that stores Dataset CSV files.
-
-    """
-    return os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'web')
-
-
