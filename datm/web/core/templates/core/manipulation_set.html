@@ -261,7 +261,7 @@
                 </div>
             </div>
             <form id="transformationForm" action="javascript:getJson()">
-                <div class="col-md-7 col-md-offset-1 manipulations-container " id="sortable">
+                <div class="col-md-5 col-md-offset-1 manipulations-container " id="sortable">
                     {% for manipulation in transformation.manipulation_list %}
                         {% if manipulation.manipulation_type == 'filter' %}
                             {% include "core/manipulation_types/filter.html" %}
