@@ -62,14 +62,14 @@ The `create` manipulation allows new columns to be defined, or existing columns 
    :param column_definition: Expression definition column...
 
 Sort By
-~~~~~~
+~~~~~~~
 
 The `sort by` manipulation sorts the dataset based on given columns. A minus (`-`) in front of a column name indicates
 that the sort on that column should be descending.
 
 .. image:: images/manipulation_types/sort.png
 
-.. function:: sort(columns)
+.. function:: sort_by(columns)
 
    :param columns: A comma separated list of column names.
 
