@@ -1,0 +1,9 @@
+
+# ========================================
+# {{ parent_dataset_name }} -> {{ child_dataset_name }}
+# ----------------------------------------
+
+{{ child_dataset_name }}_df = {{ parent_dataset_name }}_df.copy()
+
+{{ transformation_src|safe }}
+

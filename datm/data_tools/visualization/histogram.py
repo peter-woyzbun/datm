@@ -7,28 +7,13 @@ from datm.data_tools.visualization.base import BaseVisualization
 
 class Histogram(BaseVisualization):
 
-    def __init__(self, title, x_lab, y_lab, df_column, bins, normed=False):
-        self.title = title
-        self.x_lab = x_lab
-        self.y_lab = y_lab
+    def __init__(self, title, x_label, y_label, df_column, bins, normed=False):
         self.df_column = df_column
         self.bins = int(bins)
         self.normed = normed
+        super(Histogram, self).__init__(title=title, x_label=x_label, y_label=y_label)
 
-    def create_figure(self, df):
-        figure = plt.figure()
-        subfigure = figure.add_subplot(1, 1, 1)
-        sns.set_style("whitegrid")
-        sns.despine(left=True)
-        sns.distplot(df[self.df_column], ax=subfigure)
-        # subfigure.hist(df[self.df_column], bins=self.bins, normed=self.normed)
-        # subfigure.spines["top"].set_visible(False)
-        # subfigure.spines["right"].set_visible(False)
-        # subfigure.get_xaxis().tick_bottom()
-        # subfigure.get_yaxis().tick_left()
-        # Add labels.
-        plt.title(self.title)
-        plt.xlabel(self.x_lab)
-        plt.ylabel(self.y_lab)
-        return figure
+    def _create_figure(self, df):
+        df = df.dropna()
+        sns.distplot(df[self.df_column], ax=self.subfigure)
 

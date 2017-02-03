@@ -275,7 +275,10 @@ class EditVisualization(View):
     def post(self, request, project_id, visualization_id):
         visualization_asset = ProjectAsset.objects.get(id=visualization_id)
         parameter_json = request.POST.get("parameter_json")
-        visualization_asset.visualization.parameters = parameter_json
+        parameters = json.loads(parameter_json)
+        visualization_asset.visualization.labels = parameters['labels']
+        visualization_asset.visualization.options = parameters['options']
         visualization_asset.visualization.ready = True
         visualization_asset.visualization.save()
+        return JsonResponse({'errors': True})
 

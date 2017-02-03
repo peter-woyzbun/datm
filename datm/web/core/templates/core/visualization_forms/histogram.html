@@ -1,30 +1,17 @@
 <div class="row">
-    <div class="col-md-12 viz-input-row">
-        <p class="input-header">Plot Title</p>
-        <input type="text" name="parameters.title" class="form-control" value="{{ visualization_asset.visualization.parameter_dict.title }}">
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12 viz-input-row">
-        <p class="input-header">x Label</p>
-        <input type="text" name="parameters.x_lab" class="form-control" value="{{ visualization_asset.visualization.parameter_dict.x_lab }}">
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12 viz-input-row">
-        <p class="input-header">y Label</p>
-        <input type="text" name="parameters.y_lab" class="form-control" value="{{ visualization_asset.visualization.parameter_dict.y_lab }}">
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12 viz-input-row">
+    <div class="col-md-12">
         <p class="input-header">Dataset Column</p>
-        <input type="text" name="parameters.df_column" class="form-control" value="{{ visualization_asset.visualization.parameter_dict.df_column }}">
+        <select class="form-control" name="options.df_column">
+            {% for column in visualization_asset.visualization.dataset.columns %}
+                <option value="{{ column }}">{{ column }}</option>
+            {% endfor %}
+        </select>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-12 viz-input-row">
+    <div class="col-md-12">
         <p class="input-header">Bins</p>
-        <input type="text" name="parameters.bins" class="form-control" value="{{ visualization_asset.visualization.parameter_dict.bins }}">
+        <input type="text" name="options.bins" class="form-control"
+               value="{{ visualization_asset.visualization.options.bins }}">
     </div>
 </div>

@@ -10,7 +10,6 @@ import threading
 import networkx as nx
 import pandas as pd
 
-# from datm.data_tools.manipulation.manipulation_set import ManipulationSet
 from datm.data_tools.manipulation.df_sql import DfSqlQuery
 from datm.data_tools.transformations.manipulation_sets.manipulation_set import ManipulationSet
 from datm.data_tools.transformations.sql.sql_query import SqlQuery
@@ -455,9 +454,6 @@ class Dataset(models.Model):
             source += "\n"
             if dataset_asset.dataset.immutable:
                 immutable_dataframes[dataset_asset.name] = dataset_asset.dataset.hdf_path
-        # Don't forget to add this dataset's source.
-        source += self.node_source()
-        print immutable_dataframes
         return source, immutable_dataframes
 
     def node_source(self):
@@ -469,9 +465,12 @@ class Dataset(models.Model):
             return source_str
         else:
             parent_transformation = Transformation.objects.get(child_dataset=self)
-            source_str = "%s_df = %s_df \n" % (parent_transformation.child_dataset.name,
-                                               parent_transformation.parent_dataset.name)
-            source_str += parent_transformation.node_source()
+            source_template = Template(source_templates.transformation_src)
+            transformation_src = parent_transformation.node_source()
+            context = Context({'parent_dataset_name': parent_transformation.parent_dataset.name,
+                               'child_dataset_name': parent_transformation.child_dataset.name,
+                               'transformation_src': transformation_src})
+            source_str = source_template.render(context)
             return source_str
 
 
@@ -624,6 +623,7 @@ class Transformation(models.Model):
             return self._sql_source()
 
     def _manipulation_set_source(self):
+        print "Creating manipulation set source from transformatioN!"
         manipulation_set = ManipulationSet.create_from_list(dataset_name=self.child_dataset.name,
                                                             manipulation_list=self.manipulation_list,
                                                             source_code_mode=True)
@@ -677,6 +677,8 @@ class Visualization(models.Model):
                                          related_name='visualization')
     dataset = models.ForeignKey(Dataset, related_name='visualization_set')
     parameters = models.CharField(max_length=10000, default='')
+    labels = DictField(default="{}", max_length=5000)
+    options = DictField(default="{}", max_length=5000)
     type = models.CharField(max_length=100, default='')
     friendly_type = models.CharField(max_length=100, default='')
     ready = models.BooleanField(default=False)
@@ -699,7 +701,8 @@ class Visualization(models.Model):
     def print_to_response(self, response):
         visualization_class_map = {'histogram': Histogram,
                                    'boxplot': Boxplot}
-        visualization = visualization_class_map[self.type](**self.parameter_dict)
+
+        visualization = visualization_class_map[self.type](**dict(self.options.items() + self.labels.items()))
         visualization.create_figure(self.dataset.df)
         visualization.print_to_response(response=response)
 

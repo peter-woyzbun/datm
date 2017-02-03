@@ -1,7 +1,9 @@
-from abc import ABCMeta, abstractmethod
-from collections import defaultdict
-from pyparsing import Word, Literal, delimitedList, alphas, alphanums, Suppress
+import re
 import pandas as pd
+from abc import ABCMeta, abstractmethod
+from collections import defaultdict, OrderedDict
+from pyparsing import Word, Literal, delimitedList, alphas, alphanums, Suppress
+
 
 from datm.data_tools.transformations.base import DataTransformation
 from datm.data_tools.transformations.manipulation_sets.evaluator import Evaluator
@@ -21,7 +23,10 @@ class Manipulation(object):
     error_message = None
 
     def __init__(self, manipulation_set, df_mutable=False):
-        self.manipulation_set = manipulation_set
+        if not isinstance(manipulation_set, ManipulationSet):
+            raise TypeError
+        else:
+            self.manipulation_set = manipulation_set
         self.dataset_label = "%s_df" % self.manipulation_set.dataset_name
         self.evaluator = manipulation_set.evaluator
         self.df_mutable = df_mutable
@@ -101,12 +106,21 @@ class Filter(Manipulation):
             df = df[self.evaluator.eval(condition)]
         return df
 
+    def _parsed_source_condition(self, condition):
+        col_names_dict = self.manipulation_set.evaluator.names.copy()
+        ordered_col_names = col_names_dict.keys()
+        ordered_col_names.sort(key=len, reverse=True)
+        pattern = re.compile('|'.join(ordered_col_names))
+        result = pattern.sub(lambda x: col_names_dict[x.group()], condition)
+        return result
+
     def _source_code_execute(self, df):
         source_strings = list()
         conditions = self.conditions.split(",")
         for condition in conditions:
-            df = df[self.evaluator.eval(condition)]
-            source_str = "%s = %s[%s]" % (self.dataset_label, self.dataset_label, self.evaluator.eval())
+            source_str = "%s = %s[%s]" % (self.dataset_label,
+                                          self.dataset_label,
+                                          self._parsed_source_condition(condition))
             source_strings.append(source_str)
         source = "\n".join(source_strings)
         return source
@@ -135,6 +149,7 @@ class Create(Manipulation):
             source_str = "%s['%s'] = %s" % (self.dataset_label,
                                             self.new_column_name,
                                             self.evaluator.eval(self.new_column_definition))
+            self.manipulation_set.evaluator.add_source_col_name(self.new_column_name)
         return source_str
 
 
@@ -394,6 +409,7 @@ class ManipulationSet(DataTransformation):
         return df
 
     def _source_code_execute(self, df):
+        self.evaluator.update_names(df)
         source_strings = list()
         for manipulation in self:
             source_strings.append(manipulation.execute(df))

@@ -10,6 +10,39 @@
     margin-bottom: 24px;
 }
 
+/*
+ * Plot Labels
+ */
+
+.visualization-input-container{
+    color: #ababab;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #2c2c2c;
+    border-radius: 6px;
+    font-family: monospace;
+    margin-bottom: 24px;
+}
+
+.visualization-input-container .title{
+    padding-bottom: 12px;
+    border-bottom: 1px solid #4c4c4c;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #fff;
+}
+
+.visualization-input-container .input-header{
+    padding-top: 12px;
+}
+
+.visualization-input-container input{
+    background-color: #3c3c3c;
+    font-family: monospace;
+    border: none;
+    margin-bottom: 6px;
+    color: #959595;
+}
 
 /*
  * Parameter Form

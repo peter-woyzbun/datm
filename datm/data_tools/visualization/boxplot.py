@@ -6,10 +6,10 @@ import matplotlib.pyplot as plt
 
 class Boxplot(BaseVisualization):
 
-    def __init__(self, title, x_lab, y_lab, df_column, categorical_var=None):
+    def __init__(self, title, x_label, y_label, df_column, categorical_var=None):
         self.df_column = df_column
         self.categorical_var = categorical_var
-        super(Boxplot, self).__init__(title=title, x_lab=x_lab, y_lab=y_lab)
+        super(Boxplot, self).__init__(title=title, x_label=x_label, y_label=y_label)
 
     def _create_figure(self, df):
         if self.categorical_var is None:

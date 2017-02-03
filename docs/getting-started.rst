@@ -13,3 +13,5 @@ Once installation is complete, you can use the following command to run the datm
 .. code-block:: bash
 
     datm run
+
+To learn how to use datm, start with the :doc:`tutorial`.

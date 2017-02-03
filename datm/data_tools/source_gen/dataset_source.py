@@ -48,4 +48,4 @@ class DatasetSource(object):
         print "Writing CSV files."
         for dataset_name, hdf_path in self.immutable_dataframes.items():
             df = pd.read_hdf(hdf_path)
-            df.to_csv(self.dataset_csv_path(dataset_name=dataset_name))
+            df.to_csv(self.dataset_csv_path(dataset_name=dataset_name), index=False)

@@ -67,40 +67,64 @@
 
 
     <div class="container">
-    <div class="row">
-        <div class="col-md-12 visualization-title">
-            <h1>{{ visualization_asset.name }}</h1>
+        <div class="row">
+            <div class="col-md-12 visualization-title">
+                <h1>{{ visualization_asset.name }}</h1>
+            </div>
         </div>
-    </div>
         <div class="row">
             <div class="col-md-3">
-                <div class="row">
-                    <div class="col-md-12 parameters-title">
-                        <h3>Parameters</h3>
+                <form id="parameterForm" action="javascript:getJson()">
+                    <div class="row visualization-input-container">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12 title">Plot Labels</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="input-header">Title</p>
+                                    <input type="text" name="labels.title" class="form-control"
+                                           value="{{ visualization_asset.visualization.labels.title }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="input-header">Y Label</p>
+                                    <input type="text" name="labels.y_label" class="form-control"
+                                           value="{{ visualization_asset.visualization.labels.y_label }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p class="input-header">X Label</p>
+                                    <input type="text" name="labels.x_label" class="form-control"
+                                           value="{{ visualization_asset.visualization.labels.x_label }}">
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            <form id="parameterForm" action="javascript:getJson()">
-                <div class="row">
+                <div class="row visualization-input-container">
                     <div class="col-md-12">
+                        <div class="row">
+                                <div class="col-md-12 title">Options</div>
+                        </div>
                         {% if visualization_asset.visualization.type == 'histogram' %}
-                            {% include "core/visualization_forms/histogram.html" %}
-                        {% elif visualization_asset.visualization.type == 'boxplot' %}
-                            {% include "core/visualization_forms/boxplot.html" %}
-                        {% endif %}
+                                {% include "core/visualization_forms/histogram.html" %}
+                            {% elif visualization_asset.visualization.type == 'boxplot' %}
+                                {% include "core/visualization_forms/boxplot.html" %}
+                            {% endif %}
                     </div>
                 </div>
-            </form>
+                </form>
             </div>
-            <div class="col-md-8 col-md-offset-1">
-                <div class="row">
-                    <div class="col-md-12 plot-title">
-                        <h3>Visualization</h3>
-                    </div>
-                </div>
+            <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-12 img-container">
                         {% if visualization_asset.visualization.ready %}
-                        <img src="{% url 'core:visualization_png' project_id=project.id visualization_id=visualization_asset.id %}" id="visualization-img">
+                            <img src="{% url 'core:visualization_png' project_id=project.id visualization_id=visualization_asset.id %}"
+                                 id="visualization-img">
+                            {% else %}
+                            Set visualization options to generate image.
                         {% endif %}
                     </div>
                 </div>
@@ -124,7 +148,6 @@
 
     <script type="text/javascript">
         function getJson() {
-
 
 
             $('.working-modal').modal('show');
@@ -153,7 +176,7 @@
                     // $('.working-modal').modal('hide');
                     // document.getElementById('project-log-iframe').contentWindow.location.reload(true);
                     // $('.project-log-modal').modal('show');
-                    $('#visualization-img').attr('src', $(this).attr('src')+'?'+Math.random());
+                    $('#visualization-img').attr('src', $(this).attr('src') + '?' + Math.random());
                     document.getElementById('visualization-iframe').contentWindow.location.reload(true);
                 }
             });

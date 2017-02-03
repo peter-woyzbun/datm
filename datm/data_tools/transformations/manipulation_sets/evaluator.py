@@ -46,12 +46,21 @@ class EvalFunction(object):
 
     def _op_join_instances(self, left_instance, op, right_instance):
         new_instance = self.__class__(evaluator=self.evaluator)
-        new_instance.source_str += "%s %s %s" % (str(left_instance), op, str(right_instance))
+        if type(right_instance) is str:
+            new_instance.source_str += "%s %s '%s'" % (str(left_instance), op, right_instance)
+        else:
+            new_instance.source_str += "%s %s %s" % (str(left_instance), op, str(right_instance))
         return new_instance
 
     # ----------------------
     # OPERATORS
     # ----------------------
+
+    def __eq__(self, other):
+        return self._op_join_instances(left_instance=self, op="==", right_instance=other)
+
+    def __ne__(self, other):
+        return self._op_join_instances(left_instance=self, op="!=", right_instance=other)
 
     def __add__(self, other):
         return self._op_join_instances(left_instance=self, op="+", right_instance=other)
@@ -360,6 +369,10 @@ class Evaluator(object):
             names_dict = {c: df[c] for c in col_names}
             names_dict['df'] = df
         self.names = names_dict
+
+    def add_source_col_name(self, col_name):
+        """ Add a column name for source generation. """
+        self.names[col_name] = "%s_df['%s']" % (self.dataset_name, col_name)
 
     @property
     def _locals(self):
