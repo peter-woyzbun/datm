@@ -9,7 +9,7 @@ Manipulation Sets
 =================
 
 Manipulation sets are similar to chained "data manipulation verb" functions from the excellent `dplyr` R package. They
-are ordered sets of instructions that are applied to the parent dataset one at a time.
+are ordered sets of instructions that are applied to the parent dataset one at a time (i.e function composition).
 
 Manipulation Types
 ------------------
@@ -27,7 +27,12 @@ The `filter` manipulation subsets data based on the provided conditions.
 
    Return only rows meeting given conditions
 
-   :param conditions: One or more conditional statements separated by commas.
+   :param conditions: One or more conditional :doc:`manipulation-expressions` separated by commas.
+
+Example:
+
+.. image:: images/manipulation_types/filter_ex_1.png
+
 
 Select
 ~~~~~~

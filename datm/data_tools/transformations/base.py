@@ -7,6 +7,7 @@ class DataTransformation(object):
         self.source_code_mode = source_code_mode
         self.joined_dataset_ids = list()
         self.error_data = dict()
+        self.execution_successful = True
 
     def register_join(self, dataset_id):
         self.joined_dataset_ids.append(dataset_id)

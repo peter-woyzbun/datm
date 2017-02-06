@@ -366,7 +366,7 @@ class Dataset(models.Model):
         self.columns = df.columns.values.tolist()
         self.n_rows = len(df.index)
         hdf_path = os.path.join(USER_DATASET_PATH, '%s.h5' % self.name)
-        df.to_hdf(hdf_path, key=self.name)
+        df.to_hdf(hdf_path, key=self.name, format='table')
         self.hdf.name = hdf_path
         self.column_dtypes = self.col_dtypes_dict(df=df)
         self.save()
@@ -505,6 +505,7 @@ class Transformation(models.Model):
     # description = models.CharField(max_length=300, default='Aggregations for filter. Test label more stuff.')
     type = models.CharField(max_length=10000, default='manipulation_set')
     has_errors = models.BooleanField(default=False)
+
     joined_datasets = models.ManyToManyField(ProjectAsset, related_name='child_joins')
 
     @property
@@ -570,6 +571,12 @@ class Transformation(models.Model):
         transformed_df = manipulation_set.execute(df)
         self.child_dataset.save_df_to_hdf(df=transformed_df)
         self._create_join_edges()
+        if not manipulation_set.execution_successful:
+            self.has_errors = True
+            self.save()
+        elif manipulation_set.execution_successful:
+            self.has_errors = False
+            self.save()
         return manipulation_set.error_data
 
     def joinable_dataset_map(self):
@@ -622,7 +629,6 @@ class Transformation(models.Model):
             return self._sql_source()
 
     def _manipulation_set_source(self):
-        print "Creating manipulation set source from transformatioN!"
         manipulation_set = ManipulationSet.create_from_list(dataset_name=self.child_dataset.name,
                                                             manipulation_list=self.manipulation_list,
                                                             source_code_mode=True)
@@ -689,13 +695,6 @@ class Visualization(models.Model):
     @property
     def name(self):
         return self.project_asset.name
-
-    @property
-    def parameter_dict(self):
-        try:
-            return json.loads(self.parameters)['parameters']
-        except:
-            return None
 
     def print_to_response(self, response):
         visualization_class_map = {'histogram': Histogram,

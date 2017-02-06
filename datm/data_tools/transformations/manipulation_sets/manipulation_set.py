@@ -10,7 +10,7 @@ from datm.data_tools.transformations.manipulation_sets.evaluator import Evaluato
 from datm.utils.func_timer import timeit
 
 
-DEBUG_ENABLED = True
+DEBUG_ENABLED = False
 
 
 class Manipulation(object):
@@ -417,10 +417,12 @@ class ManipulationSet(DataTransformation):
         return source
 
     def _collect_errors(self):
+        """ Check each manipulation in set for errors. """
         manipulation_index = 0
         for manipulation in self:
             if not manipulation.execution_successful:
                 self.error_data['invalid_manipulations'].append(manipulation_index)
+                self.execution_successful = False
             manipulation_index += 1
 
     def set_required_join_dfs(self, df_dict):

@@ -22,7 +22,6 @@ def cmd_group():
     pass
 
 
-
 @cmd_group.command()
 @click.option('--addrport', default=None,
               help="Override the default ip address (optional) and port. Uses format: <ipaddr:port>")
