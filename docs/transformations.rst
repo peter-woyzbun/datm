@@ -66,21 +66,6 @@ The `create` manipulation allows new columns to be defined, or existing columns 
    :param column_name: The name of the column to create/alter.
    :param column_definition: Expression definition column...
 
-Sort By
-~~~~~~~
-
-The `sort by` manipulation sorts the dataset based on given columns. A minus (`-`) in front of a column name indicates
-that the sort on that column should be descending.
-
-.. image:: images/manipulation_types/sort.png
-
-.. function:: sort_by(columns)
-
-   :param columns: A comma separated list of column names.
-
-Example:
-
-.. image:: images/manipulation_types/sort_ex_1.png
 
 Rename
 ~~~~~~
@@ -97,6 +82,92 @@ The `rename` manipulation renames the given column.
 Example:
 
 .. image:: images/manipulation_types/rename_ex_1.png
+
+
+Slice
+~~~~~
+
+The `rename` manipulation renames the given column.
+
+.. image:: images/manipulation_types/rename.png
+
+.. function:: rename(old_column_name, new_column_name)
+
+   :param old_column_name: The name of the existing column.
+   :param new_column_name: New name of existing column.
+
+Example:
+
+.. image:: images/manipulation_types/rename_ex_1.png
+
+
+Group By
+~~~~~~~~
+
+The `rename` manipulation renames the given column.
+
+.. image:: images/manipulation_types/rename.png
+
+.. function:: rename(old_column_name, new_column_name)
+
+   :param old_column_name: The name of the existing column.
+   :param new_column_name: New name of existing column.
+
+Example:
+
+.. image:: images/manipulation_types/rename_ex_1.png
+
+
+Join
+~~~~
+
+The `rename` manipulation renames the given column.
+
+.. image:: images/manipulation_types/rename.png
+
+.. function:: rename(old_column_name, new_column_name)
+
+   :param old_column_name: The name of the existing column.
+   :param new_column_name: New name of existing column.
+
+Example:
+
+.. image:: images/manipulation_types/rename_ex_1.png
+
+
+Sort By
+~~~~~~~
+
+The `sort by` manipulation sorts the dataset based on given columns. A minus (`-`) in front of a column name indicates
+that the sort on that column should be descending.
+
+.. image:: images/manipulation_types/sort.png
+
+.. function:: sort_by(columns)
+
+   :param columns: A comma separated list of column names.
+
+Example:
+
+.. image:: images/manipulation_types/sort_ex_1.png
+
+
+Wide to Long
+~~~~~~~~~~~~
+
+The `sort by` manipulation sorts the dataset based on given columns. A minus (`-`) in front of a column name indicates
+that the sort on that column should be descending.
+
+.. image:: images/manipulation_types/sort.png
+
+.. function:: sort_by(columns)
+
+   :param columns: A comma separated list of column names.
+
+Example:
+
+.. image:: images/manipulation_types/sort_ex_1.png
+
 
 SQL Queries
 ===========
