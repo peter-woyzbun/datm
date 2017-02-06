@@ -16,7 +16,7 @@ import datm.data_tools.source_gen.templates as source_templates
 from datm.data_tools.visualization import Histogram, Boxplot
 from datm.utils.func_timer import timeit
 import datm.utils
-from datm.web import USER_DATASET_PATH
+from datm.web import USER_DATASET_PATH, USER_VISUALIZATIONS_PATH
 
 from django.core.files import File
 from django.db import models
@@ -261,7 +261,7 @@ class Graph(models.Model):
 # ---------------------------------------------
 
 class ProjectAsset(models.Model):
-    """ Each project asset is a dataset or transformation associated with its project. """
+    """ Each project asset is a dataset, transformation, or visualization, associated with its project. """
     project = models.ForeignKey(Project, default=1, related_name='asset_set')
     name = models.CharField(max_length=200, default='Asset Name')
     # Asset type.
@@ -280,11 +280,25 @@ class ProjectAsset(models.Model):
     @classmethod
     def create_dataset(cls, project, name, description, df, immutable=False):
         """
-        Create a new project dataset. This requires:
+        Create a new project Dataset. This requires:
 
             (1) Creating and saving the related ProjectAsset.
-            (2) Creating and saving the actual Dataset.
+            (2) Creating and saving the actual Dataset (and dataframe).
             (3) Adding the dataset node to the project graph - done via post-save signal.
+
+        Parameters
+        ----------
+        project : Project
+            Project instance associated with dataset.
+        name : str
+            Name of new dataset.
+        description : str
+            Description of new dataset.
+        df : Pandas DataFrame
+            DataFrame containing dataset data.
+        immutable : bool
+            Whether or not the dataset is 'immutable'. Immutable datasets are
+            not the product of a transformation.
 
         """
         project_asset = cls.objects.create(project=project, name=name, description=description, type="dataset")
@@ -296,6 +310,29 @@ class ProjectAsset(models.Model):
     @classmethod
     def create_transformation(cls, project, description, transform_type, parent_dataset_id,
                               child_dataset_name, child_dataset_description):
+        """
+        Create a new transformation. This requires:
+
+            (1) Creating and saving the related ProjectAsset.
+            (2) Creating and saving the child Dataset.
+            (3) Creating and saving the actual transformation.
+
+        Parameters
+        ----------
+        project : Project
+            Project instance associated with dataset.
+        description : str
+            Description of new transformation.
+        transform_type : str
+            The type of transformation - 'manipulation_set' or 'sql'.
+        parent_dataset_id : int
+            The ID of the parent Dataset.
+        child_dataset_name : str
+            Name given to child Dataset.
+        child_dataset_description : str
+            Description given to child Dataset.
+
+        """
 
         # Create child dataset first.
         parent_dataset = Dataset.objects.get(project_asset=parent_dataset_id)
@@ -319,6 +356,29 @@ class ProjectAsset(models.Model):
 
     @classmethod
     def create_visualization(cls, project, title, visualization_type, dataset_id):
+        """
+        Create a new visualization. This requires:
+
+            (1) Creating and saving the related ProjectAsset.
+            (2) Creating and saving the actual visualization.
+
+        Parameters
+        ----------
+        project : Project
+            Project instance associated with dataset.
+        title : str
+            Title of the new visualization
+        visualization_type : str
+            The new visualization's type (e.g. 'boxplot', or 'histogram'.
+        dataset_id : int
+            The ID of the associated parent Dataset.
+
+        Returns
+        -------
+        visualization : Visualization
+            Newly created Visualization instance.
+
+        """
         visualization_asset = cls.objects.create(name=title, type="visualization", project=project)
         visualization_asset.save()
         dataset_asset = ProjectAsset.objects.get(id=dataset_id)
@@ -362,6 +422,20 @@ class Dataset(models.Model):
     column_dtypes = DictField(default="{}", max_length=5000)
 
     def save_df_to_hdf(self, df):
+        """
+        Save DataFrame to HDF format, first completing the following:
+
+            (1) Ensure all DataFrame column names are 'valid'.
+            (2) Record/save the column names.
+            (3) Record the number of rows.
+
+
+        Parameters
+        ----------
+        df : Pandas DataFrame
+            DataFrame to save as HDF.
+
+        """
         df = self._validate_col_names(df)
         self.columns = df.columns.values.tolist()
         self.n_rows = len(df.index)
@@ -373,22 +447,30 @@ class Dataset(models.Model):
 
     @staticmethod
     def _validate_col_names(df):
+        """ Ensure that all dataframe columns are valid Python variable names. """
         for column in df.columns.values.tolist():
             df = df.rename(columns={column: datm.utils.clean_var_name(column)})
         return df
 
     @staticmethod
     def col_dtypes_dict(df):
+        """ Return a dictionary mapping given dataframe columns to data types. """
         column_dtypes_dict = dict()
         for col in df.columns:
             column_dtypes_dict[col] = str(df[col].dtype)
         return column_dtypes_dict
 
     def ordered_col_dtypes(self):
+        """ Return a list of column data types, in the order they appear in the DataFrame. """
         col_dtypes = list()
         for column in self.columns:
             col_dtypes.append(self.column_dtypes[column])
         return col_dtypes
+
+    def apply_dtypes_to_df(self, df):
+        for k, v in self.column_dtypes.items():
+            df[k] = df[k].astype(v)
+        return df
 
     def source_code(self):
         pass
@@ -412,10 +494,7 @@ class Dataset(models.Model):
     def description_html(self):
         return self.project_asset.description_html
 
-    def apply_dtypes_to_df(self, df):
-        for k, v in self.column_dtypes.items():
-            df[k] = df[k].astype(v)
-        return df
+
 
     @property
     def df(self):
@@ -551,6 +630,7 @@ class Transformation(models.Model):
 
     @timeit
     def execute(self):
+        """ Execute the transformation given its type. """
         if self.type == 'manipulation_set':
             return self._execute_manipulation_set()
         elif self.type == 'sql':
@@ -687,6 +767,7 @@ class Visualization(models.Model):
     type = models.CharField(max_length=100, default='')
     friendly_type = models.CharField(max_length=100, default='')
     ready = models.BooleanField(default=False)
+    image = models.FileField(default=' ', upload_to=USER_VISUALIZATIONS_PATH)
 
     @property
     def id(self):

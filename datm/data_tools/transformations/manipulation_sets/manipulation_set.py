@@ -17,12 +17,23 @@ class Manipulation(object):
     """
     Base class for all manipulation types.
 
-
     """
 
     error_message = None
 
     def __init__(self, manipulation_set, df_mutable=False):
+        """
+        Initializes the manipulation.
+
+        Parameters
+        ----------
+        manipulation_set : ManipulationSet
+            The ManipulationSet instance the manipulation is a member of.
+        df_mutable : bool
+            Whether or not the manipulation has an impact on the DataFrame's
+            basic dimensions: column names, number of rows, etc...
+
+        """
         if not isinstance(manipulation_set, ManipulationSet):
             raise TypeError
         else:
@@ -120,7 +131,7 @@ class Filter(Manipulation):
         for condition in conditions:
             source_str = "%s = %s[%s]" % (self.dataset_label,
                                           self.dataset_label,
-                                          self._parsed_source_condition(condition))
+                                          self.evaluator.eval(condition))
             source_strings.append(source_str)
         source = "\n".join(source_strings)
         return source

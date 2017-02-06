@@ -21,8 +21,8 @@ class DatasetSource(object):
     def generate(self):
         self._create_data_folder()
         self._write_immutable_dataframes()
-        self._add_script_docstring()
         self._add_imports()
+        self._add_script_docstring()
         self._format_source_str()
         source_file = open("%s.py" % self.dataset_name, "w")
         source_file.write(self.source_str)
@@ -33,7 +33,9 @@ class DatasetSource(object):
         context = Context({'datetime': datetime.datetime.now(),
                            'project_id': self.project_id,
                            'dataset_id': self.dataset_id})
-        self.source_str += template.render(context)
+        new_source_str = ""
+        new_source_str += template.render(context)
+        self.source_str = new_source_str + self.source_str
 
     def _add_imports(self):
         new_string = "import pandas as pd \n"

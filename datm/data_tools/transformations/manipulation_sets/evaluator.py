@@ -1,9 +1,81 @@
 import numpy as np
 import pandas as pd
 
+
 # =============================================
 # Eval Object
 # ---------------------------------------------
+
+class EvalObject(object):
+
+    def __init__(self, evaluator):
+        if not isinstance(evaluator, Evaluator):
+            raise TypeError
+        self.evaluator = evaluator
+        self.source_str = ""
+        self.dataset_label = "%s_df" % evaluator.dataset_name
+
+    def _op_join_instances(self, left_instance, op, right_instance):
+        # Todo: clean this up.
+        if isinstance(self, DfCol):
+            new_instance = self.__class__(evaluator=self.evaluator, col_name=self.col_name)
+            new_instance.source_str = ''
+        else:
+            new_instance = self.__class__(evaluator=self.evaluator)
+        if type(right_instance) is str:
+            new_instance.source_str += "%s %s '%s'" % (str(left_instance), op, right_instance)
+        else:
+            new_instance.source_str += "%s %s %s" % (str(left_instance), op, str(right_instance))
+        return new_instance
+
+    def __str__(self):
+        return self.source_str
+
+    # ----------------------
+    # OPERATORS
+    # ----------------------
+
+    def __eq__(self, other):
+        return self._op_join_instances(left_instance=self, op="==", right_instance=other)
+
+    def __ne__(self, other):
+        return self._op_join_instances(left_instance=self, op="!=", right_instance=other)
+
+    def __add__(self, other):
+        return self._op_join_instances(left_instance=self, op="+", right_instance=other)
+
+    def __sub__(self, other):
+        return self._op_join_instances(left_instance=self, op="-", right_instance=other)
+
+    def __lt__(self, other):
+        return self._op_join_instances(left_instance=self, op="<", right_instance=other)
+
+    def __le__(self, other):
+        return self._op_join_instances(left_instance=self, op="<=", right_instance=other)
+
+    def __gt__(self, other):
+        return self._op_join_instances(left_instance=self, op=">", right_instance=other)
+
+    def __ge__(self, other):
+        return self._op_join_instances(left_instance=self, op=">=", right_instance=other)
+
+    def __mul__(self, other):
+        return self._op_join_instances(left_instance=self, op="*", right_instance=other)
+
+    def __div__(self, other):
+        return self._op_join_instances(left_instance=self, op="/", right_instance=other)
+
+
+# =============================================
+# Dataframe Column
+# ---------------------------------------------
+
+class DfCol(EvalObject):
+
+    def __init__(self, evaluator, col_name):
+        self.col_name = col_name
+        super(DfCol, self).__init__(evaluator=evaluator)
+        self.source_str += "%s['%s']" % (self.dataset_label, self.col_name)
 
 
 # =============================================
@@ -49,7 +121,10 @@ class EvalFunction(object):
         return "%s %s %s" % (left_str, op, right_str)
 
     def _op_join_instances(self, left_instance, op, right_instance):
-        new_instance = self.__class__(evaluator=self.evaluator)
+        if isinstance(self, DfCol):
+            new_instance = self.__class__(evaluator=self.evaluator, col_name=self.col_name)
+        else:
+            new_instance = self.__class__(evaluator=self.evaluator)
         if type(right_instance) is str:
             new_instance.source_str += "%s %s '%s'" % (str(left_instance), op, right_instance)
         else:
@@ -408,7 +483,7 @@ class Evaluator(object):
         self.df_n_rows = len(df.index)
         col_names = df.columns.values.tolist()
         if self.source_code_mode:
-            names_dict = {c: "%s_df['%s']" % (self.dataset_name, c) for c in col_names}
+            names_dict = {c: DfCol(evaluator=self, col_name=c) for c in col_names}
             names_dict['%s_df' % self.dataset_name] = 'df'
         else:
             names_dict = {c: df[c] for c in col_names}

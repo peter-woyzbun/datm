@@ -48,8 +48,8 @@ def run(addrport):
 
 
 @cmd_group.command()
-@click.argument('project_id', nargs=1, help='The Project ID of the dataset.')
-@click.argument('dataset_id', nargs=1, help='The dataset ID.')
+@click.argument('project_id', nargs=1)
+@click.argument('dataset_id', nargs=1)
 def generatesource(project_id, dataset_id):
     """
     Generate the source required to generate the given dataset's Pandas DataFrame.
