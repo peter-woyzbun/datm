@@ -8,7 +8,20 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(function () {
-            $("#accordion").accordion();
+            var icons = {
+                header: "glyphicon glyphicon-expand",
+                activeHeader: "glyphicon glyphicon-collapse-down"
+            };
+            $("#accordion").accordion({
+                icons: icons
+            });
+            $("#toggle").button().on("click", function () {
+                if ($("#accordion").accordion("option", "icons")) {
+                    $("#accordion").accordion("option", "icons", null);
+                } else {
+                    $("#accordion").accordion("option", "icons", icons);
+                }
+            });
         });
     </script>
 
@@ -102,42 +115,117 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-4" hidden>
-                <div id="accordion">
-                    <h5 class="manipulation-type-label">
-                        <button class="btn btn-default clear-btn add-manipulation pull-right"
-                                data-manipulation-type-div="filter-manipulation">
-                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                        </button>
-                        FILTER
-                    </h5>
-                    <div class="col-md-12">
-                        <p>
-                            Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
-                            ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
-                            amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
-                            odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
-                        </p>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4 m-type-container">
+                        <div>
+                            <button class="btn btn-default clear-btn add-manipulation pull-right"
+                                    data-manipulation-type-div="filter-manipulation">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                            <p class="manipulation-type-label">Filter</p>
+                            <p class="manipulation-type-desc">Subset dataset rows based on conditions.</p>
+                        </div>
+
                     </div>
-                    <h5 class="manipulation-type-label">SELECT</h5>
-                    <div class="col-md-12">
-                        <p>
-                            Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
-                            purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
-                            velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
-                            suscipit faucibus urna.
-                        </p>
+                    <div class="col-md-4 m-type-container">
+                        <div>
+                            <button class="btn btn-default clear-btn add-manipulation pull-right"
+                                    data-manipulation-type-div="select-manipulation">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                            <p class="manipulation-type-label">Select</p>
+                            <p class="manipulation-type-desc">Keep only given columns.</p>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 m-type-container">
+                        <div>
+                            <button class="btn btn-default clear-btn add-manipulation pull-right"
+                                    data-manipulation-type-div="create-manipulation">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                            <p class="manipulation-type-label">Create</p>
+                            <p class="manipulation-type-desc">Create a new column using other columns and functions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 m-type-container">
+                        <div>
+                            <button class="btn btn-default clear-btn add-manipulation pull-right"
+                                    data-manipulation-type-div="rename-manipulation">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                            <p class="manipulation-type-label">Rename</p>
+                            <p class="manipulation-type-desc">Rename an existing column.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 m-type-container">
+                        <div>
+                            <button class="btn btn-default clear-btn add-manipulation pull-right"
+                                    data-manipulation-type-div="slice-manipulation">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                            <p class="manipulation-type-label">Slice</p>
+                            <p class="manipulation-type-desc">Subset dataset by slicing along given rows.</p>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 m-type-container">
+                        <div>
+                            <button class="btn btn-default clear-btn add-manipulation pull-right"
+                                    data-manipulation-type-div="group_by-manipulation">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                            <p class="manipulation-type-label">Group By</p>
+                            <p class="manipulation-type-desc">Group the dataset and perform aggregate calculations.</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 m-type-container">
+                        <div>
+                            <button class="btn btn-default clear-btn add-manipulation pull-right"
+                                    data-manipulation-type-div="join-manipulation">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                            <p class="manipulation-type-label">Join</p>
+                            <p class="manipulation-type-desc">Join dataset with another project dataset.</p>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 m-type-container">
+                        <div>
+                            <button class="btn btn-default clear-btn add-manipulation pull-right"
+                                    data-manipulation-type-div="sort_by-manipulation">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                            <p class="manipulation-type-label">Sort By</p>
+                            <p class="manipulation-type-desc">Subset dataset by slicing along given rows.</p>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4 m-type-container">
+                        <div>
+                            <button class="btn btn-default clear-btn add-manipulation pull-right"
+                                    data-manipulation-type-div="wide_to_long-manipulation">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                            <p class="manipulation-type-label">Wide to Long</p>
+                            <p class="manipulation-type-desc">Convert columns from wide to long format.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-4" hidden>
                 <div class="row manipulation-type">
                     <div class="col-md-3">
                         <p class="manipulation-type-label">Filter</p>
                     </div>
                     <div class="col-md-7">
-                        <p class="manipulation-type-desc">Keep a subset of dataset rows based on provided conditional
-                            arguments.</p>
+                        <p class="manipulation-type-desc">Subset dataset rows based on conditions.</p>
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-default clear-btn add-manipulation"
@@ -354,6 +442,7 @@
 
 
 
+
     <!-- ====== JSON FORM ====== -->
     <form id="jsonForm"
           action="{% url 'core:edit_transformation' project_id=project.id transformation_id=transformation.project_asset.id %}"
@@ -363,6 +452,35 @@
         <input id="json-string" class="form-control" type="text" name="transformation_json"/>
     </form>
 
+
+
+
+    <script>
+        $('.affixed-header').affix({
+            offset: {
+                top: 74
+            }
+        })
+    </script>
+
+
+    <script>
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
+    </script>
+
+
+{% endblock %}
+
+{% block page_modals %}
+
+    <!-- "Working..." modal -->
+    {% include "core/modals/working.html" %}
+
+{% endblock %}
+
+{% block page_scripts %}
     <script type="text/javascript">
         function getJson() {
 
@@ -448,27 +566,13 @@
         }
     </script>
 
-    <script>
-        $('.affixed-header').affix({
-            offset: {
-                top: 74
-            }
-        })
-    </script>
-
-
-    <script>
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-    </script>
-
-
-{% endblock %}
-
-{% block page_modals %}
-
-    <!-- "Working..." modal -->
-    {% include "core/modals/working.html" %}
-
+    {% if transformation.has_errors %}
+        <script>
+            $('.outcome-dialogue').addClass('attention');
+            $('.outcome-dialogue .message').text('Transformation had errors on last execution. Executing now to identify issues.');
+            $(".outcome-dialogue").show("slide", {direction: "down"}, 300).delay(1500).slideUp('slow');
+            getJson();
+        $('.outcome-dialogue').removeClass('attention');
+        </script>
+    {% endif %}
 {% endblock %}

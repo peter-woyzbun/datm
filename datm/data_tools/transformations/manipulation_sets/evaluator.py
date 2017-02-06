@@ -360,6 +360,18 @@ class DropNa(EvalFunction):
         return "df.dropna()"
 
 
+class RandInt(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(RandInt, self).__init__(evaluator=evaluator)
+
+    def _execute(self, low, high):
+        return np.random.randint(low=low, high=high, size=self.evaluator.df_n_rows)
+
+    def _source_code_execute(self, low, high):
+        return "np.random.randint(low=%s, high=%s, size=%s)" % (low, high, self.evaluator.df_n_rows)
+
+
 # =============================================
 # Evaluator Class
 # ---------------------------------------------
@@ -387,10 +399,13 @@ class Evaluator(object):
                       'as_date': AsDate(evaluator=self),
                       'get_wk_day': GetWeekday(evaluator=self),
                       'replace': Replace(evaluator=self),
-                      'drop_na': DropNa(evaluator=self)}
+                      'drop_na': DropNa(evaluator=self),
+                      'rand_int': RandInt(evaluator=self)}
         self.names = dict()
+        self.df_n_rows = None
 
     def update_names(self, df):
+        self.df_n_rows = len(df.index)
         col_names = df.columns.values.tolist()
         if self.source_code_mode:
             names_dict = {c: "%s_df['%s']" % (self.dataset_name, c) for c in col_names}

@@ -97,14 +97,37 @@
     text-transform: uppercase;
 }
 
+.m-type-container{
+    height: 124px;
+    margin-bottom: 12px;
+    padding-left: 6px;
+    padding-right: 6px;
+}
+
+.m-type-container div{
+    background-color: #eaeaea;
+    border-radius: 6px;
+    padding: 12px;
+    height: 100%;
+}
+
 .manipulation-type-desc{
-    font-size: .9em;
+    font-size: .8em;
 }
 
 .manipulation-type{
     padding-top: 24px;
     padding-bottom: 24px;
     border-top: 1px solid #ccc;
+}
+
+.add-manipulation{
+    padding: 0;
+    color: #2ECC71;
+}
+
+.add-manipulation:hover{
+    background-color: transparent;
 }
 
 /*
@@ -295,6 +318,11 @@
 
 .outcome-dialogue.success{
     background-color: #3e8f3e;
+}
+
+.outcome-dialogue.attention{
+    background-color: #F1C40F;
+    color: #000;
 }
 
 .outcome-dialogue .message{

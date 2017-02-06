@@ -47,8 +47,7 @@ The `select` manipulation subsets the dataset, keeping only those columns given.
 
    :param columns: Comma separated list of column names.
 
-Example
-^^^^^^^
+Example:
 
 .. image:: images/manipulation_types/select_ex_1.png
 
@@ -66,6 +65,9 @@ The `create` manipulation allows new columns to be defined, or existing columns 
    :param column_name: The name of the column to create/alter.
    :param column_definition: Expression definition column...
 
+Example:
+
+.. image:: images/manipulation_types/create_ex_1.png
 
 Rename
 ~~~~~~

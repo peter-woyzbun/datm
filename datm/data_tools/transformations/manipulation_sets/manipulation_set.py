@@ -227,7 +227,7 @@ class Slice(Manipulation):
     def __init__(self, manipulation_set, from_row, to_row):
         self.from_row = from_row
         self.to_row = to_row
-        super(Slice, self).__init__(manipulation_set=manipulation_set, df_mutable=False)
+        super(Slice, self).__init__(manipulation_set=manipulation_set, df_mutable=True)
 
     def _execute(self, df):
         self.add_name_to_evaluator(evaluator=self.evaluator,
@@ -368,11 +368,10 @@ class ManipulationSet(DataTransformation):
     def __init__(self, dataset_name, evaluator, source_code_mode=False):
         self.dataset_name = dataset_name
         self.evaluator = evaluator
-        self.error_data = dict()
-        self.error_data['invalid_manipulations'] = list()
         self.manipulations = list()
         self.join_dfs = None
         super(ManipulationSet, self).__init__(source_code_mode=source_code_mode)
+        self.error_data['invalid_manipulations'] = list()
 
     def __add__(self, other):
         self.manipulations.append(other)
