@@ -1,8 +1,6 @@
 import os
 
 
-# Path to datm's django project directory. This is required
-# as django projects do not contain an '__init__.py' file.
 DJANGO_PROJECT_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), 'web')
 
 
