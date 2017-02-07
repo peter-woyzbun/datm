@@ -15,7 +15,7 @@ See the :doc:`tutorial` for an overview of Datm's features.
 .. raw:: html
 
     <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
-        <iframe src="http://www.gifyoutube.com/watch?v=yvQjL3l9BUk" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
+        <iframe src='//gifs.com/embed/pattern-base-demo-58Ek1B' frameborder='0' scrolling='no' width='1280px' height='662px' style='-webkit-backface-visibility: hidden;-webkit-transform: scale(1);' ></iframe>
     </div>
 
 
