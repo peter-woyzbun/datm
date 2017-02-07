@@ -6,7 +6,7 @@ import threading
 from django.core import management
 
 from datm.utils.django_env import make_django_env
-from datm.data_tools.django.models import Dataset, Project
+from datm.api.django.models import Dataset, Project
 from datm.data_tools.source_gen.dataset_source import DatasetSource
 
 
