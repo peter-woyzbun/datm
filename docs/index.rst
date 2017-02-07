@@ -12,11 +12,7 @@ from its "parent dataset" and an edge to its "child dataset".
 
 See the :doc:`tutorial` for an overview of Datm's features.
 
-.. raw:: html
-
-    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; max-width: 100%; height: auto;">
-        <iframe src='//gifs.com/embed/pattern-base-demo-58Ek1B' frameborder='0' scrolling='no' width='600px' style='-webkit-backface-visibility: hidden;-webkit-transform: scale(1);' ></iframe>
-    </div>
+.. image:: images/demo_gifs/dataset_upload.gif
 
 
 
