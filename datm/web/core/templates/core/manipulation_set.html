@@ -116,6 +116,11 @@
         </div>
         <div class="row">
             <div class="col-md-4">
+                <div class="row m-types-header">
+                    <div class="col-md-12">
+                        <h5>Manipulation Types</h5>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-md-4 m-type-container">
                         <div>
@@ -219,137 +224,16 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-4" hidden>
-                <div class="row manipulation-type">
-                    <div class="col-md-3">
-                        <p class="manipulation-type-label">Filter</p>
-                    </div>
-                    <div class="col-md-7">
-                        <p class="manipulation-type-desc">Subset dataset rows based on conditions.</p>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-default clear-btn add-manipulation"
-                                data-manipulation-type-div="filter-manipulation">
-                            <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                        </button>
-                    </div>
-                </div>
-                <div class="row manipulation-type">
-                    <div class="col-md-3">
-                        <p class="manipulation-type-label">Select</p>
-                    </div>
-                    <div class="col-md-7">
-                        <p class="manipulation-type-desc">Keep a subset of dataset rows based on provided conditional
-                            arguments.</p>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-default add-manipulation"
-                                data-manipulation-type-div="select-manipulation">
-                            Add
-                        </button>
-                    </div>
-                </div>
-                <div class="row manipulation-type">
-                    <div class="col-md-3">
-                        <p class="manipulation-type-label">Create</p>
-                    </div>
-                    <div class="col-md-7">
-                        <p class="manipulation-type-desc">Create a new column using other columns and functions.</p>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-default add-manipulation"
-                                data-manipulation-type-div="create-manipulation">
-                            Add
-                        </button>
-                    </div>
-                </div>
-                <div class="row manipulation-type">
-                    <div class="col-md-3">
-                        <p class="manipulation-type-label">Rename</p>
-                    </div>
-                    <div class="col-md-7">
-                        <p class="manipulation-type-desc">Rename an existing column.</p>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-default add-manipulation"
-                                data-manipulation-type-div="rename-manipulation">
-                            Add
-                        </button>
-                    </div>
-                </div>
-                <div class="row manipulation-type">
-                    <div class="col-md-3">
-                        <p class="manipulation-type-label">Slice</p>
-                    </div>
-                    <div class="col-md-7">
-                        <p class="manipulation-type-desc">Subset dataset by slicing along given rows.</p>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-default add-manipulation"
-                                data-manipulation-type-div="slice-manipulation">
-                            Add
-                        </button>
-                    </div>
-                </div>
-                <div class="row manipulation-type">
-                    <div class="col-md-3">
-                        <p class="manipulation-type-label">Group By</p>
-                    </div>
-                    <div class="col-md-7">
-                        <p class="manipulation-type-desc">Group the dataset and perform aggregate calculations.</p>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-default add-manipulation"
-                                data-manipulation-type-div="group_by-manipulation">
-                            Add
-                        </button>
-                    </div>
-                </div>
-                <div class="row manipulation-type">
-                    <div class="col-md-3">
-                        <p class="manipulation-type-label">Join</p>
-                    </div>
-                    <div class="col-md-7">
-                        <p class="manipulation-type-desc">Join dataset with another project dataset.</p>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-default add-manipulation"
-                                data-manipulation-type-div="join-manipulation">
-                            Add
-                        </button>
-                    </div>
-                </div>
-                <div class="row manipulation-type">
-                    <div class="col-md-3">
-                        <p class="manipulation-type-label">Sort By</p>
-                    </div>
-                    <div class="col-md-7">
-                        <p class="manipulation-type-desc">Sort the dataset by given columns.</p>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-default add-manipulation"
-                                data-manipulation-type-div="sort_by-manipulation">
-                            Add
-                        </button>
-                    </div>
-                </div>
-                <div class="row manipulation-type">
-                    <div class="col-md-3">
-                        <p class="manipulation-type-label">Wide to Long</p>
-                    </div>
-                    <div class="col-md-7">
-                        <p class="manipulation-type-desc">Convert columns from wide to long format.</p>
-                    </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-default add-manipulation"
-                                data-manipulation-type-div="wide_to_long-manipulation">
-                            Add
-                        </button>
-                    </div>
-                </div>
-            </div>
+
             <form id="transformationForm" action="javascript:getJson()">
-                <div class="col-md-5 col-md-offset-1 manipulations-container " id="sortable">
+                <div class="col-md-7 col-md-offset-1 manipulations-container " id="sortable">
+
+                <div class="row m-set-header">
+                    <div class="col-md-12">
+                        <h5>Manipulation Set</h5>
+                    </div>
+                </div>
+
                     {% for manipulation in transformation.manipulation_list %}
                         {% if manipulation.manipulation_type == 'filter' %}
                             {% include "core/manipulation_types/filter.html" %}

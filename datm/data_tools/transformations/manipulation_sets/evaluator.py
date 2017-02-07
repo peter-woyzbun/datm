@@ -6,7 +6,7 @@ import pandas as pd
 # Eval Object
 # ---------------------------------------------
 
-class EvalObject(object):
+class EvalElement(object):
 
     def __init__(self, evaluator):
         if not isinstance(evaluator, Evaluator):
@@ -70,7 +70,7 @@ class EvalObject(object):
 # Dataframe Column
 # ---------------------------------------------
 
-class DfCol(EvalObject):
+class DfCol(EvalElement):
 
     def __init__(self, evaluator, col_name):
         self.col_name = col_name
@@ -79,7 +79,7 @@ class DfCol(EvalObject):
 
 
 # =============================================
-# Eval Functions
+# Eval Function Class
 # ---------------------------------------------
 
 class EvalFunction(object):
@@ -170,6 +170,10 @@ class EvalFunction(object):
         new_instance.source_str += "(%s)**%s" % (str(self), power)
         return new_instance
 
+
+# =============================================
+# Math Functions
+# ---------------------------------------------
 
 class Log(EvalFunction):
 
@@ -363,6 +367,10 @@ class Lag(EvalFunction):
         return "%s.shift(%s)" % (col, n)
 
 
+# =============================================
+# Data Type Functions
+# ---------------------------------------------
+
 class AsString(EvalFunction):
 
     def __init__(self, evaluator):
@@ -399,6 +407,10 @@ class AsDate(EvalFunction):
         return "pd.to_datetime(%s)" % col
 
 
+# =============================================
+# Date Functions
+# ---------------------------------------------
+
 class GetWeekday(EvalFunction):
 
     def __init__(self, evaluator):
@@ -410,6 +422,10 @@ class GetWeekday(EvalFunction):
     def _source_code_execute(self, col):
         return "%s.dt.weekday_name" % col
 
+
+# =============================================
+# Misc. Functions
+# ---------------------------------------------
 
 class Replace(EvalFunction):
 
@@ -423,6 +439,37 @@ class Replace(EvalFunction):
         return "%s.replace(%s, %s, inplace=True)" % (col, str(replacement_targets), str(replacement_values))
 
 
+# =============================================
+# Random Num Gen. Functions
+# ---------------------------------------------
+
+class RandInt(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(RandInt, self).__init__(evaluator=evaluator)
+
+    def _execute(self, low, high):
+        return np.random.randint(low=low, high=high, size=self.evaluator.df_n_rows)
+
+    def _source_code_execute(self, low, high):
+        return "np.random.randint(low=%s, high=%s, size=%s)" % (low, high, self.evaluator.df_n_rows)
+
+
+class RandN(EvalFunction):
+    def __init__(self, evaluator):
+        super(RandN, self).__init__(evaluator=evaluator)
+
+    def _execute(self, low, high):
+        return np.random.randn(1, self.evaluator.df_n_rows)
+
+    def _source_code_execute(self, low, high):
+        return "np.random.randn(1, %s)" % self.evaluator.df_n_rows
+
+
+# =============================================
+# Dataframe Mutation Functions
+# ---------------------------------------------
+
 class DropNa(EvalFunction):
 
     def __init__(self, evaluator):
@@ -435,16 +482,22 @@ class DropNa(EvalFunction):
         return "df.dropna()"
 
 
-class RandInt(EvalFunction):
+class Sample(EvalFunction):
 
     def __init__(self, evaluator):
-        super(RandInt, self).__init__(evaluator=evaluator)
+        super(Sample, self).__init__(evaluator=evaluator)
 
-    def _execute(self, low, high):
-        return np.random.randint(low=low, high=high, size=self.evaluator.df_n_rows)
+    def _execute(self, df, frac=1, n=None):
+        if n is not None:
+            return df.sample(n=n)
+        else:
+            return df.sample(frac=frac)
 
-    def _source_code_execute(self, low, high):
-        return "np.random.randint(low=%s, high=%s, size=%s)" % (low, high, self.evaluator.df_n_rows)
+    def _source_code_execute(self, df, frac=1, n=None):
+        if n is not None:
+            return "df.sample(n=%s)" % n
+        else:
+            return "df.sample(frac=%s)" % frac
 
 
 # =============================================
@@ -475,9 +528,15 @@ class Evaluator(object):
                       'get_wk_day': GetWeekday(evaluator=self),
                       'replace': Replace(evaluator=self),
                       'drop_na': DropNa(evaluator=self),
-                      'rand_int': RandInt(evaluator=self)}
+                      'sample': Sample(evaluator=self),
+                      'rand_int': RandInt(evaluator=self),
+                      'rand_n': RandN(evaluator=self)}
         self.names = dict()
         self.df_n_rows = None
+
+    @staticmethod
+    def _eval_func_classes():
+        return vars()['EvalFunction'].__subclasses__()
 
     def update_names(self, df):
         self.df_n_rows = len(df.index)
@@ -504,4 +563,3 @@ class Evaluator(object):
             return str(eval(eval_string, self._locals))
         else:
             return eval(eval_string, self._locals)
-

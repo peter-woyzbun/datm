@@ -1,10 +1,8 @@
 import os
 import pandas as pd
 
-from datm.data_tools.retrieval.django_env import django_dataset_model, DJANGO_PROJECT_PATH
-
-
-Dataset = django_dataset_model()
+from datm.data_tools.retrieval.django_env import DJANGO_PROJECT_PATH
+from datm.data_tools.django.models import Dataset
 
 
 class ProjectDataset(object):

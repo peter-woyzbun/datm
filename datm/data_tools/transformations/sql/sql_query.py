@@ -6,6 +6,23 @@ from datm.data_tools.transformations.base import DataTransformation
 class SqlQuery(DataTransformation):
 
     def __init__(self, query, joinable_dataset_map, source_code_mode=False):
+        """
+        Initialize the SqlQuery instance and immediately register
+        any joins contained in the query string.
+
+        Parameters
+        ----------
+        query : str
+            The actual SQL query.
+        joinable_dataset_map : dict
+            A dictionary mapping 'joinable' dataset (those that wont cause
+            a cycle in the project graph if joined) names to their IDs.
+            Ex: '{'some_dataset_name': 69}'
+        source_code_mode : bool
+            Whether or not to return the source code required to execute
+            the transformation, rather than performing the transformation.
+
+        """
         self.query = query
         self.joinable_dataset_map = joinable_dataset_map
 
@@ -31,5 +48,8 @@ class SqlQuery(DataTransformation):
         return sqldf(self.query, tables)
 
     def _source_code_execute(self, tables):
-        source_str = "sqldf(\"\"\"%s\"\"\", %s)" % (self.query, tables)
+        tables_str = str(tables)
+        for df_name in tables.values():
+            tables_str.replace(old="'%s'" % df_name, new=df_name)
+        source_str = "sqldf(\"\"\"%s\"\"\", %s)" % (self.query, tables_str)
         return source_str

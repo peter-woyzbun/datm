@@ -3,7 +3,7 @@
         <p class="input-header">Dataset Column</p>
         <select class="form-control" name="options.df_column">
             {% for column in visualization_asset.visualization.dataset.columns %}
-                <option value="{{ column }}">{{ column }}</option>
+                <option value="{{ column }}" {% if visualization_asset.visualization.options.df_column == column %} selected{% endif %}>{{ column }}</option>
             {% endfor %}
         </select>
     </div>

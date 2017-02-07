@@ -9,9 +9,16 @@
 {% endblock %}
 
 {% block manipulation_inputs %}
-    <div class="col-md-12">
+    <div class="col-md-9">
         <p class="input-label">Columns</p>
         <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="select">
         <input type="text" name="m[x].columns" class="form-control manipulation-field"  value="{{ manipulation.columns }}">
+    </div>
+    <div class="col-md-3">
+        <p class="input-label">Remove Selected</p>
+        <select class="form-control" name="m[x].remove_selected">
+                                <option value="False" {% if not manipulation.remove_selected %}selected {% endif %}>False</option>
+                                <option value="True" {% if manipulation.remove_selected %}selected {% endif %}>True</option>
+                            </select>
     </div>
 {% endblock %}

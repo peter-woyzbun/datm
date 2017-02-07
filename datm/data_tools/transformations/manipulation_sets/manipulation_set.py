@@ -48,6 +48,9 @@ class Manipulation(object):
 
     def execute(self, df):
         if not self.manipulation_set.source_code_mode:
+            # If debug is disabled, exceptions are 'hidden' so that
+            # nothing breaks on the user's end - we simply pass the
+            # DataFrame on to the next manipulation.
             if not DEBUG_ENABLED:
                 try:
                     df = self._execute(df=df)
@@ -85,22 +88,34 @@ class Manipulation(object):
 
 class Select(Manipulation):
 
-    def __init__(self, manipulation_set, columns):
+    def __init__(self, manipulation_set, columns, remove_selected):
         self.columns = columns
+        if remove_selected == "True":
+            self.remove_selected = True
+        elif remove_selected == "False":
+            self.remove_selected = False
         super(Select, self).__init__(manipulation_set=manipulation_set, df_mutable=True)
 
     def _execute(self, df):
         cols = self.columns.replace(" ", "")
         column_lis = cols.split(",")
-        df = df[column_lis]
+        if not self.remove_selected:
+            df = df[column_lis]
+        else:
+            df = df.drop(column_lis, axis=1)
         return df
 
     def _source_code_execute(self, df):
         cols = self.columns.replace(" ", "")
         column_lis = cols.split(",")
-        src_string = "%s = %s[[%s]]" % (self.dataset_label,
-                                      self.dataset_label,
-                                      ', '.join('"{0}"'.format(w) for w in column_lis))
+        if not self.remove_selected:
+            src_string = "%s = %s[[%s]]" % (self.dataset_label,
+                                            self.dataset_label,
+                                            ', '.join('"{0}"'.format(w) for w in column_lis))
+        else:
+            src_string = "%s = %s.drop(%s, axis=1)" % (self.dataset_label,
+                                                       self.dataset_label,
+                                                       ', '.join('"{0}"'.format(w) for w in column_lis))
         return src_string
 
 

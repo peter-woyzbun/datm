@@ -15,6 +15,3 @@ class ListField(models.CharField):
 
     def get_db_prep_value(self, value, connection, prepared=False):
         return ",".join(value)
-
-
-print "".split(",")

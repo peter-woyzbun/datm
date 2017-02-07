@@ -92,6 +92,22 @@
     margin-bottom: 48px;
 }
 
+.m-types-header{
+    border-top: 1px solid #ccc;
+    padding-top: 12px;
+    font-size: 1.4em;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+}
+
+.m-set-header{
+    border-top: 1px solid #ccc;
+    padding-top: 12px;
+    font-size: 1.4em;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+}
+
 .manipulation-type-label{
     font-family: monospace;
     text-transform: uppercase;

@@ -439,7 +439,7 @@ class Dataset(models.Model):
         df = self._validate_col_names(df)
         self.columns = df.columns.values.tolist()
         self.n_rows = len(df.index)
-        hdf_path = os.path.join(USER_DATASET_PATH, '%s.h5' % self.name)
+        hdf_path = os.path.join(USER_DATASET_PATH, '%s_%s_%s.h5' % (self.project_asset.project.id, self.id, self.name))
         df.to_hdf(hdf_path, key=self.name, format='table')
         self.hdf.name = hdf_path
         self.column_dtypes = self.col_dtypes_dict(df=df)
@@ -493,8 +493,6 @@ class Dataset(models.Model):
     @property
     def description_html(self):
         return self.project_asset.description_html
-
-
 
     @property
     def df(self):
@@ -767,6 +765,7 @@ class Visualization(models.Model):
     type = models.CharField(max_length=100, default='')
     friendly_type = models.CharField(max_length=100, default='')
     ready = models.BooleanField(default=False)
+    has_errors = models.BooleanField(default=False)
     image = models.FileField(default=' ', upload_to=USER_VISUALIZATIONS_PATH)
 
     @property
@@ -776,6 +775,23 @@ class Visualization(models.Model):
     @property
     def name(self):
         return self.project_asset.name
+
+    @property
+    def image_path(self):
+        return os.path.join(USER_VISUALIZATIONS_PATH, '%s_%s.png' % (self.project_asset.project.id, self.id))
+
+    def save_image(self):
+        visualization_class_map = {'histogram': Histogram,
+                                   'boxplot': Boxplot}
+        try:
+            visualization = visualization_class_map[self.type](**dict(self.options.items() + self.labels.items()))
+            visualization.create_figure(self.dataset.df)
+            visualization.figure.savefig(self.image_path)
+            self.image = self.image_path
+            self.save()
+        except:
+            self.has_errors = True
+            self.save()
 
     def print_to_response(self, response):
         visualization_class_map = {'histogram': Histogram,

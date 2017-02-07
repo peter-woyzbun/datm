@@ -264,6 +264,15 @@ class NewVisualization(View):
                                                                    'visualization_id': visualization.id}))
 
 
+class VisualizationImage(View):
+
+    def get(self, request, project_id, visualization_id):
+        project = Project.objects.get(id=project_id)
+        visualization_asset = ProjectAsset.objects.get(project=project, id=visualization_id)
+        visualization = visualization_asset.visualization
+        return render(request, 'core/visualization_viewer.html', context={'visualization': visualization})
+
+
 class EditVisualization(View):
 
     def get(self, request, project_id, visualization_id):
@@ -280,5 +289,6 @@ class EditVisualization(View):
         visualization_asset.visualization.options = parameters['options']
         visualization_asset.visualization.ready = True
         visualization_asset.visualization.save()
+        # visualization_asset.visualization.save_image()
         return JsonResponse({'errors': True})
 

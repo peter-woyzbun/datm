@@ -2,6 +2,10 @@ from abc import abstractmethod
 
 
 class DataTransformation(object):
+    """
+    Base class for 'data transformations'...
+
+    """
 
     def __init__(self, source_code_mode=False):
         self.source_code_mode = source_code_mode

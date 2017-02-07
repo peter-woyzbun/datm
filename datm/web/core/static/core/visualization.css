@@ -72,6 +72,12 @@
  * Visualization Plot
  */
 
+.image-viewer{
+    width: 100%;
+    height: 700px;
+    border: none;
+}
+
 .plot-title{
     padding-bottom: 24px;
     border-bottom: 1px solid #ccc;

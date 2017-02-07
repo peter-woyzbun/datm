@@ -15,5 +15,5 @@ class Histogram(BaseVisualization):
 
     def _create_figure(self, df):
         df = df.dropna()
-        sns.distplot(df[self.df_column], ax=self.subfigure)
+        sns.distplot(df[self.df_column], bins=self.bins, ax=self.subfigure)
 
