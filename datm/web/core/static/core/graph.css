@@ -340,3 +340,11 @@ g.visualization-node > rect {
     background-repeat:no-repeat;
     background-position: center center;
 }
+
+.visualization-node-container .icon-container.violin{
+    height: 80px;
+    width: 112px;
+    background-image: url(images/graph_icons/violin_plot.png);
+    background-repeat:no-repeat;
+    background-position: center center;
+}

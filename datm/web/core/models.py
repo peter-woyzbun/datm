@@ -13,7 +13,7 @@ import pandas as pd
 from datm.data_tools.transformations.manipulation_sets.manipulation_set import ManipulationSet
 from datm.data_tools.transformations.sql.sql_query import SqlQuery
 import datm.data_tools.source_gen.templates as source_templates
-from datm.data_tools.visualization import Histogram, Boxplot
+from datm.data_tools.visualization import Histogram, Boxplot, ViolinPlot
 from datm.utils.func_timer import timeit
 import datm.utils
 from datm.web import USER_DATASET_PATH, USER_VISUALIZATIONS_PATH
@@ -782,7 +782,8 @@ class Visualization(models.Model):
 
     def save_image(self):
         visualization_class_map = {'histogram': Histogram,
-                                   'boxplot': Boxplot}
+                                   'boxplot': Boxplot,
+                                   'violin': ViolinPlot}
         try:
             visualization = visualization_class_map[self.type](**dict(self.options.items() + self.labels.items()))
             visualization.create_figure(self.dataset.df)
@@ -795,7 +796,8 @@ class Visualization(models.Model):
 
     def print_to_response(self, response):
         visualization_class_map = {'histogram': Histogram,
-                                   'boxplot': Boxplot}
+                                   'boxplot': Boxplot,
+                                   'violin': ViolinPlot}
 
         visualization = visualization_class_map[self.type](**dict(self.options.items() + self.labels.items()))
         visualization.create_figure(self.dataset.df)

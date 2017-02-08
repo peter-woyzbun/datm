@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 
-from datm.data_tools.retrieval.django_env import DJANGO_PROJECT_PATH
+from datm.web import PROJECT_PATH
 from datm.api.django.models import Dataset, Project
 
 
@@ -17,5 +17,5 @@ class ProjectDataset(object):
 
     @property
     def csv_path(self):
-        csv_path = os.path.join(DJANGO_PROJECT_PATH, self.dataset.csv.name)
+        csv_path = os.path.join(PROJECT_PATH, self.dataset.csv.name)
         return csv_path

@@ -246,6 +246,7 @@ class VisualizationPNG(View):
     def get(self, request, project_id, visualization_id):
         visualization_asset = ProjectAsset.objects.get(id=visualization_id)
         response = HttpResponse(content_type='image/png')
+
         visualization_asset.visualization.print_to_response(response=response)
         return response
 

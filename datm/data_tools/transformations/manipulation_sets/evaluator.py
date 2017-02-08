@@ -395,6 +395,18 @@ class AsInt(EvalFunction):
         return "%s.astype(int)" % col
 
 
+class AsFloat(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(AsFloat, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col):
+        return col.astype(float)
+
+    def _source_code_execute(self, col):
+        return "%s.astype(float)" % col
+
+
 class AsDate(EvalFunction):
 
     def __init__(self, evaluator):

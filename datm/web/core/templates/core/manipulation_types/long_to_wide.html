@@ -1,0 +1,25 @@
+{% extends 'core/manipulation_types/_base.html' %}
+
+{% block manipulation_type_name %}long_to_wide{% endblock %}
+
+{% block manipulation_type_title %}Long to Wide{% endblock %}
+
+{% block error_message %}An error occurred when attempting to execute this LONG TO WIDE manipulation. See the
+<a href="http://datm.readthedocs.io/en/latest/transformations.html#long-to-wide">documentation</a> for help troubleshooting.
+{% endblock %}
+
+{% block manipulation_inputs %}
+    <div class="col-md-4">
+        <p class="input-label">Index Column</p>
+        <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="long_to_wide">
+        <input type="text" name="m[x].index_col" class="form-control manipulation-field" value="{{ manipulation.index_col }}">
+    </div>
+    <div class="col-md-4">
+        <p class="input-label">Column Names Column</p>
+        <input type="text" name="m[x].columns_col" class="form-control manipulation-field" value="{{ manipulation.columns_col }}">
+    </div>
+    <div class="col-md-4">
+        <p class="input-label">Value Column</p>
+        <input type="text" name="m[x].value_col" class="form-control manipulation-field" value="{{ manipulation.value_col }}">
+    </div>
+{% endblock %}

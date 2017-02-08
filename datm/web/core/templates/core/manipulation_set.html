@@ -223,6 +223,18 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-4 m-type-container">
+                        <div>
+                            <button class="btn btn-default clear-btn add-manipulation pull-right"
+                                    data-manipulation-type-div="long_to_wide-manipulation">
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                            </button>
+                            <p class="manipulation-type-label">Long to Wide</p>
+                            <p class="manipulation-type-desc">Convert columns from long to wide format.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <form id="transformationForm" action="javascript:getJson()">
@@ -253,6 +265,8 @@
                             {% include "core/manipulation_types/sort_by.html" %}
                         {% elif manipulation.manipulation_type == 'wide_to_long' %}
                             {% include "core/manipulation_types/wide_to_long.html" %}
+                        {% elif manipulation.manipulation_type == 'long_to_wide' %}
+                            {% include "core/manipulation_types/long_to_wide.html" %}
                         {% endif %}
                     {% endfor %}
                 </div>
@@ -274,6 +288,7 @@
         {% include "core/manipulation_types/join.html" %}
         {% include "core/manipulation_types/sort_by.html" %}
         {% include "core/manipulation_types/wide_to_long.html" %}
+        {% include "core/manipulation_types/long_to_wide.html" %}
 
     </div>
 

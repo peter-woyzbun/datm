@@ -112,6 +112,8 @@
                                 {% include "core/visualization_forms/histogram.html" %}
                             {% elif visualization_asset.visualization.type == 'boxplot' %}
                                 {% include "core/visualization_forms/boxplot.html" %}
+                            {% elif visualization_asset.visualization.type == 'violin' %}
+                                {% include "core/visualization_forms/violin_plot.html" %}
                             {% endif %}
                     </div>
                 </div>
@@ -120,12 +122,12 @@
             <div class="col-md-9">
                 <div class="row">
                     <div class="col-md-12 img-container">
-                        {% if visualization_asset.visualization.ready %}
                             <img src="{% url 'core:visualization_png' project_id=project.id visualization_id=visualization_asset.id %}"
-                                 id="visualization-img">
-                            {% else %}
-                            Set visualization options to generate image.
-                        {% endif %}
+                                 id="visualization-img" onerror="imgError(this);"/>
+
+                    </div>
+                    <div class="col-md-12" id="plot-error" hidden>
+                        Error generating plot.
                     </div>
                 </div>
 
@@ -134,6 +136,12 @@
     </div>
 
 
+    <script>
+    function imgError(image) {
+    $(image).hide();
+    $('#plot-error').show();
+}
+    </script>
 
 
 
@@ -176,8 +184,9 @@
                     // $('.working-modal').modal('hide');
                     // document.getElementById('project-log-iframe').contentWindow.location.reload(true);
                     // $('.project-log-modal').modal('show');
-                    $('#visualization-img').attr('src', $(this).attr('src') + '?' + Math.random());
-                    document.getElementById('visualization-iframe').contentWindow.location.reload(true);
+                    // $('#visualization-img').attr('src', $(this).attr('src') + '?' + Math.random());
+                    // document.getElementById('visualization-iframe').contentWindow.location.reload(true);
+                    location.reload();
                 }
             });
 

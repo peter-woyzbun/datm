@@ -379,6 +379,28 @@ class WideToLong(Manipulation):
         return source_str
 
 
+class LongToWide(Manipulation):
+
+    def __init__(self, manipulation_set, index_col, columns_col, value_col):
+        self.index_col = index_col
+        self.columns_col = columns_col
+        self.value_col = value_col
+
+        super(LongToWide, self).__init__(manipulation_set=manipulation_set, df_mutable=True)
+
+    def _execute(self, df):
+        df = df.pivot(index=self.index_col, columns=self.columns_col, values=self.value_col)
+        return df
+
+    def _source_code_execute(self, df):
+        source_str = "%s = %s.pivot(index=%s, columns=%s, values=%s)" % (self.dataset_label,
+                                                                         self.dataset_label,
+                                                                         self.index_col,
+                                                                         self.columns_col,
+                                                                         self.value_col)
+        return source_str
+
+
 class ManipulationSet(DataTransformation):
 
     MANIPULATION_TYPES = {'select': Select,
@@ -389,7 +411,8 @@ class ManipulationSet(DataTransformation):
                           'group_by': GroupBy,
                           'join': Join,
                           'sort_by': SortBy,
-                          'wide_to_long': WideToLong}
+                          'wide_to_long': WideToLong,
+                          'long_to_wide': LongToWide}
 
     def __init__(self, dataset_name, evaluator, source_code_mode=False):
         self.dataset_name = dataset_name
