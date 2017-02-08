@@ -4,3 +4,21 @@ header#pageheader, footer#pagefooter, .related, .document {
     max-width: 80rem;
     margin: auto;
 }
+
+.fake-browser-ui .frame {
+    display: block;
+    height: 15px;
+    position: absolute;
+    top: 5px;
+    left: 1px;
+}
+
+.fake-browser-ui span {
+    height: 8px;
+    width: 8px;
+    border-radius: 8px;
+    background-color: #eee;
+    border: 1px solid #dadada;
+    float: left;
+    margin: 0 0 0 4px;
+}

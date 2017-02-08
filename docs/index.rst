@@ -13,11 +13,24 @@ from its "parent dataset" and an edge to its "child dataset".
 See the :doc:`tutorial` for an overview of Datm's features.
 
 
+Add Datasets
+------------
+
 .. raw:: html
+         <div class="fake-browser-ui">
+          <div class="frame">
+              <span></span>
+              <span></span>
+              <span></span>
+          </div>
 
-        <iframe src="//www.youtube.com/embed/fxdaaFV6uyA?loop=1&playlist=fxdaaFV6uyA&autoplay=1&showinfo=0&controls=0&autohide=1&vq=hd720" frameborder="0" allowfullscreen style="width: 850px; height: 465px;"></iframe>
+         <iframe src="//www.youtube.com/embed/fxdaaFV6uyA?loop=1&playlist=fxdaaFV6uyA&autoplay=1&showinfo=0&controls=0&autohide=1&vq=hd720" frameborder="0" allowfullscreen style="width: 850px; height: 465px;"></iframe>
+         </div>
 
 
+
+Transform Datasets
+------------------
 
 
 Contents:
