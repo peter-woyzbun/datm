@@ -21,8 +21,6 @@ Add Datasets
          <iframe src="//www.youtube.com/embed/fxdaaFV6uyA?loop=1&playlist=fxdaaFV6uyA&autoplay=1&showinfo=0&controls=0&autohide=1&vq=hd720" frameborder="0" allowfullscreen style="width: 850px; height: 465px;"></iframe>
 
 
-
-
 Transform Datasets
 ------------------
 
