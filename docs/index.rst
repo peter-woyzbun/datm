@@ -12,9 +12,10 @@ from its "parent dataset" and an edge to its "child dataset".
 
 See the :doc:`tutorial` for an overview of Datm's features.
 
+
 .. raw:: html
 
-        <iframe src="//www.youtube.com/embed/fxdaaFV6uyA?loop=1&playlist=fxdaaFV6uyA&autoplay=1&showinfo=0&controls=0&autohide=1&vq=hd720" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 750px; height: 411px;"></iframe>
+        <iframe src="//www.youtube.com/embed/fxdaaFV6uyA?loop=1&playlist=fxdaaFV6uyA&autoplay=1&showinfo=0&controls=0&autohide=1&vq=hd720" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 850px; height: 465px;"></iframe>
 
 
 
