@@ -21,7 +21,7 @@ Add Datasets
 .. raw:: html
 
     <div class="browser-window">
-        <img src="images/demo_gifs/dataset_uploading.gif" />
+        <img src="_images/dataset_uploading.gif" />
     </div>
 
 Transform Datasets

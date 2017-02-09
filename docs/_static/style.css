@@ -10,5 +10,5 @@ header#pageheader, footer#pagefooter, .related, .document {
     height: 496px;
     padding-top: 90px;
     padding-left: 4px;
-    background-image: url(images/demo_gifs/browser_window.png);
+    background-image: url(_images/browser_window.png);
 }
