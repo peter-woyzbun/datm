@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import datm.data_tools.transformations.manipulation_sets.eval_funcs._as as _as
 
 
 # =============================================
@@ -419,6 +420,15 @@ class AsDate(EvalFunction):
         return "pd.to_datetime(%s)" % col
 
 
+class AsType(object):
+
+    def __init__(self, evaluator):
+        self.int = AsInt(evaluator=evaluator)
+        self.float = AsFloat(evaluator=evaluator)
+        self.date = AsDate(evaluator=evaluator)
+        self.str = AsString(evaluator=evaluator)
+
+
 # =============================================
 # Date Functions
 # ---------------------------------------------
@@ -433,6 +443,37 @@ class GetWeekday(EvalFunction):
 
     def _source_code_execute(self, col):
         return "%s.dt.weekday_name" % col
+
+
+class DayName(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(DayName, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col):
+        return col.dt.weekday_name
+
+    def _source_code_execute(self, col):
+        return "%s.dt.weekday_name" % col
+
+
+class MonthName(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(MonthName, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col):
+        return col.dt.strftime('%b')
+
+    def _source_code_execute(self, col):
+        return "%s.dt.strftime('%%b')" % col
+
+
+class Date(object):
+
+    def __init__(self, evaluator):
+        self.day_name = DayName(evaluator=evaluator)
+        self.month_name = MonthName(evaluator=evaluator)
 
 
 # =============================================
@@ -521,6 +562,7 @@ class Evaluator(object):
     def __init__(self, dataset_name, source_code_mode=False):
         self.dataset_name = dataset_name
         self.source_code_mode = source_code_mode
+
         self.funcs = {'log': Log(evaluator=self),
                       'log10': Log10(evaluator=self),
                       'exp': Exp(evaluator=self),
@@ -542,7 +584,9 @@ class Evaluator(object):
                       'drop_na': DropNa(evaluator=self),
                       'sample': Sample(evaluator=self),
                       'rand_int': RandInt(evaluator=self),
-                      'rand_n': RandN(evaluator=self)}
+                      'rand_n': RandN(evaluator=self),
+                      'as_type': AsType(evaluator=self),
+                      'date': Date(evaluator=self)}
         self.func_names = self.funcs.keys()
         self.names = dict()
         self.df_n_rows = None

@@ -198,6 +198,21 @@ class Graph(models.Model):
         else:
             return predecessor_list
 
+    def transformation_successor_batches(self, transformation_asset_id):
+        G = self._graph
+        transformation_nodes = self.transformation_tree(transformation_asset_id=transformation_asset_id)
+        batches = list()
+        for node in transformation_nodes:
+            if not batches:
+                batches.append([node])
+            else:
+                last_node = batches[-1][-1]
+                if node in G.successors(last_node):
+                    batches.append([node])
+                else:
+                    batches[-1].append(node)
+        return batches
+
     def node_dependents(self, node_asset_id, reverse=False):
         G = self._graph
         dfs = nx.dfs_successors(G, source=node_asset_id)

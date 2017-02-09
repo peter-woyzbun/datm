@@ -1,42 +1,37 @@
-
 /*
  * Affixed Header
  */
 
-.affixed-header{
+.affixed-header {
     width: 100%;
 }
 
-.affixed-header.affix{
+.affixed-header.affix {
     top: 0;
     z-index: 100;
 }
 
-.affix .project-title-container{
+.affix .project-title-container {
 }
 
-.affix .page-sub-header{
+.affix .page-sub-header {
     background-color: #222;
     border-bottom: 1px solid #333;
     color: #c5c5c5;
 }
 
-
-
-
-
 /*
  * Buttons
  */
 
-.execute-btn{
+.execute-btn {
     background-color: #F1C40F;
     color: #000;
     border-color: #F1C40F;
     font-size: .9em;
 }
 
-.transformation-header{
+.transformation-header {
     padding-bottom: 24px;
 }
 
@@ -44,12 +39,12 @@
  * Parent/Child Datasets
  */
 
-.dataset-section{
+.dataset-section {
     padding-top: 24px;
     border-top: 1px solid #ccc;
 }
 
-.dataset-section .well{
+.dataset-section .well {
     padding: 0;
 }
 
@@ -66,17 +61,17 @@
     pointer-events: none;
 }
 
-.dataset-section h3{
+.dataset-section h3 {
     margin-top: 0;
 }
 
-.dataset-iframe{
+.dataset-iframe {
     width: 100%;
     height: 400px;
     border: none;
 }
 
-.dataset-arrow{
+.dataset-arrow {
     text-align: center;
     font-size: 1.3em;
     padding-bottom: 12px;
@@ -87,12 +82,12 @@
  * Manipulation Container
  */
 
-.manipulation-set-header{
+.manipulation-set-header {
     border-top: 1px solid #ccc;
     margin-bottom: 48px;
 }
 
-.m-types-header{
+.m-types-header {
     border-top: 1px solid #ccc;
     padding-top: 12px;
     font-size: 1.4em;
@@ -100,7 +95,7 @@
     text-transform: uppercase;
 }
 
-.m-set-header{
+.m-set-header {
     border-top: 1px solid #ccc;
     padding-top: 12px;
     font-size: 1.4em;
@@ -108,41 +103,41 @@
     text-transform: uppercase;
 }
 
-.manipulation-type-label{
+.manipulation-type-label {
     font-family: monospace;
     text-transform: uppercase;
 }
 
-.m-type-container{
+.m-type-container {
     height: 124px;
     margin-bottom: 12px;
     padding-left: 6px;
     padding-right: 6px;
 }
 
-.m-type-container div{
+.m-type-container div {
     background-color: #eaeaea;
     border-radius: 6px;
     padding: 12px;
     height: 100%;
 }
 
-.manipulation-type-desc{
+.manipulation-type-desc {
     font-size: .8em;
 }
 
-.manipulation-type{
+.manipulation-type {
     padding-top: 24px;
     padding-bottom: 24px;
     border-top: 1px solid #ccc;
 }
 
-.add-manipulation{
+.add-manipulation {
     padding: 0;
     color: #2ECC71;
 }
 
-.add-manipulation:hover{
+.add-manipulation:hover {
     background-color: transparent;
 }
 
@@ -150,18 +145,18 @@
  * Manipulation Type Templates
  */
 
-.manipulation-type-templates{
+.manipulation-type-templates {
     display: none;
 }
 
-.manipulation-container{
+.manipulation-container {
     background-color: #222;
     border-radius: 5px;
     margin-bottom: 24px;
     color: #5e5e5e;
 }
 
-.manipulation-container .manipulation-header{
+.manipulation-container .manipulation-header {
     border-bottom: 1px solid #3c3c3c;
     padding-bottom: 12px;
     padding-top: 12px;
@@ -170,18 +165,18 @@
     text-transform: uppercase;
 }
 
-.manipulation-container .input-label{
+.manipulation-container .input-label {
     font-family: monospace;
     margin-top: 12px;
 }
 
-.manipulation-container .equals-col{
+.manipulation-container .equals-col {
     text-align: center;
     padding-top: 44px;
     font-size: 1.4em;
 }
 
-.manipulation-container input{
+.manipulation-container input {
     background-color: #3c3c3c;
     font-family: monospace;
     border: none;
@@ -189,33 +184,33 @@
     color: #959595;
 }
 
-.sort-handle{
+.sort-handle {
     color: #4e4e4e;
     font-size: .9em;
 }
 
-.down-arrow{
+.down-arrow {
     padding-top: 4px;
     position: absolute;
     left: 50%;
     font-size: .8em;
 }
 
-.manipulation-container .error-msg{
+.manipulation-container .error-msg {
     background-color: #C0392B;
     display: none;
     color: #fff;
     padding: 12px;
 }
 
-.manipulation-container .error-msg .error-title{
+.manipulation-container .error-msg .error-title {
     font-family: monospace;
     border-bottom: 1px solid #fff;
     padding-bottom: 6px;
     margin-bottom: 12px;
 }
 
-.manipulation-container .error-msg .error-body{
+.manipulation-container .error-msg .error-body {
     font-family: monospace;
 }
 
@@ -223,11 +218,11 @@
  * Manipulations Container
  */
 
-.manipulations-container{
+.manipulations-container {
     margin-bottom: 24px;
 }
 
-.del-manipulation-btn{
+.del-manipulation-btn {
     background-color: transparent;
     border: none;
     padding: 0;
@@ -235,7 +230,7 @@
     margin-right: 8px;
 }
 
-.del-manipulation-btn:hover{
+.del-manipulation-btn:hover {
     background-color: transparent;
     border: none;
     padding: 0;
@@ -247,19 +242,19 @@
  * Nested Manipulations
  */
 
-.nested-manipulation-container{
+.nested-manipulation-container {
     margin-top: 12px;
     border-top: 1px solid #323232;
 }
 
-.nested-manipulations-header{
+.nested-manipulations-header {
     font-family: monospace;
     border-bottom: 1px solid #323232;
     padding-top: 12px;
     padding-bottom: 12px;
 }
 
-.nested-manipulation .arrow-col{
+.nested-manipulation .arrow-col {
     text-align: center;
     padding-top: 36px;
 }
@@ -268,13 +263,13 @@
  * Group By Manipulation
  */
 
-.add-summary-btn{
+.add-summary-btn {
     background-color: transparent;
     border: none;
     padding: 0;
 }
 
-.add-summary-btn:hover{
+.add-summary-btn:hover {
     background-color: transparent;
     border: none;
 }
@@ -283,27 +278,33 @@
  * SQL Query
  */
 
-.query-container{
+.query-container {
     padding-top: 24px;
     padding-bottom: 24px;
     border-top: 1px solid #ccc;
 }
 
-.query-container h3{
+.query-container h3 {
     margin-bottom: 36px;
 }
 
-.query-container h6{
+.query-container h6 {
     font-size: 1em;
 }
 
-.query-container .joinable-datasets{
+.query-container .joinable-datasets {
     border-left: 1px solid #ccc;
     margin-top: 24px;
     margin-bottom: 24px;
 }
 
-.query-container .joinable-datasets .ds-label{
+.query-container .sql-hints {
+    border-left: 1px solid #ccc;
+    margin-top: 24px;
+    margin-bottom: 24px;
+}
+
+.query-container .joinable-datasets .ds-label {
     text-transform: uppercase;
     font-family: monospace;
     background-color: #757575;
@@ -313,11 +314,12 @@
 }
 
 
+
 /*
  * Outcome Dialogue
  */
 
-.outcome-dialogue{
+.outcome-dialogue {
     position: fixed;
     width: 400px;
     height: 175px;
@@ -328,22 +330,52 @@
     z-index: 100;
 }
 
-.outcome-dialogue.error{
+.outcome-dialogue.error {
     background-color: #761c19;
 }
 
-.outcome-dialogue.success{
+.outcome-dialogue.success {
     background-color: #3e8f3e;
 }
 
-.outcome-dialogue.attention{
+.outcome-dialogue.attention {
     background-color: #F1C40F;
     color: #000;
 }
 
-.outcome-dialogue .message{
+.outcome-dialogue .message {
     padding: 24px;
     width: 100%;
     height: 100%;
     font-family: monospace;
+}
+
+/*
+ * Keyboard Key Styling
+ */
+
+.kbk {
+    color: #000;
+    margin: 0 5px;
+    padding: 1px 4px;
+    font-family: monospace;
+    font-size: .9em;
+    border: 1px #fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background: -webkit-gradient(
+            linear,
+            left top,
+            right top,
+            color-stop(0%, #fff),
+            color-stop(25%, #fff));
+    background: -o-linear-gradient(left, #fff 0%, #fff 25%);
+    background: -moz-linear-gradient(left, #fff 0%, #fff 25%);
+    background: -webkit-linear-gradient(left, #fff 0%, #fff 25%);
+    background: -ms-linear-gradient(left, #fff 0%, #fff 25%);
+    background: linear-gradient(left, #fff 0%, #fff 25%);
+    -webkit-box-shadow: 1px 0 1px 0 #999, 0 2px 0 2px lightGray, 0 2px 0 3px #666;
+    -moz-box-shadow: 1px 0 1px 0 #999, 0 2px 0 2px lightGray, 0 2px 0 3px #666;
+    box-shadow: 1px 0 1px 0 #999, 0 2px 0 2px lightGray, 0 2px 0 3px #666;
 }

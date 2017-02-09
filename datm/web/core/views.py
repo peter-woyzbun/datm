@@ -60,6 +60,7 @@ class DatmProject(View):
 
     def get(self, request, project_id):
         project = Project.objects.get(id=project_id)
+        print project.graph.transformation_successor_batches(132)
         return render(request, 'core/project.html', context={'project': project})
 
     def post(self, request):

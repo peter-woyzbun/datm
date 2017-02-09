@@ -10,7 +10,7 @@ from datm.data_tools.transformations.manipulation_sets.evaluator import Evaluato
 from datm.utils.func_timer import timeit
 
 
-DEBUG_ENABLED = False
+DEBUG_ENABLED = True
 
 
 class Manipulation(object):
