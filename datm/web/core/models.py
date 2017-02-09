@@ -3,19 +3,16 @@ from __future__ import unicode_literals
 import json
 import os
 import textwrap
-import csv
-import time
-import threading
 
 import networkx as nx
 import pandas as pd
 
+import datm.utils
+import datm.data_tools.source_gen.templates as source_templates
 from datm.data_tools.transformations.manipulation_sets.manipulation_set import ManipulationSet
 from datm.data_tools.transformations.sql.sql_query import SqlQuery
-import datm.data_tools.source_gen.templates as source_templates
 from datm.data_tools.visualization import Histogram, Boxplot, ViolinPlot, StripPlot, SwarmPlot
 from datm.utils.func_timer import timeit
-import datm.utils
 from datm.web import USER_DATASET_PATH
 
 from django.db import models
@@ -37,7 +34,6 @@ class Project(models.Model):
 
     Fields
     ------
-
     name : CharField
         Name given to the project.
     description : TextField
@@ -47,7 +43,6 @@ class Project(models.Model):
 
     Signals
     -------
-
     post_save: Create a Graph instance upon first save.
 
     """
@@ -84,7 +79,6 @@ class Graph(models.Model):
 
     Fields
     ------
-
     project : OneToOneField
         The associated project.
     _graph : GraphField
@@ -307,7 +301,27 @@ class Graph(models.Model):
 # ---------------------------------------------
 
 class ProjectAsset(models.Model):
-    """ Each project asset is a dataset, transformation, or visualization, associated with its project. """
+    """
+    ProjectAsset model - Each project asset is a dataset, transformation,
+    or visualization, associated with its project. Each asset also has an
+    associated node defined in the associated project's graph.
+
+    Fields
+    ------
+    project : OneToOneField
+        The associated project.
+    name : CharField
+        The name given to the asset by the user.
+    type : CharField
+        The type of asset: 'transformation', 'dataset', or 'visualization'.
+    description : CharField
+        Description of the asset, as defined by the user.
+
+    Signals
+    -------
+    post_save: Create a graph node on first save.
+
+    """
     project = models.ForeignKey(Project, default=1, related_name='asset_set')
     name = models.CharField(max_length=200, default='Asset Name')
     # Asset type.
@@ -329,7 +343,7 @@ class ProjectAsset(models.Model):
         Create a new project Dataset. This requires:
 
             (1) Creating and saving the related ProjectAsset.
-            (2) Creating and saving the actual Dataset (and dataframe).
+            (2) Creating and saving the actual Dataset, and saving the dataframe as an HDF5 file.
             (3) Adding the dataset node to the project graph - done via post-save signal.
 
         Parameters
