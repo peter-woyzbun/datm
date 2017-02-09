@@ -18,6 +18,8 @@ Add Datasets
 
 .. image:: images/demo_gifs/dataset_uploading.gif
 
+.. include:: images/demo_gifs/browser_window.png
+
 .. raw:: html
 
     <div class="browser-window">
