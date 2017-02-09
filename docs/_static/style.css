@@ -4,3 +4,11 @@ header#pageheader, footer#pagefooter, .related, .document {
     max-width: 80rem;
     margin: auto;
 }
+
+.browser-window{
+    width: 908px;
+    height: 496px;
+    padding-top: 90px;
+    padding-left: 4px;
+    background-image: url(images/demo_gifs/browser_window.png);
+}

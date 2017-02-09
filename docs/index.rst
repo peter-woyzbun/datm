@@ -18,6 +18,12 @@ Add Datasets
 
 .. image:: images/demo_gifs/dataset_uploading.gif
 
+.. raw:: html
+
+    <div class="browser-window">
+        <img src="images/demo_gifs/dataset_uploading.gif" />
+    </div>
+
 Transform Datasets
 ------------------
 
