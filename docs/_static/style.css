@@ -6,8 +6,16 @@ h2{
     margin-top: 36px;
 }
 
+p{
+    max-width: 500px;
+}
+
 img{
     border: 6px solid #111;
+}
+
+.sphinxsidebarwrapper{
+    position: fixed;
 }
 
 header#pageheader, footer#pagefooter, .related, .document {
