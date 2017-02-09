@@ -18,9 +18,11 @@
 
 {% block global_nav_buttons %}
     <li>
-        <button class="btn btn-default new-project-btn" data-toggle="modal" data-target=".new-project-modal">
-            <span class="glyphicon glyphicon-plus-sign green-glyphicon" aria-hidden="true"></span> New Project
-        </button>
+        <a href="http://datm.readthedocs.io">
+            <button class="btn btn-default new-project-btn">
+                <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Documentation
+            </button>
+        </a>
     </li>
     <li>
         <a href="{% url 'core:home' %}">

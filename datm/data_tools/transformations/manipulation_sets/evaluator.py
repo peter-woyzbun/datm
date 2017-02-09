@@ -543,6 +543,7 @@ class Evaluator(object):
                       'sample': Sample(evaluator=self),
                       'rand_int': RandInt(evaluator=self),
                       'rand_n': RandN(evaluator=self)}
+        self.func_names = self.funcs.keys()
         self.names = dict()
         self.df_n_rows = None
 

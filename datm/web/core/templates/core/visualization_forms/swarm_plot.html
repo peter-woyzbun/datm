@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-md-12">
+        <p class="input-header">X Column</p>
+        <select class="form-control" name="options.df_column">
+            {% for column in visualization_asset.visualization.dataset.columns %}
+                <option value="{{ column }}" {% if visualization_asset.visualization.options.df_column == column %} selected{% endif %}>{{ column }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p class="input-header">Category Column</p>
+        <select class="form-control" name="options.categorical_col">
+            <option value="None" {% if visualization_asset.visualization.options.categorical_col == 'None' %} selected{% endif %}>None</option>
+            {% for column in visualization_asset.visualization.dataset.columns %}
+                <option value="{{ column }}" {% if visualization_asset.visualization.options.categorical_col == column %} selected{% endif %}>{{ column }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <p class="input-header">Hue Column</p>
+        <select class="form-control" name="options.hue_col">
+            <option value="None" {% if visualization_asset.visualization.options.hue_col == 'None' %} selected{% endif %}>None</option>
+            {% for column in visualization_asset.visualization.dataset.columns %}
+                <option value="{{ column }}" {% if visualization_asset.visualization.options.hue_col == column %} selected{% endif %}>{{ column }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>

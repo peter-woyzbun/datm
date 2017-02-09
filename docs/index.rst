@@ -16,10 +16,7 @@ See the :doc:`tutorial` for an overview of Datm's features.
 Add Datasets
 ------------
 
-.. raw:: html
-
-         <iframe src="//www.youtube.com/embed/fxdaaFV6uyA?loop=1&playlist=fxdaaFV6uyA&autoplay=1&showinfo=0&controls=0&autohide=1&vq=hd720" frameborder="0" allowfullscreen style="width: 850px; height: 465px;"></iframe>
-
+.. image:: images/demo_gifs/dataset_uploading.gif
 
 Transform Datasets
 ------------------
@@ -37,5 +34,6 @@ Contents:
    getting-started
    tutorial
    project-graphs
+   datasets
    transformations
    manipulation-expressions

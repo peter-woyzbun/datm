@@ -1,0 +1,39 @@
+<div class="modal fade view-visualization-modal full-screen" id="myModal" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="panel panel-default modal-panel">
+            <div class="panel-body modal-panel-body">
+                <div class="row">
+                    <div class="col-md-12 modal-heading">
+                        <button class="btn btn-default close-modal-btn pull-right" data-dismiss="modal">Close</button>
+                        <span id="visualization-title"></span>
+                    </div>
+                </div>
+
+                <div id="plot-container"></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    $('.view-visualization-modal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var plot_url = button.data('plot-url');
+        var visualization_title = button.data('visualization-title');
+
+        var modal = $(this);
+        modal.find('#visualization-title').text(visualization_title);
+        image = new Image();
+        image.src = plot_url;
+        image.onload = function () {
+        $('#plot-container').empty().append(image);
+    };
+    image.onerror = function () {
+        $('#plot-container').empty().html('Error loading plot. Check configuration.');
+    }
+    })
+</script>

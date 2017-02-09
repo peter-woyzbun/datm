@@ -7,7 +7,7 @@
                     <a href='{% url 'core:edit_visualization' project_id=project.id visualization_id=visualization.id %}'>
                 <button class='btn btn-default node-btn'>Edit</button>
             </a>
-                    <button class='btn btn-default node-btn'>View</button>
+                    <button class='btn btn-default node-btn' data-toggle='modal' data-target='.view-visualization-modal' data-visualization-title='{{ visualization.name }}' data-plot-url='{% url 'core:visualization_png' project_id=project.id visualization_id=visualization.id %}'>View</button>
                 </p>
                 <p>
                     <button class='btn btn-default node-btn' data-toggle='modal'

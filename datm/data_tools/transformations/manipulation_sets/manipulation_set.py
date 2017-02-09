@@ -152,12 +152,12 @@ class Filter(Manipulation):
         return source
 
 
-class Create(Manipulation):
+class Mutate(Manipulation):
 
     def __init__(self, manipulation_set, new_column_name, new_column_definition):
         self.new_column_name = new_column_name
         self.new_column_definition = new_column_definition
-        super(Create, self).__init__(manipulation_set=manipulation_set, df_mutable=True)
+        super(Mutate, self).__init__(manipulation_set=manipulation_set, df_mutable=True)
 
     @timeit
     def _execute(self, df):
@@ -405,7 +405,7 @@ class ManipulationSet(DataTransformation):
 
     MANIPULATION_TYPES = {'select': Select,
                           'filter': Filter,
-                          'create': Create,
+                          'mutate': Mutate,
                           'rename': Rename,
                           'slice': Slice,
                           'group_by': GroupBy,

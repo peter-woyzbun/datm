@@ -118,7 +118,6 @@ h6{
 }
 
 .new-dataset-btn{
-    background-color: #27AE60;
 }
 
 .page-sub-header-btns .btn-default{
@@ -138,9 +137,7 @@ h6{
 }
 
 .page-sub-header .new-dataset-btn{
-    background-color: #27AE60;
-    border: none;
-    color: #fff;
+
 }
 
 /*
@@ -292,6 +289,16 @@ h6{
     font-size: 1.4em;
 }
 
+/*
+ * View Visualization Modal
+ */
+
+.view-visualization-modal .modal-heading{
+    background-color: #292929;
+    color: #fff;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
 
 
 /*

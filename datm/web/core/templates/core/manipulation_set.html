@@ -29,9 +29,11 @@
 
 {% block global_nav_buttons %}
     <li>
-        <button class="btn btn-default new-project-btn" data-toggle="modal" data-target=".new-project-modal">
-            <span class="glyphicon glyphicon-plus-sign green-glyphicon" aria-hidden="true"></span> New Project
-        </button>
+        <a href="http://datm.readthedocs.io">
+            <button class="btn btn-default new-project-btn">
+                <span class="glyphicon glyphicon-book" aria-hidden="true"></span> Documentation
+            </button>
+        </a>
     </li>
     <li>
         <a href="{% url 'core:home' %}">
@@ -147,10 +149,10 @@
                     <div class="col-md-4 m-type-container">
                         <div>
                             <button class="btn btn-default clear-btn add-manipulation pull-right"
-                                    data-manipulation-type-div="create-manipulation">
+                                    data-manipulation-type-div="mutate-manipulation">
                                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                             </button>
-                            <p class="manipulation-type-label">Create</p>
+                            <p class="manipulation-type-label">Mutate</p>
                             <p class="manipulation-type-desc">Create a new column using other columns and functions.</p>
                         </div>
                     </div>
@@ -251,8 +253,8 @@
                             {% include "core/manipulation_types/filter.html" %}
                         {% elif manipulation.manipulation_type == 'select' %}
                             {% include "core/manipulation_types/select.html" %}
-                        {% elif manipulation.manipulation_type == 'create' %}
-                            {% include "core/manipulation_types/create.html" %}
+                        {% elif manipulation.manipulation_type == 'mutate' %}
+                            {% include "core/manipulation_types/mutate.html" %}
                         {% elif manipulation.manipulation_type == 'rename' %}
                             {% include "core/manipulation_types/rename.html" %}
                         {% elif manipulation.manipulation_type == 'slice' %}
@@ -281,7 +283,7 @@
 
         {% include "core/manipulation_types/filter.html" %}
         {% include "core/manipulation_types/select.html" %}
-        {% include "core/manipulation_types/create.html" %}
+        {% include "core/manipulation_types/mutate.html" %}
         {% include "core/manipulation_types/rename.html" %}
         {% include "core/manipulation_types/slice.html" %}
         {% include "core/manipulation_types/group_by.html" %}

@@ -1,17 +1,17 @@
 {% extends 'core/manipulation_types/_base.html' %}
 
-{% block manipulation_type_name %}create{% endblock %}
+{% block manipulation_type_name %}mutate{% endblock %}
 
-{% block manipulation_type_title %}Create{% endblock %}
+{% block manipulation_type_title %}Mutate{% endblock %}
 
-{% block error_message %}An error occurred when attempting to execute this CREATE manipulation. See the
+{% block error_message %}An error occurred when attempting to execute this MUTATE manipulation. See the
 <a href="http://datm.readthedocs.io/en/latest/transformations.html#create">documentation</a> for help troubleshooting.
 {% endblock %}
 
 {% block manipulation_inputs %}
     <div class="col-md-3">
         <p class="input-label">Column Name</p>
-        <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="create">
+        <input type="hidden" name="m[x].manipulation_type" class="form-control manipulation-field" value="mutate">
         <input type="text" name="m[x].new_column_name" class="form-control manipulation-field" value="{{ manipulation.new_column_name }}" onkeyup="this.value=this.value.replace(/\W|^(?=\d)/,'_')">
     </div>
     <div class="col-md-1 equals-col">=</div>

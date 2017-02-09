@@ -114,6 +114,10 @@
                                 {% include "core/visualization_forms/boxplot.html" %}
                             {% elif visualization_asset.visualization.type == 'violin' %}
                                 {% include "core/visualization_forms/violin_plot.html" %}
+                            {% elif visualization_asset.visualization.type == 'strip' %}
+                                {% include "core/visualization_forms/strip_plot.html" %}
+                            {% elif visualization_asset.visualization.type == 'swarm' %}
+                                {% include "core/visualization_forms/swarm_plot.html" %}
                             {% endif %}
                     </div>
                 </div>

@@ -13,12 +13,11 @@ import pandas as pd
 from datm.data_tools.transformations.manipulation_sets.manipulation_set import ManipulationSet
 from datm.data_tools.transformations.sql.sql_query import SqlQuery
 import datm.data_tools.source_gen.templates as source_templates
-from datm.data_tools.visualization import Histogram, Boxplot, ViolinPlot
+from datm.data_tools.visualization import Histogram, Boxplot, ViolinPlot, StripPlot, SwarmPlot
 from datm.utils.func_timer import timeit
 import datm.utils
-from datm.web import USER_DATASET_PATH, USER_VISUALIZATIONS_PATH
+from datm.web import USER_DATASET_PATH
 
-from django.core.files import File
 from django.db import models
 from django.template import loader, Context, Template
 from django.dispatch import receiver
@@ -561,8 +560,8 @@ def delete_dataset_files(sender, **kwargs):
     """
     dataset = kwargs.get('instance')
     try:
-        os.remove(dataset.csv.path)
-        os.remove(dataset.hdf.path)
+        os.remove(dataset.hdf_path)
+        print("Successfully deleted HDF file.")
     except:
         pass
 
@@ -766,7 +765,6 @@ class Visualization(models.Model):
     friendly_type = models.CharField(max_length=100, default='')
     ready = models.BooleanField(default=False)
     has_errors = models.BooleanField(default=False)
-    image = models.FileField(default=' ', upload_to=USER_VISUALIZATIONS_PATH)
 
     @property
     def id(self):
@@ -776,28 +774,12 @@ class Visualization(models.Model):
     def name(self):
         return self.project_asset.name
 
-    @property
-    def image_path(self):
-        return os.path.join(USER_VISUALIZATIONS_PATH, '%s_%s.png' % (self.project_asset.project.id, self.id))
-
-    def save_image(self):
-        visualization_class_map = {'histogram': Histogram,
-                                   'boxplot': Boxplot,
-                                   'violin': ViolinPlot}
-        try:
-            visualization = visualization_class_map[self.type](**dict(self.options.items() + self.labels.items()))
-            visualization.create_figure(self.dataset.df)
-            visualization.figure.savefig(self.image_path)
-            self.image = self.image_path
-            self.save()
-        except:
-            self.has_errors = True
-            self.save()
-
     def print_to_response(self, response):
         visualization_class_map = {'histogram': Histogram,
                                    'boxplot': Boxplot,
-                                   'violin': ViolinPlot}
+                                   'violin': ViolinPlot,
+                                   'strip': StripPlot,
+                                   'swarm': SwarmPlot}
 
         visualization = visualization_class_map[self.type](**dict(self.options.items() + self.labels.items()))
         visualization.create_figure(self.dataset.df)
