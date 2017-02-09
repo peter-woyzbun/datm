@@ -24,10 +24,11 @@ Transform Datasets
 
 .. image:: images/demo_gifs/transformation.gif
 
+
 Join Datasets
 -------------
 
-
+.. image:: images/demo_gifs/joining.gif
 
 
 
