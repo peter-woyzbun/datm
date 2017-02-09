@@ -1,6 +1,5 @@
 import numpy as np
 import pandas as pd
-import datm.data_tools.transformations.manipulation_sets.eval_funcs._as as _as
 
 
 # =============================================
@@ -170,6 +169,22 @@ class EvalFunction(object):
         new_instance = self.__class__(evaluator=self.evaluator)
         new_instance.source_str += "(%s)**%s" % (str(self), power)
         return new_instance
+
+
+# =============================================
+# Null Function
+# ---------------------------------------------
+
+class Null(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(Null, self).__init__(evaluator=evaluator)
+
+    def _execute(self):
+        return None
+
+    def _source_code_execute(self):
+        return ""
 
 
 # =============================================

@@ -32,7 +32,25 @@ from .graph_field import GraphField
 # ---------------------------------------------
 
 class Project(models.Model):
-    """ ... """
+    """
+    Project model.
+
+    Fields
+    ------
+
+    name : CharField
+        Name given to the project.
+    description : TextField
+        Description of project. For use by user to identify project.
+    created_on : DateField
+        Date the project was created.
+
+    Signals
+    -------
+
+    post_save: Create a Graph instance upon first save.
+
+    """
     name = models.CharField(max_length=200)
     description = models.TextField(default='')
     created_on = models.DateField(auto_now_add=True, blank=True)
@@ -60,6 +78,20 @@ def create_project_graph(sender, **kwargs):
 # ---------------------------------------------
 
 class Graph(models.Model):
+    """
+    Graph model - captures the relationships between all ProjectAssets
+    associated with a project.
+
+    Fields
+    ------
+
+    project : OneToOneField
+        The associated project.
+    _graph : GraphField
+        Custom field that saves/retrieves a Networkx directed graph. The field
+        is defined in model_fields/graph_field.py.
+
+    """
     project = models.OneToOneField(Project, on_delete=models.CASCADE, primary_key=True)
     data = models.CharField(max_length=10000, default='_')
     _graph = GraphField(max_length=10000, default='')
