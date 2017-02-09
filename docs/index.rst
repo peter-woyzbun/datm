@@ -31,6 +31,12 @@ Join Datasets
 .. image:: images/demo_gifs/joining.gif
 
 
+Generate Source Code
+--------------------
+
+.. image:: images/demo_gifs/source_generating.gif
+
+
 
 Contents:
 
