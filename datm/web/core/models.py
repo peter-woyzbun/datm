@@ -302,7 +302,7 @@ class Graph(models.Model):
 
 class ProjectAsset(models.Model):
     """
-    ProjectAsset model - Each project asset is a dataset, transformation,
+    ProjectAsset model - each project asset is a dataset, transformation,
     or visualization, associated with its project. Each asset also has an
     associated node defined in the associated project's graph.
 
@@ -324,7 +324,6 @@ class ProjectAsset(models.Model):
     """
     project = models.ForeignKey(Project, default=1, related_name='asset_set')
     name = models.CharField(max_length=200, default='Asset Name')
-    # Asset type.
     type = models.CharField(max_length=200, default='dataset')
     description = models.CharField(max_length=1000, default='Project asset description.')
 
@@ -472,6 +471,36 @@ def create_project_asset_node(sender, **kwargs):
 # ---------------------------------------------
 
 class Dataset(models.Model):
+    """
+    Dataset model - represents a dataframe.
+
+    Fields
+    ------
+    project_asset : OneToOneField
+        The associated ProjectAsset.
+    hdf : FileField
+        The HDF5 file containing the dataframe.
+    created_at : DateTimeField
+        The datetime the dataset was added/created.
+    columns : ListField
+        Custom field that saves/retrieves a list of dataframe columns.
+        The field is defined in model_fields/list_field.py.
+    n_rows : IntegerField
+        The number of rows contained in the dataset's dataframe.
+    immutable : Boolean
+        Indicates whether or not the dataset is the result of a
+        transformation.
+    column_dtypes : DictField
+        Custom field that saves/retrieves a dictionary as JSON that maps
+        column names to their data types. This allows type information
+        to be preserved and no type information to be 'lost' during the
+        read/write process. The field is defined in model_fields/list_field.py.
+
+    Signals
+    -------
+    pre_delete : When a Dataset is deleted, delete its associated HDF5 file.
+
+    """
     project_asset = models.OneToOneField(ProjectAsset, on_delete=models.CASCADE, primary_key=True)
     csv = models.FileField(default='something', upload_to='user_datasets')
     hdf = models.FileField(default='something', upload_to=USER_DATASET_PATH)
@@ -488,7 +517,6 @@ class Dataset(models.Model):
             (1) Ensure all DataFrame column names are 'valid'.
             (2) Record/save the column names.
             (3) Record the number of rows.
-
 
         Parameters
         ----------
@@ -561,7 +589,6 @@ class Dataset(models.Model):
         df = pd.read_hdf(self.hdf.path)
         if not self.immutable:
             df = self.apply_dtypes_to_df(df)
-        # df = pd.DataFrame.from_csv(self.file.path)
         return df
 
     @property
@@ -639,10 +666,8 @@ class Transformation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     manipulation_set = models.CharField(max_length=10000, default='')
     sql_query = models.CharField(max_length=10000, default='')
-    # description = models.CharField(max_length=300, default='Aggregations for filter. Test label more stuff.')
     type = models.CharField(max_length=10000, default='manipulation_set')
     has_errors = models.BooleanField(default=False)
-
     joined_datasets = models.ManyToManyField(ProjectAsset, related_name='child_joins')
 
     @property
