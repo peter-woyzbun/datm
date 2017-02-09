@@ -10,5 +10,15 @@ header#pageheader, footer#pagefooter, .related, .document {
     height: 496px;
     padding-top: 90px;
     padding-left: 4px;
-    background-image: url(_images/browser_window.png);
+}
+
+.browser-window .window-png{
+    position: absolute;
+    width: 908px;
+    height: 496px;
+}
+
+.browser-window .browser-content{
+    padding-left: 7px;
+    padding-top: 43px;
 }
