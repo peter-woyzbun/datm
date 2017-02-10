@@ -7,7 +7,6 @@ from pyparsing import Word, Literal, delimitedList, alphas, alphanums, Suppress
 
 from datm.data_tools.transformations.base import DataTransformation
 from datm.data_tools.transformations.manipulation_sets.evaluator import Evaluator
-from datm.utils.func_timer import timeit
 
 
 DEBUG_ENABLED = True
@@ -159,7 +158,6 @@ class Mutate(Manipulation):
         self.new_column_definition = new_column_definition
         super(Mutate, self).__init__(manipulation_set=manipulation_set, df_mutable=True)
 
-    @timeit
     def _execute(self, df):
         if self.new_column_name == 'df':
             df = self.evaluator.eval(self.new_column_definition)
