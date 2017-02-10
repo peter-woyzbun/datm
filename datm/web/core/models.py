@@ -303,7 +303,7 @@ class Graph(models.Model):
 class ProjectAsset(models.Model):
     """
     ProjectAsset model - each project asset is a dataset, transformation,
-    or visualization, associated with its project. Each asset also has an
+    or visualization, associated with a project. Each asset also has an
     associated node defined in the associated project's graph.
 
     Fields
@@ -659,6 +659,30 @@ def delete_dataset_files(sender, **kwargs):
 # ---------------------------------------------
 
 class Transformation(models.Model):
+
+    """
+    Transformation model - represents a 'manipulation set' or an SQL query.
+
+    Fields
+    ------
+    project_asset : OneToOneField
+        The associated ProjectAsset.
+    parent_dataset : ForeignKey
+        The Dataset that the transformation is applied to.
+    child_dataset : ForeignKey
+        The resulting Dataset created by the transformation applied
+        to the parent dataset.
+    created_at : DateTimeField
+        Datetime the Transformation was created.
+
+    Signals
+    -------
+    post_save: Create edges on the project's Graph:
+        parent_dataset -> Transformation
+        Transformation -> child_dataset
+
+    """
+
     project_asset = models.OneToOneField(ProjectAsset, on_delete=models.CASCADE, primary_key=True,
                                          related_name='transformation')
     parent_dataset = models.ForeignKey(Dataset, related_name='child_transformation')
