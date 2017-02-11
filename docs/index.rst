@@ -16,25 +16,23 @@ See the :doc:`tutorial` for an overview of Datm's features.
 Add Datasets
 ------------
 
-.. image:: images/demo_gifs/dataset_uploading.gif
+.. image:: images/demo_gifs/dataset_upload.gif
 
 
 Transform Datasets
 ------------------
 
-.. image:: images/demo_gifs/transformation.gif
+
 
 
 Join Datasets
 -------------
 
-.. image:: images/demo_gifs/joining.gif
+
 
 
 Generate Source Code
 --------------------
-
-.. image:: images/demo_gifs/source_generating.gif
 
 
 

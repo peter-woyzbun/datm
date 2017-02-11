@@ -35,35 +35,54 @@ class EvalElement(object):
     # OPERATORS
     # ----------------------
 
-    def __eq__(self, other):
-        return self._op_join_instances(left_instance=self, op="==", right_instance=other)
+    def __eq__(self, other): return self._op_join_instances(left_instance=self, op="==", right_instance=other)
 
-    def __ne__(self, other):
-        return self._op_join_instances(left_instance=self, op="!=", right_instance=other)
+    def __ne__(self, other): return self._op_join_instances(left_instance=self, op="!=", right_instance=other)
 
-    def __add__(self, other):
-        return self._op_join_instances(left_instance=self, op="+", right_instance=other)
+    def __add__(self, other): return self._op_join_instances(left_instance=self, op="+", right_instance=other)
 
-    def __sub__(self, other):
-        return self._op_join_instances(left_instance=self, op="-", right_instance=other)
+    def __radd__(self, other): return self._op_join_instances(left_instance=other, op="+", right_instance=self)
 
-    def __lt__(self, other):
-        return self._op_join_instances(left_instance=self, op="<", right_instance=other)
+    def __sub__(self, other): return self._op_join_instances(left_instance=self, op="-", right_instance=other)
 
-    def __le__(self, other):
-        return self._op_join_instances(left_instance=self, op="<=", right_instance=other)
+    def __rsub__(self, other): return self._op_join_instances(left_instance=other, op="-", right_instance=self)
 
-    def __gt__(self, other):
-        return self._op_join_instances(left_instance=self, op=">", right_instance=other)
+    def __mul__(self, other): return self._op_join_instances(left_instance=self, op="*", right_instance=other)
 
-    def __ge__(self, other):
-        return self._op_join_instances(left_instance=self, op=">=", right_instance=other)
+    def __rmul__(self, other): return self._op_join_instances(left_instance=other, op="*", right_instance=self)
 
-    def __mul__(self, other):
-        return self._op_join_instances(left_instance=self, op="*", right_instance=other)
+    def __div__(self, other): return self._op_join_instances(left_instance=self, op="/", right_instance=other)
 
-    def __div__(self, other):
-        return self._op_join_instances(left_instance=self, op="/", right_instance=other)
+    def __rdiv__(self, other): return self._op_join_instances(left_instance=other, op="/", right_instance=self)
+
+    def __floordiv__(self, other): return self._op_join_instances(left_instance=self, op="//", right_instance=other)
+
+    def __rfloordiv__(self, other): return self._op_join_instances(left_instance=other, op="//", right_instance=self)
+
+    def __lt__(self, other): return self._op_join_instances(left_instance=self, op="<", right_instance=other)
+
+    def __le__(self, other): return self._op_join_instances(left_instance=self, op="<=", right_instance=other)
+
+    def __gt__(self, other): return self._op_join_instances(left_instance=self, op=">", right_instance=other)
+
+    def __ge__(self, other): return self._op_join_instances(left_instance=self, op=">=", right_instance=other)
+
+    def __and__(self, other): return self._op_join_instances(left_instance=self, op="&", right_instance=other)
+
+    def __rand__(self, other): return self._op_join_instances(left_instance=other, op="&", right_instance=self)
+
+    def __or__(self, other): return self._op_join_instances(left_instance=self, op="|", right_instance=other)
+
+    def __ror__(self, other): return self._op_join_instances(left_instance=other, op="|", right_instance=self)
+
+    def __pow__(self, power, modulo=None):
+        if isinstance(self, DfCol):
+            new_instance = self.__class__(evaluator=self.evaluator, col_name=self.col_name)
+            new_instance.source_str = ''
+        else:
+            new_instance = self.__class__(evaluator=self.evaluator)
+        new_instance.source_str += "(%s)**%s" % (str(self), power)
+        return new_instance
 
 
 # =============================================
@@ -82,12 +101,11 @@ class DfCol(EvalElement):
 # Eval Function Class
 # ---------------------------------------------
 
-class EvalFunction(object):
+class EvalFunction(EvalElement):
 
     def __init__(self, evaluator):
-        self.evaluator = evaluator
+        super(EvalFunction, self).__init__(evaluator=evaluator)
         self.source_str = ""
-        self.dataset_label = "%s_df" % evaluator.dataset_name
 
     def __call__(self, *args, **kwargs):
         if self.evaluator.source_code_mode:
@@ -119,72 +137,6 @@ class EvalFunction(object):
     @staticmethod
     def _join_src_strings(left_str, op, right_str):
         return "%s %s %s" % (left_str, op, right_str)
-
-    def _op_join_instances(self, left_instance, op, right_instance):
-        if isinstance(self, DfCol):
-            new_instance = self.__class__(evaluator=self.evaluator, col_name=self.col_name)
-        else:
-            new_instance = self.__class__(evaluator=self.evaluator)
-        if type(right_instance) is str:
-            new_instance.source_str += "%s %s '%s'" % (str(left_instance), op, right_instance)
-        else:
-            new_instance.source_str += "%s %s %s" % (str(left_instance), op, str(right_instance))
-        return new_instance
-
-    # ----------------------
-    # OPERATORS
-    # ----------------------
-
-    def __eq__(self, other):
-        return self._op_join_instances(left_instance=self, op="==", right_instance=other)
-
-    def __ne__(self, other):
-        return self._op_join_instances(left_instance=self, op="!=", right_instance=other)
-
-    def __add__(self, other):
-        return self._op_join_instances(left_instance=self, op="+", right_instance=other)
-
-    def __sub__(self, other):
-        return self._op_join_instances(left_instance=self, op="-", right_instance=other)
-
-    def __lt__(self, other):
-        return self._op_join_instances(left_instance=self, op="<", right_instance=other)
-
-    def __le__(self, other):
-        return self._op_join_instances(left_instance=self, op="<=", right_instance=other)
-
-    def __gt__(self, other):
-        return self._op_join_instances(left_instance=self, op=">", right_instance=other)
-
-    def __ge__(self, other):
-        return self._op_join_instances(left_instance=self, op=">=", right_instance=other)
-
-    def __mul__(self, other):
-        return self._op_join_instances(left_instance=self, op="*", right_instance=other)
-
-    def __div__(self, other):
-        return self._op_join_instances(left_instance=self, op="/", right_instance=other)
-
-    def __pow__(self, power, modulo=None):
-        new_instance = self.__class__(evaluator=self.evaluator)
-        new_instance.source_str += "(%s)**%s" % (str(self), power)
-        return new_instance
-
-
-# =============================================
-# Null Function
-# ---------------------------------------------
-
-class Null(EvalFunction):
-
-    def __init__(self, evaluator):
-        super(Null, self).__init__(evaluator=evaluator)
-
-    def _execute(self):
-        return None
-
-    def _source_code_execute(self):
-        return ""
 
 
 # =============================================
@@ -249,6 +201,18 @@ class Cos(EvalFunction):
 
     def _source_code_execute(self, col):
         return "np.cos(%s)" % col
+
+
+class Sin(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(Sin, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col):
+        return np.sin(col)
+
+    def _source_code_execute(self, col):
+        return "np.sin(%s)" % col
 
 
 class Mean(EvalFunction):
@@ -359,6 +323,30 @@ class Sum(EvalFunction):
         return "sum(%s)" % col
 
 
+class CumProd(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(CumProd, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col):
+        return np.cumprod(col)
+
+    def _source_code_execute(self, col):
+        return "np.cumprod(%s)" % col
+
+
+class Cross(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(Cross, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col_a, col_b):
+        return np.cross(col_a, col_b)
+
+    def _source_code_execute(self, col_a, col_b):
+        return "np.cross(%s, %s)" % (col_a, col_b)
+
+
 class RollMean(EvalFunction):
 
     def __init__(self, evaluator):
@@ -381,6 +369,46 @@ class Lag(EvalFunction):
 
     def _source_code_execute(self, col, n):
         return "%s.shift(%s)" % (col, n)
+
+
+class SquareRoot(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(SquareRoot, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col):
+        return np.sqrt(col)
+
+    def _source_code_execute(self, col):
+        return "np.sqrt(%s)" % col
+
+
+# ---------------------------------------------
+# Math Function Group
+
+class MathFuncs(object):
+
+    def __init__(self, evaluator):
+        self.log = Log(evaluator=evaluator)
+        self.log10 = Log10(evaluator=evaluator)
+        self.exp = Exp(evaluator=evaluator)
+        self.expm1 = ExpM1(evaluator=evaluator)
+        self.cos = Cos(evaluator=evaluator)
+        self.sin = Sin(evaluator=evaluator)
+        self.mean = Mean(evaluator=evaluator)
+        self.std = Std(evaluator=evaluator)
+        self.round = Round(evaluator=evaluator)
+        self.max = Max(evaluator=evaluator)
+        self.min = Min(evaluator=evaluator)
+        self.floor = Floor(evaluator=evaluator)
+        self.ceiling = Ceiling(evaluator=evaluator)
+        self.cumsum = CumSum(evaluator=evaluator)
+        self.sum = Sum(evaluator=evaluator)
+        self.cumprod = CumProd(evaluator=evaluator)
+        self.cross = Cross(evaluator=evaluator)
+        self.rollmean = RollMean(evaluator=evaluator)
+        self.lag = Lag(evaluator=evaluator)
+        self.sqrt = SquareRoot(evaluator=evaluator)
 
 
 # =============================================
@@ -435,6 +463,9 @@ class AsDate(EvalFunction):
         return "pd.to_datetime(%s)" % col
 
 
+# ---------------------------------------------
+# Data Type Function Group
+
 class AsType(object):
 
     def __init__(self, evaluator):
@@ -447,18 +478,6 @@ class AsType(object):
 # =============================================
 # Date Functions
 # ---------------------------------------------
-
-class GetWeekday(EvalFunction):
-
-    def __init__(self, evaluator):
-        super(GetWeekday, self).__init__(evaluator=evaluator)
-
-    def _execute(self, col):
-        return col.dt.weekday_name
-
-    def _source_code_execute(self, col):
-        return "%s.dt.weekday_name" % col
-
 
 class DayName(EvalFunction):
 
@@ -484,11 +503,37 @@ class MonthName(EvalFunction):
         return "%s.dt.strftime('%%b')" % col
 
 
+class Year(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(Year, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col):
+        return col.dt.year
+
+    def _source_code_execute(self, col):
+        return "%s.dt.year" % col
+
+
+class Month(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(Month, self).__init__(evaluator=evaluator)
+
+    def _execute(self, col):
+        return col.dt.month
+
+    def _source_code_execute(self, col):
+        return "%s.dt.month" % col
+
+
 class Date(object):
 
     def __init__(self, evaluator):
         self.day_name = DayName(evaluator=evaluator)
         self.month_name = MonthName(evaluator=evaluator)
+        self.year = Year(evaluator=evaluator)
+        self.month = Month(evaluator=evaluator)
 
 
 # =============================================
@@ -534,22 +579,6 @@ class RandN(EvalFunction):
         return "np.random.randn(1, %s)" % self.evaluator.df_n_rows
 
 
-# =============================================
-# Dataframe Mutation Functions
-# ---------------------------------------------
-
-class DropNa(EvalFunction):
-
-    def __init__(self, evaluator):
-        super(DropNa, self).__init__(evaluator=evaluator)
-
-    def _execute(self, df):
-        return df.dropna()
-
-    def _source_code_execute(self, df):
-        return "df.dropna()"
-
-
 class Sample(EvalFunction):
 
     def __init__(self, evaluator):
@@ -568,6 +597,30 @@ class Sample(EvalFunction):
             return "df.sample(frac=%s)" % frac
 
 
+class Random(object):
+
+    def __init__(self, evaluator):
+        self.int = RandInt(evaluator=evaluator)
+        self.norm = RandN(evaluator=evaluator)
+        self.sample = Sample(evaluator=evaluator)
+
+
+# =============================================
+# Dataframe Mutation Functions
+# ---------------------------------------------
+
+class DropNa(EvalFunction):
+
+    def __init__(self, evaluator):
+        super(DropNa, self).__init__(evaluator=evaluator)
+
+    def _execute(self, df):
+        return df.dropna()
+
+    def _source_code_execute(self, df):
+        return "%s.dropna()" % self.dataset_label
+
+
 # =============================================
 # Evaluator Class
 # ---------------------------------------------
@@ -578,28 +631,10 @@ class Evaluator(object):
         self.dataset_name = dataset_name
         self.source_code_mode = source_code_mode
 
-        self.funcs = {'log': Log(evaluator=self),
-                      'log10': Log10(evaluator=self),
-                      'exp': Exp(evaluator=self),
-                      'expm1': ExpM1(evaluator=self),
-                      'mean': Mean(evaluator=self),
-                      'std': Std(evaluator=self),
-                      'max': Max(evaluator=self),
-                      'min': Min(evaluator=self),
-                      'round': Round(evaluator=self),
-                      'floor': Floor(evaluator=self),
-                      'ceiling': Ceiling(evaluator=self),
-                      'rollmean': RollMean(evaluator=self),
-                      'lag': Lag(evaluator=self),
-                      'as_string': AsString(evaluator=self),
-                      'as_int': AsInt(evaluator=self),
-                      'as_date': AsDate(evaluator=self),
-                      'get_wk_day': GetWeekday(evaluator=self),
+        self.funcs = {'m': MathFuncs(evaluator=self),
                       'replace': Replace(evaluator=self),
                       'drop_na': DropNa(evaluator=self),
-                      'sample': Sample(evaluator=self),
-                      'rand_int': RandInt(evaluator=self),
-                      'rand_n': RandN(evaluator=self),
+                      'r': Random(evaluator=self),
                       'as_type': AsType(evaluator=self),
                       'date': Date(evaluator=self)}
         self.func_names = self.funcs.keys()

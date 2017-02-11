@@ -35,13 +35,13 @@
                     <input type="number" class="form-control input-sm" name="end_row" value="{{ end_row|safe }}" min="20" max="{{ dataset_asset.dataset.n_rows }}" id="end-row">
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-default" id="update-rows">Update</button>
+                    <button class="btn btn-default" id="update-rows"><span class="glyphicon glyphicon-refresh" aria-hidden="true"></span> Update</button>
                 </div>
             </div>
         </div>
         <div class="col-md-1">
             <a href="{% url 'core:dataset_csv' project_id=dataset_asset.project.id dataset_id=dataset_asset.id %}">
-                <button class="btn btn-default">Download</button>
+                <button class="btn btn-default"><span class="glyphicon glyphicon-floppy-save" aria-hidden="true"></span> Download</button>
             </a>
         </div>
     </div>

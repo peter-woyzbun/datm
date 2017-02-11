@@ -83,7 +83,7 @@ class Graph(models.Model):
         The associated project.
     _graph : GraphField
         Custom field that saves/retrieves a Networkx directed graph. The field
-        is defined in model_fields/graph_field.py.
+        is defined in '...model_fields/graph_field.py'.
 
     """
     project = models.OneToOneField(Project, on_delete=models.CASCADE, primary_key=True)
@@ -159,10 +159,7 @@ class Graph(models.Model):
 
         G = self._graph
         # If origin_node_asset_id is given, only include its dependents - i.e. create a subgraph.
-        if origin_node_asset_id is not None:
-            nodes = [origin_node_asset_id] + self.node_dependents(node_asset_id=origin_node_asset_id)
-        else:
-            nodes = nx.nodes(G)
+        nodes = nx.nodes(G)
         edge_tuples = nx.edges(G, nbunch=nodes)
         viz_data = {'nodes': [], 'edges': []}
         for node in nodes:
@@ -201,16 +198,31 @@ class Graph(models.Model):
                 transformation_list.append(G.node[node]['asset_id'])
         return transformation_list
 
-    def child_node_tree(self, parent_node_asset_id, target_asset_type=None):
-        child_node_asset_ids = list()
+    def node_descendants(self, source_node_asset_id, target_asset_type=None):
+        """
+        Return list containing ProjectAsset IDs of all ProjectAssets reachable
+        from the given source node/ProjectAsset. If a target asset type is
+        given, return IDs of ProjectAssets matching that type only.
+
+        Parameters
+        ----------
+        source_node_asset_id : int
+            The ID of the source ProjectAsset/node.
+        target_asset_type : None or str
+            If given, the type of asset to return IDs for ('dataset',
+            'transformation', or 'visualization').
+
+        """
         G = self._graph
-        for node in list(nx.dfs_preorder_nodes(G, source=parent_node_asset_id)):
-            if target_asset_type:
+        descendants = nx.descendants(G, source=source_node_asset_id)
+        if target_asset_type is None:
+            return list(descendants)
+        else:
+            target_descendants = list()
+            for node in descendants:
                 if G.node[node]['type'] == target_asset_type:
-                    child_node_asset_ids.append(G.node[node]['asset_id'])
-            else:
-                child_node_asset_ids.append(G.node[node]['asset_id'])
-        return child_node_asset_ids
+                    target_descendants.append(node)
+            return target_descendants
 
     def node_predecessors(self, asset_id, target_asset_type=None):
         G = self._graph
@@ -226,18 +238,25 @@ class Graph(models.Model):
 
     def transformation_successor_batches(self, transformation_asset_id):
         G = self._graph
-        transformation_nodes = self.transformation_tree(transformation_asset_id=transformation_asset_id)
+        topological_descendants = self.node_topological_descendants(source_node_asset_id=transformation_asset_id)
+        H = G.subgraph(topological_descendants)
         batches = list()
-        for node in transformation_nodes:
-            if not batches:
-                batches.append([node])
-            else:
-                last_node = batches[-1][-1]
-                if node in G.successors(last_node):
-                    batches.append([node])
-                else:
-                    batches[-1].append(node)
-        return batches
+        while H.number_of_nodes() > 0:
+            current_node = topological_descendants.pop(0)
+            pass
+
+    def node_topological_descendants(self, source_node_asset_id, target_asset_type=None):
+        G = self._graph
+        dfs = nx.dfs_successors(G, source=source_node_asset_id)
+        topological_ordering = sorted({x for v in dfs.itervalues() for x in v})
+        if target_asset_type is None:
+            return topological_ordering
+        else:
+            filtered_topological_ordering = list()
+            for node in topological_ordering:
+                if G.node[node]['type'] == target_asset_type:
+                    filtered_topological_ordering.append(node)
+            return filtered_topological_ordering
 
     def node_dependents(self, node_asset_id, reverse=False):
         G = self._graph
@@ -283,6 +302,7 @@ class Graph(models.Model):
     def delete_asset_tree(self, parent_node_asset_id):
         parent_node_asset_id = int(parent_node_asset_id)
         # Get any/all child nodes in topological order.
+        descendants = self.node_descendants(source_node_asset_id=parent_node_asset_id)
         child_nodes = self.node_dependents(node_asset_id=parent_node_asset_id, reverse=True)
         # Iterate over the child nodes in reverse topological order - we
         # want to delete nodes with no child nodes first, otherwise we
@@ -598,7 +618,7 @@ class Dataset(models.Model):
     def subset_df(self, start_row, n_rows):
         stop_row = int(start_row) + int(n_rows)
         df = pd.read_hdf(self.hdf.path, start=start_row, stop=stop_row)
-        return df[start_row:stop_row]
+        return df
 
     @property
     def hdf_path(self):
@@ -678,6 +698,7 @@ class Transformation(models.Model):
     Signals
     -------
     post_save: Create edges on the project's Graph:
+        (p_d) ----> (T) ----> {c_d)
         parent_dataset -> Transformation
         Transformation -> child_dataset
 
@@ -773,34 +794,47 @@ class Transformation(models.Model):
         return dataset_map
 
     def _execute_sql_query(self):
+        # Todo: fix this!
         self._clear_existing_joins()
+        print "Trying to execute SQL query!"
+        print "Joinable dataset map:"
+        print self.joinable_dataset_map()
+        print "Query:"
+        print self.sql_query
         sql_query = SqlQuery(query=self.sql_query, joinable_dataset_map=self.joinable_dataset_map())
-        tables = {self.parent_dataset.name: self.parent_dataset.df}
+        parent_df = self.parent_dataset.df
+        tables = {self.parent_dataset.name: parent_df}
         joined_dataset_assets = [ProjectAsset.objects.get(id=dataset_id) for dataset_id in sql_query.joined_dataset_ids]
         for dataset_asset in joined_dataset_assets:
             tables[dataset_asset.name] = dataset_asset.dataset.df
-        try:
-            df = sql_query.execute(tables=tables)
-            self.child_dataset.save_df_to_hdf(df=df)
-            if joined_dataset_assets:
-                self.joined_datasets.add(joined_dataset_assets)
-            return {'error': False}
-        except:
-            return {'error': True}
+
+        df = sql_query.execute(tables=tables)
+        print "Query output df:"
+        print df
+        self.child_dataset.save_df_to_hdf(df=df)
+        if joined_dataset_assets:
+            self.joined_datasets.add(joined_dataset_assets)
+        return {'error': False}
 
     @property
     def joinable_datasets(self):
         """
-        Return list of Dataset assets that are joinable with...
+        Return list of Dataset asset IDs that may be joined in this transformation.
         This is the set difference between all project dataset ids and the ids of
-        those datasets that are 'reachable' from the transformation graph node.
+        those datasets that are 'reachable' from ('descendants' of) the transformation
+        graph node.
+
+        Returns
+        -------
+        joinable_dataset_list : list
 
         """
         project_dataset_ids = ProjectAsset.objects.filter(project=self.project_asset.project,
                                                           type='dataset').values_list('id', flat=True)
-        child_dataset_ids = self.project_asset.project.graph.child_node_tree(parent_node_asset_id=self.project_asset.id,
-                                                                             target_asset_type='dataset')
-        joinable_dataset_ids = list(set(project_dataset_ids) - set(child_dataset_ids))
+        descendant_dataset_ids = self.project_asset.project.graph.node_descendants(source_node_asset_id=self.id,
+                                                                                   target_asset_type='dataset')
+
+        joinable_dataset_ids = list(set(project_dataset_ids) - set(descendant_dataset_ids) - {self.parent_dataset.id})
         joinable_dataset_list = list()
 
         for dataset_asset_id in joinable_dataset_ids:

@@ -92,25 +92,45 @@
             </div>
         </div>
 
-    {% include 'core/components/dataset_section.html'  with dataset=transformation.parent_dataset dataset_type_label="PARENT DATASET"%}
+        {% include 'core/components/dataset_section.html'  with dataset=transformation.parent_dataset dataset_type_label="PARENT DATASET" %}
 
         <div class="row">
-            <div class="col-md-10 col-md-offset-2 dataset-arrow">&#8595;</div>
+            <div class="col-md-9 col-md-offset-3 dataset-arrow">&#8595;</div>
         </div>
 
 
         <div class="row query-container">
 
-            <div class="col-md-10 col-md-offset-2">
+            <div class="col-md-3">
                 <div class="row">
-                    <div class="col-md-4">
-                        <h3>Query</h3>
+                    <div class="col-md-12">
+                        <h2>Edit Query</h2>
                     </div>
-                    <div class="col-md-3 joinable-datasets">
-                        <h6>JOINABLE DATASETS</h6>
-                        <p>{% for dataset in transformation.joinable_datasets %}<span class="ds-label">{{ dataset.name }}</span>{% endfor %}</p>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 joinable-datasets">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Joinable Datasets/'Tables'</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for dataset in transformation.joinable_datasets %}
+                                <tr>
+                                    <td>{{ dataset.name }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+
                     </div>
-                <div class="col-md-3 sql-hints">
+                </div>
+            </div>
+
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-3 col-md-offset-3 sql-hints">
                         <h6>SQL HINTS</h6>
                         <p>Press <span class="kbk">CTRL</span> + <span class="kbk">SPACE</span> for SQL hints.</p>
                     </div>
@@ -118,8 +138,9 @@
                 <div class="row">
                     <div class="col-md-12">
                         <form id="transformationForm" action="javascript:getJson()">
-                <textarea class="form-control sqltextarea" rows="50" name="query">{{ transformation.sql_query }}</textarea>
-                    </form>
+                            <textarea class="form-control sqltextarea" rows="50"
+                                      name="query">{{ transformation.sql_query }}</textarea>
+                        </form>
                     </div>
                 </div>
 
@@ -227,12 +248,12 @@
 
 
 
-{% block page_modals %}
+    {% block page_modals %}
 
-    <!-- "Working..." modal -->
-    {% include "core/modals/working.html" %}
+        <!-- "Working..." modal -->
+        {% include "core/modals/working.html" %}
 
-{% endblock %}
+    {% endblock %}
 
 
 

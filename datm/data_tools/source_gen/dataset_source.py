@@ -39,7 +39,9 @@ class DatasetSource(object):
 
     def _add_imports(self):
         new_string = "import pandas as pd \n"
-        new_string += "import numpy as np \n \n"
+        if 'sqldf(' in self.source_str:
+            new_string += "from pandasql import sqldf \n"
+        new_string += "import numpy as np \n \n \n"
         new_string += self.source_str
         self.source_str = new_string
 

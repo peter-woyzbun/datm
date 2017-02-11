@@ -25,9 +25,9 @@ class Dashboard(View):
         return render(request, 'core/dashboard.html', context={'projects': projects})
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class NewProject(View):
 
-    @csrf_exempt
     def post(self, request):
         project_name = request.POST.get("project_name")
         project_description = request.POST.get("project_description")
@@ -36,9 +36,9 @@ class NewProject(View):
         return redirect(reverse('core:project', kwargs={'project_id': new_project.id}))
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class DeleteProject(View):
 
-    @csrf_exempt
     def post(self, request):
         project_id = request.POST.get("project_id")
         project = Project.objects.get(id=project_id)
@@ -60,7 +60,7 @@ class DatmProject(View):
 
     def get(self, request, project_id):
         project = Project.objects.get(id=project_id)
-        print project.graph.transformation_successor_batches(132)
+        # print project.graph.transformation_successor_batches(132)
         return render(request, 'core/project.html', context={'project': project})
 
     def post(self, request):
@@ -116,7 +116,6 @@ class EditTransformation(View):
             transformation.manipulation_set = transformation_json
             transformation.save()
         elif transformation.type == 'sql':
-            print json.loads(transformation_json)['query']
             transformation.sql_query = json.loads(transformation_json)['query']
             transformation.save()
         error_data = transformation.execute()
@@ -252,6 +251,7 @@ class VisualizationPNG(View):
         return response
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class NewVisualization(View):
 
     def post(self, request, project_id):
@@ -275,6 +275,7 @@ class VisualizationImage(View):
         return render(request, 'core/visualization_viewer.html', context={'visualization': visualization})
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class EditVisualization(View):
 
     def get(self, request, project_id, visualization_id):

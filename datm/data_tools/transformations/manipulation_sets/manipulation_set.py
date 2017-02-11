@@ -379,7 +379,7 @@ class WideToLong(Manipulation):
 
 class LongToWide(Manipulation):
 
-    def __init__(self, manipulation_set, index_col, columns_col, value_col):
+    def __init__(self, manipulation_set, columns_col, value_col, index_col=None):
         self.index_col = index_col
         self.columns_col = columns_col
         self.value_col = value_col
@@ -388,6 +388,7 @@ class LongToWide(Manipulation):
 
     def _execute(self, df):
         df = df.pivot(index=self.index_col, columns=self.columns_col, values=self.value_col)
+        print df
         return df
 
     def _source_code_execute(self, df):
