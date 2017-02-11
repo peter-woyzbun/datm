@@ -10,6 +10,10 @@ p{
     max-width: 650px;
 }
 
+pre{
+    max-width: 500px;
+}
+
 img{
     border: 6px solid #111;
 }
