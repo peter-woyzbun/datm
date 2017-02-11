@@ -8,12 +8,11 @@ from datm.api.django.models import Dataset, Project
 class ProjectDataset(object):
 
     def __init__(self, project_id, dataset_id):
-        self.project_id = project_id
-        self.dataset_id = dataset_id
-        self.dataset = Dataset.objects.get(project_asset__project__id=project_id, project_asset__id=dataset_id)
+        self.project = Project.objects.get(id=project_id)
+        self.dataset = Dataset.objects.get(project=self.project, project_asset__id=dataset_id)
 
     def df(self):
-        return pd.read_csv(self.csv_path)
+        return self.dataset.df
 
     @property
     def csv_path(self):

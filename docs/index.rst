@@ -32,6 +32,7 @@ Add Datasets
 Transform Datasets (Manipulation Set)
 -------------------------------------
 
+.. image:: images/demo_gifs/manipulation_set.gif
 
 .. _transform-datasets-sql:
 Transform Datasets (SQL)
