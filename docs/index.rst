@@ -1,7 +1,4 @@
-.. datm documentation master file, created by
-   sphinx-quickstart on Wed Jan 25 13:29:50 2017.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+
 
 What is Datm?
 =============
@@ -38,7 +35,7 @@ Transform Datasets (Manipulation Set)
 Transform Datasets (SQL)
 ------------------------
 
-
+.. image:: images/demo_gifs/sql.gif
 
 .. _join-datasets:
 Join Datasets

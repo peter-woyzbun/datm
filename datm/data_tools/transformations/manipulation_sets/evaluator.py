@@ -23,9 +23,9 @@ class EvalElement(object):
         else:
             new_instance = self.__class__(evaluator=self.evaluator)
         if type(right_instance) is str:
-            new_instance.source_str += "%s %s '%s'" % (str(left_instance), op, right_instance)
+            new_instance.source_str += "(%s %s '%s')" % (str(left_instance), op, right_instance)
         else:
-            new_instance.source_str += "%s %s %s" % (str(left_instance), op, str(right_instance))
+            new_instance.source_str += "(%s %s %s)" % (str(left_instance), op, str(right_instance))
         return new_instance
 
     def __str__(self):

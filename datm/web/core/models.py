@@ -246,6 +246,20 @@ class Graph(models.Model):
             pass
 
     def node_topological_descendants(self, source_node_asset_id, target_asset_type=None):
+        """
+        Return list of IDs of nodes that are descendants of given source node
+        in topological order.
+
+
+        Parameters
+        ----------
+        source_node_asset_id : int
+            The ID of the source ProjectAsset/node.
+        target_asset_type : None or str
+            If given, the type of asset to return IDs for ('dataset',
+            'transformation', or 'visualization').
+
+        """
         G = self._graph
         dfs = nx.dfs_successors(G, source=source_node_asset_id)
         topological_ordering = sorted({x for v in dfs.itervalues() for x in v})
@@ -276,6 +290,8 @@ class Graph(models.Model):
         """
         ancestor_ids = nx.ancestors(self._graph, node_asset_id)
         topological_ordering = nx.topological_sort(self._graph, ancestor_ids)
+        unneeded_nodes = (set(topological_ordering) - ancestor_ids)
+        topological_ordering = list(set(topological_ordering) - unneeded_nodes)
         if keep_type is not None:
             filtered_top_ord = list()
             for node in topological_ordering:
@@ -630,12 +646,16 @@ class Dataset(models.Model):
 
         ancestor_dataset_ids = self.project_asset.project.graph.node_ancestors(node_asset_id=self.id,
                                                                                keep_type='dataset')
+        print "NODE ANCESTOR IDS:"
+        print ancestor_dataset_ids
         for dataset_id in ancestor_dataset_ids:
             dataset_asset = ProjectAsset.objects.get(id=dataset_id)
             source += dataset_asset.dataset.node_source()
             source += "\n"
             if dataset_asset.dataset.immutable:
                 immutable_dataframes[dataset_asset.name] = dataset_asset.dataset.hdf_path
+        source += "\n"
+        source += self.node_source()
         return source, immutable_dataframes
 
     def node_source(self):
@@ -698,7 +718,6 @@ class Transformation(models.Model):
     Signals
     -------
     post_save: Create edges on the project's Graph:
-        (p_d) ----> (T) ----> {c_d)
         parent_dataset -> Transformation
         Transformation -> child_dataset
 
@@ -764,6 +783,12 @@ class Transformation(models.Model):
         elif self.type == 'sql':
             return self._execute_sql_query()
 
+    def execute_descendants(self):
+        descendant_transforms = self.project_asset.project.graph.node_topological_descendants(self.id, 'transformation')
+        for asset_id in descendant_transforms:
+            transformation_asset = ProjectAsset.objects.get(id=asset_id)
+            transformation_asset.transformation.execute()
+
     def _execute_manipulation_set(self):
         self._clear_existing_joins()
         manipulation_set = ManipulationSet.create_from_list(dataset_name=self.child_dataset.name,
@@ -796,11 +821,6 @@ class Transformation(models.Model):
     def _execute_sql_query(self):
         # Todo: fix this!
         self._clear_existing_joins()
-        print "Trying to execute SQL query!"
-        print "Joinable dataset map:"
-        print self.joinable_dataset_map()
-        print "Query:"
-        print self.sql_query
         sql_query = SqlQuery(query=self.sql_query, joinable_dataset_map=self.joinable_dataset_map())
         parent_df = self.parent_dataset.df
         tables = {self.parent_dataset.name: parent_df}
@@ -809,8 +829,6 @@ class Transformation(models.Model):
             tables[dataset_asset.name] = dataset_asset.dataset.df
 
         df = sql_query.execute(tables=tables)
-        print "Query output df:"
-        print df
         self.child_dataset.save_df_to_hdf(df=df)
         if joined_dataset_assets:
             self.joined_datasets.add(joined_dataset_assets)

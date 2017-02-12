@@ -64,8 +64,28 @@
                         <div class="col-md-1 equals-col">=</div>
                         <div class="col-md-3">
                             <p class="input-label">Summary Type</p>
-                            <input type="text" name="m[x].aggregations[y].summary_type" class="nested form-control"
-                                   value="{{ aggregation.summary_type }}">
+                            <select class="form-control" name="m[x].aggregations[y].summary_type">
+                                <option value="abs" {% if aggregation.summary_type == 'abs' %}selected {% endif %}>abs</option>
+                                <option value="count" {% if aggregation.summary_type == 'count' %}selected {% endif %}>count</option>
+                                <option value="cummax" {% if aggregation.summary_type == 'cummax' %}selected {% endif %}>cummax</option>
+                                <option value="cummin" {% if aggregation.summary_type == 'cummin' %}selected {% endif %}>cummin</option>
+                                <option value="cumprod" {% if aggregation.summary_type == 'cumprod' %}selected {% endif %}>cumprod</option>
+                                <option value="cumsum" {% if aggregation.summary_type == 'cumsum' %}selected {% endif %}>cumsum</option>
+                                <option value="kurt" {% if aggregation.summary_type == 'kurt' %}selected {% endif %}>kurt</option>
+                                <option value="mad" {% if aggregation.summary_type == 'mad' %}selected {% endif %}>mad</option>
+                                <option value="max" {% if aggregation.summary_type == 'max' %}selected {% endif %}>max</option>
+                                <option value="mean" {% if aggregation.summary_type == 'mean' %}selected {% endif %}>mean</option>
+                                <option value="median" {% if aggregation.summary_type == 'median' %}selected {% endif %}>median</option>
+                                <option value="min" {% if aggregation.summary_type == 'min' %}selected {% endif %}>min</option>
+                                <option value="mode" {% if aggregation.summary_type == 'mode' %}selected {% endif %}>mode</option>
+                                <option value="prod" {% if aggregation.summary_type == 'prod' %}selected {% endif %}>prod</option>
+                                <option value="quantile" {% if aggregation.summary_type == 'quantile' %}selected {% endif %}>quantile</option>
+                                <option value="sem" {% if aggregation.summary_type == 'sem' %}selected {% endif %}>sem</option>
+                                <option value="skew" {% if aggregation.summary_type == 'skew' %}selected {% endif %}>skew</option>
+                                <option value="std" {% if aggregation.summary_type == 'std' %}selected {% endif %}>std</option>
+                                <option value="sum" {% if aggregation.summary_type == 'sum' %}selected {% endif %}>sum</option>
+                                <option value="var" {% if aggregation.summary_type == 'var' %}selected {% endif %}>var</option>
+                            </select>
 
                         </div>
                         <div class="col-md-1 equals-col">(</div>
