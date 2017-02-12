@@ -41,6 +41,7 @@ Transform Datasets (SQL)
 Join Datasets
 -------------
 
+.. image:: images/demo_gifs/join.gif
 
 .. _generate-source:
 Generate Source Code
