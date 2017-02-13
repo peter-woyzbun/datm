@@ -17,4 +17,15 @@ Filter
 ======
 
 The `filter` manipulation subsets data based on the provided conditions. It takes one or more comma separated
-`manipulation expressions <http://www.python.org/>`_. as its argument.
+`manipulation expressions <http://datm.readthedocs.io/en/latest/manipulation-expressions.html>`_. as its argument.
+
+.. image:: images/manipulation_types/filter.png
+
++-----------------------+-------------+
+| Input Parameter       | Description |
+|                       |             |
++=======================+=============+
+| body row 1, column 1  | column 2    |
++-----------------------+-------------+
+| body row 2            | ...         |
++-----------------------+-------------+
