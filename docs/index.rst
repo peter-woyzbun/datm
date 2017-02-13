@@ -66,4 +66,5 @@ Contents:
    project-graphs
    datasets
    transformations
+   manipulation-sets
    manipulation-expressions
