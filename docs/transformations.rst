@@ -8,7 +8,7 @@ Introduction
 Manipulation Sets
 =================
 
-Manipulation sets are similar to chained "data manipulation verb" functions from the excellent `dplyr` R package. They
+Manipulation sets are similar to chained "data manipulation verb" functions from the `dplyr` R package. They
 are ordered sets of instructions that are applied to the parent dataset one at a time (i.e function composition).
 
 Manipulation Types

@@ -1,3 +1,5 @@
+ .. _manipulation-expressions:
+
 ########################
 Manipulation Expressions
 ########################
