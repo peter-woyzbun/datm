@@ -630,7 +630,7 @@ class Dataset(models.Model):
     def df(self):
         """ Return a pandas dataframe for the given dataset. """
 
-        df = pd.read_hdf(self.hdf.path)
+        df = pd.read_hdf(self.hdf_path)
         if not self.immutable:
             df = self.apply_dtypes_to_df(df)
         return df

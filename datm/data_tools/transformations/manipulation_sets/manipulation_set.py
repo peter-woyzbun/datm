@@ -157,7 +157,9 @@ class Mutate(Manipulation):
 
     def _execute(self, df):
         if self.new_column_name == 'df':
+            print "Mutating dataframe!"
             df = self.evaluator.eval(self.new_column_definition)
+            print df
         else:
             df[self.new_column_name] = self.evaluator.eval(self.new_column_definition)
         return df

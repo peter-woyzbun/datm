@@ -53,11 +53,13 @@ Generate Source Code
 Visualize Datasets
 ------------------
 
+.. image:: images/demo_gifs/visualization.gif
+
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    getting-started
    tutorial
