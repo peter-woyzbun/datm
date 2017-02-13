@@ -3,7 +3,7 @@
         <div class="panel panel-default modal-panel">
             <div class="panel-body modal-panel-body">
                 <!-- Start form -->
-                <form action="{% url 'core:new_transformation' project_id=project.id %}" method="post" enctype="multipart/form-data">
+                <form action="{% url 'core:new_transformation' project_id=project.id %}" method="post" enctype="multipart/form-data" id="new-transformation-form">
                     {% csrf_token %}
                     <div class="row">
                         <div class="col-md-12 modal-heading">
@@ -29,7 +29,8 @@
                     <div class="row modal-form-row">
                         <div class="col-md-12">
                             <p class="modal-input-header">CHILD DATASET NAME</p>
-                            <input type="text" name="child_dataset_name" class="form-control"  onkeyup="this.value=this.value.replace(/\W|^(?=\d)/,'_')">
+                            <p class="inv-dataset-name-msg" hidden>A dataset with that name already exists!</p>
+                            <input type="text" name="child_dataset_name" class="form-control new-child-dataset-name"  onkeyup="this.value=this.value.replace(/\W|^(?=\d)/,'_')">
                         </div>
                     </div>
                     <div class="row modal-form-row">

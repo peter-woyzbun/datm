@@ -4,7 +4,6 @@
 # DEBUG CONFIG
 # ---------------------------------------------
 
-DEBUG = {'manipulation_sets': False,
-         'sql': False,
-         'visualizations': False}
-
+DEBUG_MANIPULATION_SETS = False
+DEBUG_SQL = False
+DEBUG_VISUALIZATIONS = False

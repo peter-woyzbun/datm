@@ -47,6 +47,7 @@ Join Datasets
 Generate Source Code
 --------------------
 
+.. image:: images/demo_gifs/generate_source.gif
 
 .. _dataset-visualization:
 Visualize Datasets

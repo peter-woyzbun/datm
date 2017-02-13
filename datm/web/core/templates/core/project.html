@@ -53,7 +53,8 @@
                         <li>
                             <button class="btn btn-default new-dataset-btn" data-toggle="modal"
                                     data-target=".create-dataset-modal">
-                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Quick Create Dataset
+                                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span> Quick Create
+                                Dataset
                             </button>
                         </li>
                     </ul>
@@ -174,7 +175,7 @@
             modal.find('#delete-asset-id').val(asset_id);
         });
 
-    $('.bake-dataset-modal').on('show.bs.modal', function (event) {
+        $('.bake-dataset-modal').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var source_dataset_id = button.data('source-dataset-id');
 
@@ -194,6 +195,46 @@
                 }
         );
 
+
+    </script>
+
+    <script>
+
+        var datasets = JSON.parse('{{ project.existing_dataset_names|safe }}');
+        var dataset_names = datasets['dataset_names'];
+
+        $('#new-dataset-form').submit(function () {
+            var given_ds_name = $('.new-dataset-name').val();
+            if (jQuery.inArray(given_ds_name, dataset_names) != -1) {
+                $('#new-dataset-form .inv-dataset-name-msg').show();
+                return false;
+            } else {
+                return true;
+            }
+
+        });
+
+        $('#new-transformation-form').submit(function () {
+            var given_ds_name = $('.new-child-dataset-name').val();
+            if (jQuery.inArray(given_ds_name, dataset_names) != -1) {
+                $('#new-transformation-form .inv-dataset-name-msg').show();
+                return false;
+            } else {
+                return true;
+            }
+
+        });
+
+        $('#create-dataset-form').submit(function () {
+            var given_ds_name = $('.create-new-dataset-name').val();
+            if (jQuery.inArray(given_ds_name, dataset_names) != -1) {
+                $('#create-dataset-form .inv-dataset-name-msg').show();
+                return false;
+            } else {
+                return true;
+            }
+
+        });
 
     </script>
 

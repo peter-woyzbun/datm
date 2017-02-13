@@ -4,12 +4,9 @@ from abc import ABCMeta, abstractmethod
 from collections import defaultdict, OrderedDict
 from pyparsing import Word, Literal, delimitedList, alphas, alphanums, Suppress
 
-
+import datm.config
 from datm.data_tools.transformations.base import DataTransformation
 from datm.data_tools.transformations.manipulation_sets.evaluator import Evaluator
-
-
-DEBUG_ENABLED = True
 
 
 class Manipulation(object):
@@ -50,7 +47,7 @@ class Manipulation(object):
             # If debug is disabled, exceptions are 'hidden' so that
             # nothing breaks on the user's end - we simply pass the
             # DataFrame on to the next manipulation.
-            if not DEBUG_ENABLED:
+            if not datm.config.DEBUG_MANIPULATION_SETS:
                 try:
                     df = self._execute(df=df)
                     if self.df_mutable:

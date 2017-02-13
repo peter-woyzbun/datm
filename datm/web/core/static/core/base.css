@@ -226,6 +226,14 @@ h6{
     padding-bottom: 24px;
 }
 
+.inv-dataset-name-msg {
+    background-color: #E74C3C;
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
 /*
  * "Working..." Modal
  */

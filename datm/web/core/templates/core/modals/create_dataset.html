@@ -1,4 +1,4 @@
-<div class="modal fade create-dataset-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+<div class="modal fade create-dataset-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" id="create-dataset-form">
     <div class="modal-dialog" role="document">
         <div class="panel panel-default modal-panel">
             <div class="panel-body modal-panel-body">
@@ -13,7 +13,8 @@
                     <div class="row modal-form-row">
                         <div class="col-md-12">
                             <p class="modal-input-header">DATASET NAME</p>
-                            <input type="text" name="dataset_name" class="form-control"  onkeyup="this.value=this.value.replace(/\W|^(?=\d)/,'_')">
+                            <p class="inv-dataset-name-msg" hidden>A dataset with that name already exists!</p>
+                            <input type="text" name="dataset_name" class="form-control create-new-dataset-name"  onkeyup="this.value=this.value.replace(/\W|^(?=\d)/,'_')">
                         </div>
                     </div>
                     <div class="row modal-form-row">

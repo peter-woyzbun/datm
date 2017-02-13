@@ -50,6 +50,14 @@ class Project(models.Model):
     description = models.TextField(default='')
     created_on = models.DateField(auto_now_add=True, blank=True)
 
+    @property
+    def existing_dataset_names(self):
+        dataset_asset_names = ProjectAsset.objects.filter(project=self,
+                                                          type='dataset').values_list('name', flat=True)
+        print list(dataset_asset_names)
+        return json.dumps({'dataset_names': list(dataset_asset_names)})
+
+
 
 # ---------------------------------------------
 # Project Model Signals
@@ -646,8 +654,6 @@ class Dataset(models.Model):
 
         ancestor_dataset_ids = self.project_asset.project.graph.node_ancestors(node_asset_id=self.id,
                                                                                keep_type='dataset')
-        print "NODE ANCESTOR IDS:"
-        print ancestor_dataset_ids
         for dataset_id in ancestor_dataset_ids:
             dataset_asset = ProjectAsset.objects.get(id=dataset_id)
             source += dataset_asset.dataset.node_source()
